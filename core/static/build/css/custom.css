@@ -1499,7 +1499,7 @@ a:hover, a:focus {
 
 .site_title {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /**overflow: hidden;**/
   font-weight: 400;
   font-size: 22px;
   width: 100%;
