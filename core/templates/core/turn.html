@@ -1,5 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block static %}
+    <!-- bootstrap-daterangepicker -->
+    <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+{% endblock %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
 <div class="row">
@@ -28,9 +32,18 @@
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Inicio del turno <span class="required">*</span>
             </label>
             <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
-                <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
-                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+              <input type="text" class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2">
+              <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+              <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fin del turno <span class="required">*</span>
+            </label>
+            <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
+              <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess3Status3">
+              <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+              <span id="inputSuccess3Status3" class="sr-only">(success)</span>
             </div>
           </div>
           
@@ -50,5 +63,7 @@
 {% endblock %}
 
 {% block script %}
-
+     <!-- bootstrap-daterangepicker -->
+    <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 {% endblock %}

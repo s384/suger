@@ -23,11 +23,11 @@
     <link href="{% static 'vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet">
     <!-- JQVMap -->
     <link href="{% static 'vendors/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
 
+    {% block static %}{% endblock %}
     <!-- Custom Theme Style -->
     <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+
   </head>
 
   <body class="nav-md">
@@ -67,7 +67,7 @@
                       <li><a href="{% url 'user' %}">Usuarios</a></li>
                       <li><a href="{% url 'job' %}">Cargos</a></li>
                       <li><a href="{% url 'turn' %}">Turnos</a></li>
-                      <li><a href="">Tareas</a></li>
+                      <li><a href="{% url 'work' %}">Tareas</a></li>
                       <li><a href="{% url 'typeUser' %}">Tipos de usuarios</a></li>
                     </ul>
                   </li>
@@ -313,13 +313,9 @@
     <script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
     <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
     <script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
-    <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 
+	  {% block script %}{% endblock %}
     <!-- Custom Theme Scripts -->
     <script src="{% static 'build/js/custom.min.js' %}"></script>
-	  {% block script %}
-    {% endblock %}
   </body>
 </html>

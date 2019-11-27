@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+{% block static %}
+  <!-- Select2 -->
+  <link href="{% static 'vendors/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+  <!-- bootstrap-daterangepicker -->
+  <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Asignacion de tareas <small>Cagando a la prole</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Usuario solicitud <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <input type="text" class="form-control" readonly="readonly" placeholder="Usuario administrador logeado">
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Asignacion <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select id="heard" class="form-control" required>
+                <option value="">Admins</option>
+                <option value="press">Sebastian Trujillo</option>
+                <option value="net">Camilo Pino</option>
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Responsable <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select id="heard" class="form-control" required>
+                <option value="">Nigas</option>
+                <option value="press">Juan Perez</option>
+                <option value="net">Marcelo Morales</option>
+                <option value="mouth">Wilfredo Vargas</option>
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Avanze <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select id="heard" class="form-control" required>
+                <option value="">Avanze</option>
+                <option value="press">Confirmado</option>
+                <option value="net">En ejecucion</option>
+                <option value="mouth">Terminado</option>
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Ejecucion <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select id="heard" class="form-control" required>
+                <option value="">En espera</option>
+                <option value="press">Trabajando para usted</option>
+                <option value="net">Finalizado</option>
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de asignacion <span class="required">*</span>
+            </label>
+            <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
+              <input type="text" class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2">
+              <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+              <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha tarea completada <span class="required">*</span>
+            </label>
+            <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
+              <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess3Status3">
+              <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+              <span id="inputSuccess3Status3" class="sr-only">(success)</span>
+            </div>
+          </div>
+
+          <div class="ln_solid"></div>
+          <div class="item form-group">
+            <div class="col-md-6 col-sm-6 offset-md-3">
+              <button class="btn btn-primary" type="button">Cancelar</button>
+              <button type="submit" class="btn btn-success">Grabar</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+     <!-- bootstrap-daterangepicker -->
+    <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+{% endblock %}

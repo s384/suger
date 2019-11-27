@@ -16,3 +16,6 @@ def job(request):
 
 def turn(request):
     return render(request, 'core/turn.html')
+
+def work(request):
+    return render(request, 'core/work.html')
