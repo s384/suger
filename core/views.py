@@ -26,7 +26,6 @@ class TypeUserCreate(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         self.nombre = request.POST.get('nombre')
-        print(self.nombre)
         if form.is_valid():
             return self.form_valid(form)
         else:
@@ -37,6 +36,12 @@ class TypeUserCreate(CreateView):
         typeUser.slug = slugify(self.nombre)
         typeUser.save()
         return redirect(self.success_url)
+
+class TypeUserUpdate(UpdateView):
+    model = TypeUser
+    form_class = TypeUserForm
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('typeUser')
 
 class TypeUserDelete(DeleteView):
     model = TypeUser

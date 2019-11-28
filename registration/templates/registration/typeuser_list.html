@@ -24,7 +24,7 @@
               <h2>{{ user.nombre }}</h2>
             </div>
             <div class="my-auto">
-              <button class="btn btn-warning registro">Modificar</button>
+              <a href="{% url 'updateTypeUser' user.id %}" class="btn btn-warning registro">Modificar</a>
               <div class="d-block d-md-none w-100"></div>
               <a href="{% url 'deleteTypeUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
             </div>
