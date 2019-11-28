@@ -1,10 +1,13 @@
 from django.urls import path, include
-from .views import home, user, typeUser, job, turn, work
+from .views import (home, user, job, turn, work,
+                    TypeUserList, TypeUserCreate, TypeUserDelete)
 
 urlpatterns = [
     path('', home, name="home"),
     path('user/', user, name="user"),
-    path('type/', typeUser, name="typeUser"),
+    path('tipo-usuario/', TypeUserList.as_view(), name="typeUser"),
+    path('nuevo-tipo-usuario/', TypeUserCreate.as_view(), name="newTypeUser"),
+    path('Borrar-tipo-usuario/<int:pk>/', TypeUserDelete.as_view(), name="deleteTypeUser"),
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),
     path('work/', work, name="work"),

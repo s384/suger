@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block static %}
+  <!-- My Custom Theme Style -->
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Tipos de usuarios <small>Revise privilegios para permitir los accesos</small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <ul class="list-unstyled top_profiles scroll-view" style="height: auto;">
+          {% for user in typeuser_list %}
+          <li class="media event">
+            <a class="pull-left border-aero profile_thumb">
+              <i class="fa fa-user aero"></i>
+            </a>
+            <div class="media-body my-auto">
+              <h2>{{ user.nombre }}</h2>
+            </div>
+            <div class="my-auto">
+              <button class="btn btn-warning registro">Modificar</button>
+              <div class="d-block d-md-none w-100"></div>
+              <a href="{% url 'deleteTypeUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="ln_solid"></div>
+        <div class=" mx-auto">
+          <a href="{% url 'newTypeUser' %}" class="btn btn-block btn-success">Nuevo Registro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
