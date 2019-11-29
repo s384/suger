@@ -1,8 +1,18 @@
-from django.urls import path, include
+from django.urls import path
+# Importamos las vistas para asignarlas a las urls
 from .views import (home, user, job, turn, work, TypeUserUpdate,
                     TypeUserList, TypeUserCreate, TypeUserDelete)
 
+# Si la vista es una funcion, solo lleva el nombre de ella,
+# cuando es una clase debe ser completada con .as_view()
+
 urlpatterns = [
+    # El primer valor es el el que mostrara la url
+    # es puede cambiar las veces que quieras sin modificar
+    # nada mas.
+    # El segundo valor es la vista que se utilizara.
+    # El tercero es le nombre que utilizaremos para cargar en los
+    # campos <a href=''> de los template
     path('', home, name="home"),
     path('user/', user, name="user"),
     path('tipo-usuario/', TypeUserList.as_view(), name="typeUser"),
