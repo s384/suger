@@ -27,7 +27,7 @@
       <div class="login_wrapper">
         <div class="form login_form">
           <section class="login_content">
-            <form method="post">{% csrf_token %}
+            <form method="post" action="{% url 'login' %}">{% csrf_token %}
               <h1>Ingresando a Suger</h1>
               <div>
                 <input type="text" class="form-control" name="username" placeholder="Usuario" required="" />

@@ -1,3 +1,13 @@
 .registro{
     width: 90px;
 }
+
+.paginated-icon{
+    height: 2rem;
+    width: 2rem;
+    padding: 2px 2px 2px 2px;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
