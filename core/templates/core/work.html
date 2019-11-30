@@ -12,7 +12,136 @@
   <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Asignacion de tareas <small>Cagando a la prole</small></h2>
+        <h2>Solicitud de tarea <small>Derivadas de otra área</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>N° SOLICITUD</th>
+            <th>AREA</th>
+            <th>ESTADO</th>
+            <th>FECHA</th>
+            <th>FALLA</th>
+            <th>DESCRIPCION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mantención</td>
+            <td>Pendiente</td>
+            <td>28/11/2019</td>
+            <td>Sistema</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Operaciones</td>
+            <td>Pendiente</td>
+            <td>26/11/2019</td>
+            <td>Hardware</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Packing</td>
+            <td>En Revisión</td>
+            <td>29/11/2019</td>
+            <td>Hardware</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="x_panel">
+      <div class="x_title">
+        <h2>Tareas Pendientes <small>De la propia área, falta asignar</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>N° SOLICITUD</th>
+            <th>AREA</th>
+            <th>ESTADO</th>
+            <th>FECHA</th>
+            <th>FALLA</th>
+            <th>DESCRIPCION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mantención</td>
+            <td>Pendiente</td>
+            <td>28/11/2019</td>
+            <td>Sistema</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Operaciones</td>
+            <td>Pendiente</td>
+            <td>26/11/2019</td>
+            <td>Hardware</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Packing</td>
+            <td>En Revisión</td>
+            <td>29/11/2019</td>
+            <td>Hardware</td>
+            <td>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-success">Detalle</button>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+  <div class="x_panel">
+      <div class="x_title">
+        <h2>Crear Tarea <small>Nuevo cacho</small></h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -24,60 +153,39 @@
         <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Usuario solicitud <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">N° Tarea <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <input type="text" class="form-control" readonly="readonly" placeholder="Usuario administrador logeado">
+              <input type="text" class="form-control" readonly="readonly" placeholder="Correlativo automatico de tarea">
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">Asignacion <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Supervisor <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               <select id="heard" class="form-control" required>
-                <option value="">Admins</option>
+                <option value=""></option>
+                <option value="">Marcelo Morales</option>
                 <option value="press">Sebastian Trujillo</option>
                 <option value="net">Camilo Pino</option>
               </select>
             </div>
           </div>
+          
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">Responsable <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Prioridad <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               <select id="heard" class="form-control" required>
-                <option value="">Nigas</option>
-                <option value="press">Juan Perez</option>
-                <option value="net">Marcelo Morales</option>
-                <option value="mouth">Wilfredo Vargas</option>
+                <option value=""></option>
+                <option value="press">Baja</option>
+                <option value="net">Media</option>
+                <option value="mouth">Alta</option>
               </select>
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">Avanze <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              <select id="heard" class="form-control" required>
-                <option value="">Avanze</option>
-                <option value="press">Confirmado</option>
-                <option value="net">En ejecucion</option>
-                <option value="mouth">Terminado</option>
-              </select>
-            </div>
-          </div>
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">Ejecucion <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              <select id="heard" class="form-control" required>
-                <option value="">En espera</option>
-                <option value="press">Trabajando para usted</option>
-                <option value="net">Finalizado</option>
-              </select>
-            </div>
-          </div>
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de asignacion <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de Inicio <span class="required">*</span>
             </label>
             <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
               <input type="text" class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2">
@@ -86,7 +194,7 @@
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha tarea completada <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de Finalización <span class="required">*</span>
             </label>
             <div class="col-md-6 xdisplay_inputx form-group row has-feedback">
               <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess3Status3">
@@ -94,20 +202,48 @@
               <span id="inputSuccess3Status3" class="sr-only">(success)</span>
             </div>
           </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Descripción <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <input type="text" class="form-control" readonly="readonly" placeholder="Detalle del problema a corregir">
+            </div>
+          </div>
+          
+           <div class="ln_solid"></div>
 
-          <div class="ln_solid"></div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Responsable <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select id="heard" class="form-control" required>
+                <option value=""></option>
+                <option value="press">Juan Perez</option>
+                <option value="net">Marcelo Morales</option>
+                <option value="mouth">Wilfredo Vargas</option>
+              </select>
+            </div>
+          </div>
+
+         
           <div class="item form-group">
             <div class="col-md-6 col-sm-6 offset-md-3">
-              <button class="btn btn-primary" type="button">Cancelar</button>
-              <button type="submit" class="btn btn-success">Grabar</button>
+              <button type="submit" class="btn btn-success">Asignar</button>
+              <button class="btn btn-primary" type="button">Guardar</button>
+              <button type="submit" class="btn btn-success">Cancelar</button>
+
             </div>
           </div>
 
         </form>
+
       </div>
     </div>
   </div>
 </div>
+
+
 {% endblock %}
 
 {% block script %}

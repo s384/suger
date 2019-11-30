@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block static %}
+  <!-- My Custom Theme Style -->
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h2>Usuarios <small>Listado de usuarios</small></h2>
+        <div class="ml-auto">
+          <a href="{% url 'newTypeUser' %}" class="btn btn-success">Nuevo Usuario</a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table table-hover table-responsive-sm text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in user_list %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <div class="my-auto">
+                  <a href="{% url 'updateTypeUser' user.id %}" class="btn btn-warning registro">Modificar</a>
+                  <div class="d-block d-md-none w-100"></div>
+                  <a href="{% url 'deleteTypeUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if is_paginated %}
+      
+      <div class="row text-center">
+        <div class="mr-auto">
+          {% if page_obj.number != 1 %}
+          <a href="?page=1">
+            <div class="paginated-icon ">
+              <span class="align-middle glyphicon glyphicon-step-backward"></span>
+            </div>
+          </a>
+          {% endif %}
+        </div>
+
+        <div class="mr-auto ml-auto">
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">
+            <div class="paginated-icon">
+              <span class="align-middle glyphicon glyphicon-chevron-left"></span>
+            </div>
+          </a>
+          {% endif %}
+        </div>
+
+        {% if page_obj.number > 0 %}
+        <div class="mr-auto ml-auto d-none d-md-block">
+        <button class="btn btn-outline-secondary btn-sm disabled">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</button> 
+        </div>
+        {% endif %}
+
+        <div class="mr-auto ml-auto">
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">
+          <div class="paginated-icon">
+            <span class="align-middle glyphicon glyphicon-chevron-right"></span>
+          </div>
+        </a>
+        {% endif %}
+        </div>
+
+        <div class="ml-auto">
+        {% if page_obj.number < page_obj.paginator.num_pages  %}
+        <a href="?page={{ page_obj.paginator.num_pages }}">
+          <div class="paginated-icon">
+            <span class="align-middle glyphicon glyphicon-step-forward"></span>
+          </div>
+        </a>
+        {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
