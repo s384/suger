@@ -10,7 +10,7 @@
   <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Tipos de usuarios <small>Gestion de permisos</small></h2>
+        <h2>Creación de turnos <small>creación y gestión de componentes del turno </small></h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -22,12 +22,54 @@
         <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre del turno <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align">Area del turno a crear <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <input type="text" id="first-name" required="required" class="form-control ">
+              <select id="heard" class="form-control" required>
+                <option value=""></option>
+                <option value="press">mantención</option>
+                <option value="net">producción</option>
+                <option value="mouth">operaciones</option>
+                <option value="mouth">seguridad</option>
+                <option value="mouth">aseo</option>
+                <option value="mouth">administrativo</option>
+              </select>
             </div>
           </div>
+
+          <div class="ln_solid"></div>
+
+            <h2><small>turnos existentes para el área seleccionada  </small></h2>
+
+          <div class="ln_solid"></div>
+
+            <!-- display de turnos vigentes para el área -->
+
+          <div class= "item form-group">
+            
+            
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>AREA DEL TURNO</th>
+                  <th>FECHA INICIO DEL TURNO</th>
+                  <th>FECHA FIN DEL TURNO</th>
+                  <th>HORA INICIO DEL TURNO</th>
+                  <th>HORA FIN DEL TURNO</th>
+                  <th>DESCRIPCION</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="ln_solid"></div>
+
+          <!--datepickers de inicio y fin de turno-->
+          
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Inicio del turno <span class="required">*</span>
             </label>
@@ -37,6 +79,7 @@
               <span id="inputSuccess2Status2" class="sr-only">(success)</span>
             </div>
           </div>
+
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fin del turno <span class="required">*</span>
             </label>
@@ -46,8 +89,48 @@
               <span id="inputSuccess3Status3" class="sr-only">(success)</span>
             </div>
           </div>
+
+          <div class="ln_solid"></div>
+
+          <div class="item form-group">
+
+            <!--radiobuttons de tipo de turno-->
+
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">tipo de turno <span class="required">*</span>
+            </label>
+            
+            <div class="radio">
+              <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">
+                <input type="radio" name="opciones" id="opciones_1" value="opcion_1" checked>
+                Turno fijo
+              </label>
+            </div>
+
+            <div class="radio">
+              <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">
+                <input type="radio" name="opciones" id="opciones_2" value="opcion_2" checked>
+                turno rotativo
+              </label>
+            </div>
+
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">periodicidad de rotación <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <select id="heard" class="form-control" required>
+                  <option value=""></option>
+                  <option value="press">DIARIA</option>
+                  <option value="net">SEMANAL</option>
+                  <option value="mouth">MENSUAL</option>
+                  <OPTION>ANUAL</OPTION>
+                </select>
+            </div>
+          </div>
           
           <div class="ln_solid"></div>
+
           <div class="item form-group">
             <div class="col-md-6 col-sm-6 offset-md-3">
               <button class="btn btn-primary" type="button">Cancelar</button>
