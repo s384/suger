@@ -27,6 +27,20 @@
       <div class="login_wrapper">
         <div class="form login_form">
           <section class="login_content">
+            {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+            {% endif %}
             <form method="post" action="{% url 'login' %}">{% csrf_token %}
               <h1>Ingresando a Suger</h1>
               <div>

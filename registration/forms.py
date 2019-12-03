@@ -1,15 +1,25 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import TypeUser
+from .models import TypeUser, Profile
 
 class UserCreationFormWithEmail(UserCreationForm):
-    email = forms.EmailField(required=True, help_text="Requerido, 254 caracteres maximo"
-                " y debe ser valido")
+    email = forms.EmailField(required=True,widget=
+                         forms.TextInput(attrs={'class':'form-control'}))
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email")
+        fields = ("username","first_name", "last_name", "email", 
+                  "password1","password2")
+        widgets = {
+            'username' : forms.TextInput(attrs={'class':'form-control'}),
+            'first_name' : forms.TextInput(attrs={'class':'form-control'}),
+            'last_name' : forms.TextInput(attrs={'class':'form-control'}),
+        }
+        help_texts = {
+            'username' : ('Ingrese su rut sin puntos ni guion, con digito verificador.'
+                          ' Si su rut termina con K reemplacelo con un 0.'),
+        }
 
     def clean_email(self):
         email = self.cleaned_data.get("email")

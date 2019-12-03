@@ -15,20 +15,69 @@
       </div>
       <div class="x_content">
         <br />
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
         <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
           {% csrf_token %}
+          <div hidden="True">
+              <input type="password" name="password1" value="suger1234">
+              <input type="password" name="password2" value="suger1234">
+          </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo de usuario <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Rut <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              {{ form.nombre }}
+              {{ form.username }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <div class="mx-auto">
+              {{ form.username.help_text }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombres <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.first_name }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Apellidos <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.last_name }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Email <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.email }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <div class="mx-auto">
+              {{ form.email.help_text }}
             </div>
           </div>
           <div class="ln_solid"></div>
           <div class="item form-group">
-            <div class="col-md-6 col-sm-6 offset-md-3">
-              <button class="btn btn-primary" type="button">Cancelar</button>
-              <input type="submit" class="btn btn-success" value="Grabar" />
+            <div class="mx-auto">
+              <button class="btn btn-primary mr-4" type="button">Cancelar</button>
+              <input type="submit" class="btn btn-success" value="Siguiente" />
             </div>
           </div>
 

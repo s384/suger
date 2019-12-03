@@ -6,7 +6,7 @@
   <div class="col-md-9 mx-auto">
     <div class="text-center">
       <form action="" method="post">{% csrf_token %}
-        <h3 class="mb-5">¿Estás seguro de que quieres borrar <b>"{{ object }}"<b>?</h3>
+        <h3 class="mb-5">¿Estás seguro de que quieres borrar el usuario <b>"{{ object }}"</b> correspondiente a {{ object.get_full_name }}?</h3>
         <input class="btn btn-danger btn-block" type="submit" value="Sí, borrar el registro" />
       </form>
   </div>

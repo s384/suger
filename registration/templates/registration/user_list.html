@@ -12,7 +12,7 @@
       <div class="x_title form-inline">
         <h2>Usuarios <small>Listado de usuarios</small></h2>
         <div class="ml-auto">
-          <a href="{% url 'newTypeUser' %}" class="btn btn-success">Nuevo Usuario</a>
+          <a href="{% url 'newUser' %}" class="btn btn-success">Nuevo Usuario</a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -38,7 +38,7 @@
                 <div class="my-auto">
                   <a href="{% url 'updateTypeUser' user.id %}" class="btn btn-warning registro">Modificar</a>
                   <div class="d-block d-md-none w-100"></div>
-                  <a href="{% url 'deleteTypeUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
+                  <a href="{% url 'deleteUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
                 </div>
               </td>
             </tr>
