@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -40,10 +42,34 @@ class TypeUser(models.Model):
         super(TypeUser, self).save(*args, **kwargs)
 
 
+# Modelo para el tipo de usuario
+class Area(models.Model):
+    nombre = models.CharField(max_length=50, verbose_name='Nombre tipo de usuario')
+    boss_user = models.OneToOneField(User, on_delete=models.CASCADE, 
+                verbose_name="Jefe de area", null=True, blank=True)
+    slug = models.SlugField(max_length=100, verbose_name="Slug")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
+
+    class Meta:
+        ordering = ['nombre']
+
+    def __str__(self):
+        return self.nombre
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.nombre)
+        super(Area, self).save(*args, **kwargs)
+
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     type_user = models.ForeignKey(TypeUser, related_name="relacion_typeuser",
-            on_delete=models.CASCADE, verbose_name="Tipo de usuario")
+            on_delete=models.CASCADE, verbose_name="Tipo de usuario",
+            null=True, blank=True)
+    area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
+            null=True, blank=True)
     # Pendiente el campo area
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     direccion = models.CharField(max_length=100, null=True, blank=True,
@@ -54,3 +80,9 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['user__first_name']
+
+@receiver(post_save, sender=User)
+def ensure_profile_exists(sender, instance, **kwargs):
+    if kwargs.get('created', False):
+        Profile.objects.get_or_create(user=instance)
+        # print("Se acaba de crear un usuario y su perfil enlazado")

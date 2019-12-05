@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import TypeUser, Profile
+from .models import TypeUser, Profile, Area
 
 class UserCreationFormWithEmail(UserCreationForm):
     email = forms.EmailField(required=True,widget=
@@ -27,6 +27,15 @@ class UserCreationFormWithEmail(UserCreationForm):
             raise forms.ValidationError("El email ya fue registrado")
         return email
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['type_user','area_user']
+        widgets = {
+            'type_user' : forms.Select(attrs={'class':'form-control'}),
+            'area_user' : forms.Select(attrs={'class':'form-control'}),
+        }
+
 # Creamos el formulario para ser llamado en el html
 class TypeUserForm(forms.ModelForm):
     # Clase meta para obtener los datos necesarios
@@ -40,4 +49,13 @@ class TypeUserForm(forms.ModelForm):
         # la clase form-control
         widgets = {
             'nombre' : forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class AreaForm(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = ['nombre','boss_user']
+        widgets = {
+            'nombre' : forms.TextInput(attrs={'class':'form-control'}),
+            'boss_user' : forms.Select(attrs={'class':'form-control'}),
         }
