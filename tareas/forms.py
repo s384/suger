@@ -7,4 +7,6 @@ class TareasForm(forms.ModelForm):
         model = Tareas
         fields = ('titulo','supervisor','prioridad','responsable',
                   'descripcion')
-        
+        widget = {
+            'titulo' : forms.TextInput(attrs={'class':'form-control'}),
+        }
