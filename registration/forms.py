@@ -27,6 +27,7 @@ class UserCreationFormWithEmail(UserCreationForm):
             raise forms.ValidationError("El email ya fue registrado")
         return email
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

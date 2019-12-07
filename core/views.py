@@ -27,20 +27,6 @@ class TypeUserCreate(CreateView):
     form_class = TypeUserForm
     success_url = reverse_lazy('typeUser')
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        # Obtenemos el nombre que ingresamos en el formulario
-        self.nombre = request.POST.get('nombre')
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        typeUser = form.save(commit=False)
-        typeUser.slug = slugify(self.nombre)
-        typeUser.save()
-        return redirect(self.success_url)
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserUpdate(UpdateView):
@@ -120,7 +106,6 @@ class UserCreate(CreateView):
         self.object = None
         form = self.get_form()
         if form.is_valid():
-            self.created = request.POST.get('username')
             return self.form_valid(form)
         else:
             print(form)
@@ -137,8 +122,8 @@ class UserCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):
     model = User
-    form_class = TypeUserForm
-    template_name_suffix = '_update_form'
+    form_class = UserCreationFormWithEmail
+    template_name = 'registration/user_form.html'
     success_url = reverse_lazy('user')
 
 @method_decorator(login_required, name='dispatch')

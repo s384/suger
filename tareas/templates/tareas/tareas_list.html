@@ -12,7 +12,7 @@
       <div class="x_title form-inline">
         <h2>Usuarios <small>Listado de usuarios</small></h2>
         <div class="ml-auto">
-          <a href="{% url 'newUser' %}" class="btn btn-success">Nuevo Usuario</a>
+          <a href="{% url 'createTareas' %}" class="btn btn-success">Nuevo Usuario</a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -28,12 +28,12 @@
             </tr>
           </thead>
           <tbody>
-            {% for user in user_list %}
+            {% for tarea in tareas_list %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ user.first_name }}</td>
-              <td>{{ user.last_name }}</td>
-              <td>{{ user.email }}</td>
+              <td>{{ tarea.titulo }}</td>
+              <td>{{ tarea.supervisor.get_full_name }}</td>
+              <td>{{ tarea.responsable.get_full_name }}</td>
               <td>
                 <div class="my-auto">
                   <a href="{% url 'updateUser' user.id %}" class="btn btn-warning registro">Modificar</a>

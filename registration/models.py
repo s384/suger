@@ -77,6 +77,7 @@ class Profile(models.Model):
     telefono = models.CharField(max_length=13, null=True, blank=True, 
             verbose_name="Numero de Telefono")
     email_confirmed = models.BooleanField(default=False)
+    first_login = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['user__first_name']

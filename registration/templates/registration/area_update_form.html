@@ -29,6 +29,7 @@
             </label>
             <div class="col-md-6 col-sm-6 ">
               <select name="boss_user" id="id_boss_user" class="form-control">
+                <option value="" >---------</option>
                 {% for user in users %}
                   <option {% ifequal object.boss_user.pk user.pk %} selected {% endifequal %} value="{{ user.pk }}" >{{ user.get_full_name }}</option>
                 {% endfor %}

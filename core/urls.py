@@ -2,7 +2,7 @@ from django.urls import path
 # Importamos las vistas para asignarlas a las urls
 from .views import (home, job, turn, work, profile, TypeUserUpdate,
                     TypeUserList, TypeUserCreate, TypeUserDelete,
-                    UserList, UserCreate, UserDelete,
+                    UserList, UserCreate, UserDelete, UserUpdate,
                     ProfileCreate, 
                     AreaList, AreaCreate, AreaDelete, AreaUpdate)
 
@@ -20,7 +20,8 @@ urlpatterns = [
     path('perfil/', profile, name="profile"),
     path('usuarios/', UserList.as_view(), name="user"),
     path('nuevo-usuarios/', UserCreate.as_view(), name="newUser"),
-    path('borrar-usuario/<int:pk>/', UserDelete.as_view(), name="deleteUser"),
+    path('borrar-usuario/<int:pk>/', UserUpdate.as_view(), name="deleteUser"),
+    path('modificar-usuario/<int:pk>/', UserUpdate.as_view(), name="updateUser"),
     path('nuevo-perfil/', ProfileCreate.as_view(), name="newPerfil"),
     path('areas/', AreaList.as_view(), name="area"),
     path('borrar-area/<int:pk>/', AreaDelete.as_view(), name="deleteArea"),
