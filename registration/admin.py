@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import TypeUser
+from .models import TypeUser, Area, SubArea
+
 
 # En este archivo se registran los modelos para
 # que sean mostrados en el administrador de django
@@ -14,3 +15,5 @@ class TypeUserAdmin(admin.ModelAdmin):
 # Registramos el modelo y la clase para que se
 # visualize en el admin
 admin.site.register(TypeUser, TypeUserAdmin)
+admin.site.register(Area)
+admin.site.register(SubArea)

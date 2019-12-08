@@ -4,7 +4,8 @@ from .views import (home, job, turn, work, profile, TypeUserUpdate,
                     TypeUserList, TypeUserCreate, TypeUserDelete,
                     UserList, UserCreate, UserDelete, UserUpdate,
                     ProfileCreate, 
-                    AreaList, AreaCreate, AreaDelete, AreaUpdate)
+                    AreaList, AreaCreate, AreaDelete, AreaUpdate,
+                    SubAreaList)
 
 # Si la vista es una funcion, solo lleva el nombre de ella,
 # cuando es una clase debe ser completada con .as_view()
@@ -34,4 +35,5 @@ urlpatterns = [
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),
     path('work/', work, name="work"),
+    path('subareas/', SubAreaList.as_view(), name='SubAreas')
 ]

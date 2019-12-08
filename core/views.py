@@ -10,11 +10,11 @@ from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 # Importamos el modelo desde la app registration
-from registration.models import TypeUser, Profile, Area
+from registration.models import TypeUser, Profile, Area, SubArea
 from django.contrib.auth.models import User
 # Importamos el formulario desde la app registration
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
-    ProfileForm, AreaForm)
+    ProfileForm, AreaForm, SubAreaForm)
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserList(ListView):
@@ -87,7 +87,11 @@ class AreaDelete(DeleteView):
     template_name = 'registration/area_confirm_delete.html'
     success_url = reverse_lazy('area')
 
-
+@method_decorator(login_required, name='dispatch')
+class SubAreaList(ListView):
+    model = SubArea
+    template_name = 'registration/subarea_list.html'
+    paginate_by = 10
 
 @method_decorator(login_required, name='dispatch')
 class UserList(ListView):

@@ -44,9 +44,9 @@ class TypeUser(models.Model):
 
 # Modelo para el tipo de usuario
 class Area(models.Model):
-    nombre = models.CharField(max_length=50, verbose_name='Nombre tipo de usuario')
+    nombre = models.CharField(max_length=50, verbose_name='Nombre de area')
     boss_user = models.OneToOneField(User, on_delete=models.CASCADE, 
-                verbose_name="Jefe de area", null=True, blank=True)
+                verbose_name="Encargado de area", null=True, blank=True)
     slug = models.SlugField(max_length=100, verbose_name="Slug")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
@@ -61,6 +61,23 @@ class Area(models.Model):
         self.slug = slugify(self.nombre)
         super(Area, self).save(*args, **kwargs)
 
+class SubArea(models.Model):
+    nombre = models.CharField(max_length=50, verbose_name='Nombre de sub-area')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='area de dependencia')
+    detalle_subarea = models.TextField(null = True, blank = True, verbose_name='Información adicional de SubArea')
+    slug = models.SlugField(max_length=100, verbose_name="Slug")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
+
+    class Meta:
+        ordering = ['area','nombre']
+
+    def __str__(self):
+        return self.nombre
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.nombre)
+        super(SubArea, self).save(*args, **kwargs)
 
 
 class Profile(models.Model):
@@ -70,7 +87,7 @@ class Profile(models.Model):
             null=True, blank=True)
     area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
             null=True, blank=True)
-    # Pendiente el campo area
+    # cambiar relacion de area a subarea, cambiar todo lo relacionado.
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     direccion = models.CharField(max_length=100, null=True, blank=True,
             verbose_name="Direccion")

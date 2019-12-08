@@ -18,13 +18,12 @@ class TareasCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        supervisor = User.objects.filter(profile__type_user=3)
+        supervisor = User.objects.filter(profile__type_user=1)
         context['users'] = supervisor
-        responsable = User.objects.exclude(profile__type_user=3)
+        responsable = User.objects.exclude(profile__type_user=1)
         context['responsable'] = responsable
         return context
 
-
 def informe_tareas(request):
     cuenta = Tareas.objects.all()
-    return render(request, 'tareas/informe_tareas.html', {'cuenta':cuenta, 'por_usuario':por_usuario})
+    return render(request, 'tareas/informe_tareas.html', {'cuenta':cuenta})

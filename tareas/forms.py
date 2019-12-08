@@ -7,6 +7,8 @@ class TareasForm(forms.ModelForm):
         model = Tareas
         fields = ('titulo','supervisor','prioridad','responsable',
                   'descripcion')
-        widget = {
+        widgets = {
             'titulo' : forms.TextInput(attrs={'class':'form-control'}),
+            'prioridad' : forms.Select(attrs={'class':'form-control'}),
+            'descripcion' : forms.Textarea(attrs={'class':'form-control', 'cols': 8}),
         }
