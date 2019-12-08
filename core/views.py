@@ -75,12 +75,6 @@ class SubAreaCreate(CreateView):
     form_class = SubAreaForm
     success_url = reverse_lazy('SubAreas')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuarios = User.objects.all()
-        context['users'] = usuarios
-        return context
-
     def post(self, request, *args, **kwargs):
         self.object = None
         form = self.get_form()
@@ -103,10 +97,29 @@ class AreaUpdate(UpdateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
+class SubAreaUpdate(UpdateView):
+    model = SubArea
+    form_class = SubAreaForm
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('SubAreas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuarios = User.objects.all()
+        context['users'] = usuarios
+        return context
+
+@method_decorator(login_required, name='dispatch')
 class AreaDelete(DeleteView):
     model = Area
     template_name = 'registration/area_confirm_delete.html'
     success_url = reverse_lazy('area')
+
+@method_decorator(login_required, name='dispatch')
+class SubAreaDelete(DeleteView):
+    model = SubArea
+    template_name = 'registration/subarea_confirm_delete.html'
+    success_url = reverse_lazy('SubAreas')
 
 @method_decorator(login_required, name='dispatch')
 class SubAreaList(ListView):

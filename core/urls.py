@@ -5,7 +5,8 @@ from .views import (home, job, turn, work, profile, TypeUserUpdate,
                     UserList, UserCreate, UserDelete, UserUpdate,
                     ProfileCreate, 
                     AreaList, AreaCreate, AreaDelete, AreaUpdate,
-                    SubAreaList, SubAreaCreate)
+                    SubAreaList, SubAreaCreate, SubAreaUpdate,
+                    SubAreaDelete)
 
 # Si la vista es una funcion, solo lleva el nombre de ella,
 # cuando es una clase debe ser completada con .as_view()
@@ -21,7 +22,7 @@ urlpatterns = [
     path('perfil/', profile, name="profile"),
     path('usuarios/', UserList.as_view(), name="user"),
     path('nuevo-usuarios/', UserCreate.as_view(), name="newUser"),
-    path('borrar-usuario/<int:pk>/', UserUpdate.as_view(), name="deleteUser"),
+    path('borrar-usuario/<int:pk>/', UserDelete.as_view(), name="deleteUser"),
     path('modificar-usuario/<int:pk>/', UserUpdate.as_view(), name="updateUser"),
     path('nuevo-perfil/', ProfileCreate.as_view(), name="newPerfil"),
     path('areas/', AreaList.as_view(), name="area"),
@@ -37,5 +38,8 @@ urlpatterns = [
     path('work/', work, name="work"),
     #sub-áreas
     path('subareas/', SubAreaList.as_view(), name='SubAreas'),
-    path('creación sub-area/', SubAreaCreate.as_view(), name='newSubArea'),
+    path('creación-sub-area/', SubAreaCreate.as_view(), name='newSubArea'),
+    path('actualizar-sub-area/<int:pk>/', SubAreaUpdate.as_view(), name="updateSubArea"),
+    path('borrar-sub-area/<int:pk>/', SubAreaDelete.as_view(), name="deleteSubArea"),
+
 ]

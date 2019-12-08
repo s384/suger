@@ -35,9 +35,9 @@
               <td>{{ subarea.detalle_subarea }}</td>
               <td>
                 <div class="my-auto">
-                  <a href="" class="btn btn-warning registro">Modificar</a>
+                  <a href="{% url 'updateSubArea' subarea.id %}" class="btn btn-warning registro">Modificar</a>
                   <div class="d-block d-md-none w-100"></div>
-                  <a href="" class="btn btn-danger registro">Eliminar</a>
+                  <a href="{% url 'deleteSubArea' subarea.id %}" class="btn btn-danger registro">Eliminar</a>
                 </div>
               </td>
             </tr>

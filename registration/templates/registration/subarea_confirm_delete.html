@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row mt-3 mb-5">
+	 <div class="col-md-9 mx-auto">
+		<div class="text-center">
+
+			<form action="" method="post">
+
+				{% csrf_token %}
+
+				<!--Confirmación de eliminación-->
+
+				<h3 class="mb-5">¿Estás seguro de que quieres borrar el Sub Area <b>"{{ object }}"</b>?<br>
+				Que pertenece a {{ object.area }}</h3>
+
+				<input class="btn btn-danger btn-block" type="submit" value="Sí, borrar el registro" />
+
+			</form>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
