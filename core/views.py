@@ -69,6 +69,27 @@ class AreaCreate(CreateView):
             return self.form_invalid(form)
 
 @method_decorator(login_required, name='dispatch')
+class SubAreaCreate(CreateView):
+    model = SubArea
+    template_name = 'registration/subareacreate_form.html'
+    form_class = SubAreaForm
+    success_url = reverse_lazy('SubAreas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuarios = User.objects.all()
+        context['users'] = usuarios
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+@method_decorator(login_required, name='dispatch')
 class AreaUpdate(UpdateView):
     model = Area
     form_class = AreaForm
