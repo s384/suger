@@ -23,6 +23,7 @@ urlpatterns = [
     path('usuarios/', UserList.as_view(), name="user"),
     path('nuevo-usuarios/', UserCreate.as_view(), name="newUser"),
     path('borrar-usuario/<int:pk>/', UserDelete.as_view(), name="deleteUser"),
+    path('activar-usuario/<int:pk>/', UserDelete.as_view(), name="activeUser"),
     path('modificar-usuario/<int:pk>/', UserUpdate.as_view(), name="updateUser"),
     path('detalle-usuario/<int:pk>/', UserDetail.as_view(), name="detailUser"),
     path('nuevo-perfil/', ProfileCreate.as_view(), name="newPerfil"),

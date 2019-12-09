@@ -81,13 +81,13 @@ class SubArea(models.Model):
 
 
 class Profile(models.Model):
-    user_options = [(1, "Administrador"),(2, "Supervisor"),(3, "Trabajador")]
+    user_options = [(1, "Administrador"),(2, "Supervisor"),(3, "Encargado"),(4, "Trabajador")]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #type_user = models.ForeignKey(TypeUser, related_name="relacion_typeuser",
             #on_delete=models.CASCADE, verbose_name="Tipo de usuario",
             #null=True, blank=True)
-    type_user = models.PositiveSmallIntegerField(choices=user_options, default=3)
+    type_user = models.PositiveSmallIntegerField(choices=user_options, default=4)
     area_user = models.ForeignKey(SubArea, on_delete="CASCADE", verbose_name="SubArea",
             null=True, blank=True)
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)

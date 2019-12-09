@@ -15,7 +15,7 @@ from registration.models import TypeUser, Profile, Area, SubArea
 from django.contrib.auth.models import User
 # Importamos el formulario desde la app registration
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
-    ProfileForm, AreaForm, SubAreaForm)
+    ProfileForm, AreaForm, SubAreaForm, UserActive)
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserList(ListView):
@@ -153,8 +153,6 @@ class UserCreate(CreateView):
     def form_valid(self, form):
         user_creation = form.save(commit=False)
         user_creation.is_active = True
-        user_creation.is_staff = True
-        user_creation.is_superuser = True
         user_creation.save()
         return redirect(self.success_url)
 
@@ -166,8 +164,9 @@ class UserUpdate(UpdateView):
     success_url = reverse_lazy('user')
 
 @method_decorator(login_required, name='dispatch')
-class UserDelete(DeleteView):
+class UserDelete(UpdateView):
     model = User
+    form_class = UserActive
     template_name = 'registration/user_confirm_delete.html'
     success_url = reverse_lazy('user')
 
@@ -197,7 +196,10 @@ def home(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request, 'core/index.html')
+        if request.user.profile.first_login:
+            return render(request, 'core/work.html')
+        else:
+            return render(request, 'core/index.html')
     else:
         return render(request, 'registration/login.html')
 

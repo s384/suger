@@ -42,7 +42,11 @@
                 <div class="my-auto">
                   <a href="{% url 'updateUser' user.id %}" class="btn btn-warning registro">Modificar</a>
                   <div class="d-block d-md-none w-100"></div>
-                  <a href="{% url 'deleteUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
+                  {% if user.is_active %}
+                    <a href="{% url 'deleteUser' user.id %}" class="btn btn-danger registro">Deshabilitar</a>
+                  {% else %}
+                    <a href="{% url 'activeUser' user.id %}" class="btn btn-info registro">Habilitar</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

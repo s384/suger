@@ -69,3 +69,8 @@ class SubAreaForm(forms.ModelForm):
 			'area' : forms.Select(attrs={'class':'form-control'}),
 			'detalle_subarea' : forms.Textarea(attrs={'class' : 'form-control', 'cols' : 8}),
 		}
+
+class UserActive(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['is_active']
