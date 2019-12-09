@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 # CCBV de django
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Funcion para slugifaicear los campos
 from django.template.defaultfilters import slugify
@@ -56,7 +57,7 @@ class AreaCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        usuarios = User.objects.all()
+        usuarios = User.objects.filter(profile__type_user=1)
         context['users'] = usuarios
         return context
 
@@ -170,7 +171,13 @@ class UserDelete(DeleteView):
     template_name = 'registration/user_confirm_delete.html'
     success_url = reverse_lazy('user')
 
+@method_decorator(login_required, name='dispatch')
+class UserDetail(DetailView):
+    model = User
+    template_name = 'registration/profile_detail.html'
 
+
+@method_decorator(login_required, name='dispatch')
 class ProfileCreate(UpdateView):
     template_name = 'registration/profile_form.html'
     form_class = ProfileForm

@@ -81,13 +81,15 @@ class SubArea(models.Model):
 
 
 class Profile(models.Model):
+    user_options = [(1, "Administrador"),(2, "Supervisor"),(3, "Trabajador")]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    type_user = models.ForeignKey(TypeUser, related_name="relacion_typeuser",
-            on_delete=models.CASCADE, verbose_name="Tipo de usuario",
+    #type_user = models.ForeignKey(TypeUser, related_name="relacion_typeuser",
+            #on_delete=models.CASCADE, verbose_name="Tipo de usuario",
+            #null=True, blank=True)
+    type_user = models.PositiveSmallIntegerField(choices=user_options, default=3)
+    area_user = models.ForeignKey(SubArea, on_delete="CASCADE", verbose_name="SubArea",
             null=True, blank=True)
-    area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
-            null=True, blank=True)
-    # cambiar relacion de area a subarea, cambiar todo lo relacionado.
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     direccion = models.CharField(max_length=100, null=True, blank=True,
             verbose_name="Direccion")
@@ -95,6 +97,8 @@ class Profile(models.Model):
             verbose_name="Numero de Telefono")
     email_confirmed = models.BooleanField(default=False)
     first_login = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
 
     class Meta:
         ordering = ['user__first_name']

@@ -20,7 +20,7 @@
         <table class="table table-hover table-responsive-sm text-center">
           <thead>
             <tr>
-              <th>#</th>
+              <th>Detalle</th>
               <th>Nombre</th>
               <th>Apellido</th>
               <th>Email</th>
@@ -30,7 +30,11 @@
           <tbody>
             {% for user in user_list %}
             <tr>
-              <th scope="row">{{ forloop.counter }}</th>
+              <th scope="row">
+                <div class="my-auto">
+                  <a href="{% url 'detailUser' user.id %}" class="btn btn-primary registro">Ver</a>
+                </div>
+              </th>
               <td>{{ user.first_name }}</td>
               <td>{{ user.last_name }}</td>
               <td>{{ user.email }}</td>
