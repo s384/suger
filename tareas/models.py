@@ -1,7 +1,34 @@
 from django.db import models
 from django.contrib.auth.models import User
+from registration.models import Area
 
 # Create your models here.
+
+class SolicitudTarea(models.Model):
+    priority = [(1,"Baja"),(2,"Media"),(3,"Alta")]
+    opciones_estado = [(1, "No Revisado"), (2, "En revisión"), (3, "Rechazada"), (4, "Aprovada")]
+
+    titulo = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, verbose_name="Slug")
+    solicitante = models.ForeignKey(User, on_delete=models.CASCADE, related_name="usuario_solicitud")
+    area_destino = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="area_solicitud")
+    descripcion = models.TextField()
+    img_referencia = models.ImageField(upload_to="solicitud", null=True, blank=True)
+    prioridad = models.PositiveSmallIntegerField(choices=priority)
+    estado_solicitud = models.PositiveSmallIntegerField(choices=opciones_estado)
+
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
+
+    class Meta:
+        ordering = ['created']
+        verbose_name = "Solicitud de tarea"
+        verbose_name_plural = "Solicitudes de tareas"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.nombre)
+        super(SubArea, self).save(*args, **kwargs)
+
 
 class Tareas(models.Model):
     priority = [(1, "Baja"),(2, "Media"),(3,"Alta")]
