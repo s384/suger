@@ -38,6 +38,47 @@
       </div>
     </div>
     {% endif %}
+    {% if solicitudes %}
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h2>Solicitud de tareas</h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table table-hover table-responsive-sm text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Titulo</th>
+              <th>Solicitante</th>
+              <th>Prioridad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for solicitud in solicitudes %}
+            <tr>
+              <th scope="row">
+                <div class="my-auto">
+                  <a href="{% url 'detailSolicitudTarea' solicitud.slug %}" class="btn btn-primary">Ver</a>
+                </div>
+              </th>
+              <td>{{ solicitud.titulo }}</td>
+              <td>{{ solicitud.solicitante.get_full_name }}</td>
+              <td>{% if solicitud.prioridad == 1 %}
+                Baja
+              {% elif solicitud.prioridad == 2 %}
+                Media
+              {% elif solicitud.prioridad == 3 %}
+                Alta
+              {% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}

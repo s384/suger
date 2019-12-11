@@ -6,11 +6,12 @@ class TareasForm(forms.ModelForm):
 	class Meta:
 		model = Tareas
 		fields = ('titulo','supervisor','prioridad','responsable',
-				  'descripcion')
+				  'descripcion', 'area_destino')
 		widgets = {
 			'titulo' : forms.TextInput(attrs={'class':'form-control'}),
 			'prioridad' : forms.Select(attrs={'class':'form-control'}),
 			'descripcion' : forms.Textarea(attrs={'class':'form-control', 'cols': 8}),
+			'area_destino' : forms.Select(attrs={'class':'form-control'}),
 		}
 
 class SolicitudTareaForm(forms.ModelForm):

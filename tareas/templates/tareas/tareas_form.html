@@ -31,49 +31,22 @@
         {% endif %}
         <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
           {% csrf_token %}
-          {% if not 'modificar-usuario' in request.path %}
-          <div hidden="True">
-              <input type="password" name="password1" value="suger1234">
-              <input type="password" name="password2" value="suger1234">
-          </div>
-          {% endif %}
-
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Título de la tarea <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              {{ form.titulo }}
+              <input type="text" name="titulo" maxlength="100" class="form-control" id="id_titulo" required="" value="{{ solicitud.titulo }}">
             </div>
           </div>
-
           <div class="item form-group">
-            <div class="mx-auto">
-              {{ form.titulo.help_text }}
-            </div>
-          </div>
-
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Supervisor <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area solicitud <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <select name="supervisor" id="id_supervisor" class="form-control">
-                <option value="" selected="">---------</option>
-                {% for user in users %}
-                  <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Prioridad <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              {{ form.prioridad }}
+              <h5>El area seleccionada en la solicitud es <b>{{ solicitud.area_destino }}</b></h5>
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable<span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               <select name="responsable" id="id_responsable" class="form-control">
@@ -85,10 +58,45 @@
             </div>
           </div>
           <div class="item form-group">
+            <div class="col-6 mx-auto">
+              <h5>Si el area no corresponde, utilize esta opcion. y seleccione el responsable de la lista</h5>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.area_destino }}
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select name="responsable" id="id_responsable" class="form-control">
+                <option value="" selected="">---------</option>
+                {% for trabajador in trabajadores %}
+                  <option value="{{ trabajador.pk }}">{{ trabajador.get_full_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Prioridad <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select name="prioridad" class="form-control" id="id_prioridad" required="">
+                <option value="1" {% if solicitud.prioridad == 1 %}selected{% endif %}>Baja</option>
+                <option value="2" {% if solicitud.prioridad == 2 %}selected{% endif %}>Media</option>
+                <option value="3" {% if solicitud.prioridad == 3 %}selected{% endif %}>Alta</option>
+              </select>
+            </div>
+          </div>
+          <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Descripción <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              {{ form.descripcion }}
+              <textarea name="descripcion" cols="8" class="form-control" id="id_descripcion" rows="10" required="">{{ solicitud.descripcion }}</textarea>
             </div>
           </div>
           <div class="item form-group">

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -21,11 +21,33 @@ class TareasCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        supervisor = User.objects.exclude(profile__type_user=3)
-        context['users'] = supervisor
-        responsable = User.objects.filter(profile__type_user=3)
+        trabajadores = User.objects.filter(profile__type_user=3)
+        context['trabajadores'] = trabajadores
+        slug_solicitud=self.kwargs['slug']
+        solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
+        context['solicitud'] = solicitud
+        responsable = User.objects.filter(profile__type_user=3).filter(
+            profile__area_user=solicitud.area_destino)
         context['responsable'] = responsable
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            self.user = request.user
+            return self.form_valid(form)
+        else:
+            print(form)
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        tareas_creation = form.save(commit = False)
+        tareas_creation.solicitante = self.user
+        tareas_creation.estado_solicitud = 1
+        tareas_creation.save()
+
+        return redirect(self.success_url)
 
 class TareasUpdate(UpdateView):
     model = Tareas
@@ -57,10 +79,10 @@ class SolicitudTareasCreate(CreateView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        tareas_creation = form.save(commit = False)
-        tareas_creation.solicitante = self.user
-        tareas_creation.estado_solicitud = 1
-        tareas_creation.save()
+        solicitud_creation = form.save(commit = False)
+        solicitud_creation.solicitante = self.user
+        solicitud_creation.estado_solicitud = 1
+        solicitud_creation.save()
 
         return redirect(self.success_url)
 

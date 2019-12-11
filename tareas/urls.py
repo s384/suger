@@ -9,7 +9,7 @@ urlpatterns = [
     path('detalle-solicitud/<slug:slug>', SolicitudTareasDetail.as_view(), name="detailSolicitudTarea"),
 	#Tareas
     path('', TareasList.as_view(), name="listTareas"),
-    path('nueva-tarea', TareasCreate.as_view(), name="createTareas"),
+    path('nueva-tarea/<slug:slug>', TareasCreate.as_view(), name="createTareas"),
     path('informe-tareas', informe_tareas, name="informeTareas"),
 
 ]

@@ -37,6 +37,7 @@ class Tareas(models.Model):
     titulo = models.CharField(max_length=100)
     supervisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="super_tarea")
     prioridad = models.PositiveSmallIntegerField(choices=priority)
+    area_destino = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="area_tarea")
     responsable = models.ForeignKey(User, on_delete=models.CASCADE, related_name="respo_tarea")
     descripcion = models.TextField()
     fecha_inicio = models.DateField(auto_now_add=True)

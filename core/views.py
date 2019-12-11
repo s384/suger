@@ -11,7 +11,7 @@ from registration.models import TypeUser, Profile, Area
 from django.contrib.auth.models import User
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
     ProfileForm, AreaForm, UserActive, UserUpdateForm)
-from tareas.models import Tareas
+from tareas.models import Tareas, SolicitudTarea
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserList(ListView):
@@ -157,8 +157,12 @@ class ProfileUpdate(UpdateView):
 def home(request):
     if request.user.is_authenticated:
         tareas = Tareas.objects.filter(responsable=request.user)
+        solicitudes = SolicitudTarea.objects.filter(
+            area_destino__boss_user=request.user)
         print(request.user.pk)
-        return render(request, 'core/index.html', {'tareas':tareas})
+        return render(request, 'core/index.html', {
+            'tareas':tareas, 'solicitudes':solicitudes
+            })
     else:
         return render(request, 'registration/login.html')
 

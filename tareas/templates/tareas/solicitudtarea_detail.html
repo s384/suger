@@ -5,22 +5,27 @@
 <div class="row">
   <div class="col-md-12">
     <div class="x_panel">
-      <div class="x_title">
+      <div class="x_title form-inline">
         <h3>{{ solicitudtarea.titulo }}</h3>
+        {% if solicitudtarea.area_destino.boss_user == request.user %}
+        <div class="ml-auto">
+          <a href="{% url 'createTareas' solicitudtarea.slug %}" class="btn btn-success">Nueva Tarea</a>
+        </div>
+        {% endif %}
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
         <div class="col-12">
           <div class="row">
-            <div class="col-sm-6 col-md-3 border-right text-center">
+            <div class="col-sm-6 col-md-3 border text-center">
               <h5 class="name"> Solicitante </h5>
               <h4 class="value text-success"> {{ solicitudtarea.solicitante.get_full_name }} </h4>
             </div>
-            <div class="col-sm-6 col-md-3 border-right text-center">
+            <div class="col-sm-6 col-md-3 border text-center">
               <h5 class="name"> Area de destino </h5>
               <h4 class="value text-success"> {{ solicitudtarea.area_destino }} </h4>
             </div>
-            <div class="col-sm-6 col-md-3 border-right text-center">
+            <div class="col-sm-6 col-md-3 border text-center">
               <h5 class="name"> Prioridad </h5>
               <h4 class="value text-success">
               {% if solicitudtarea.prioridad == 1 %}
@@ -32,7 +37,7 @@
               {% endif %}
               </h4>
             </div>
-            <div class="col-sm-6 col-md-3 border-right text-center">
+            <div class="col-sm-6 col-md-3 border text-center">
               <h5 class="name"> Estado de solicitud </h5>
               <h4 class="value text-success"> 
               {% if solicitudtarea.estado_solicitud == 1 %}
@@ -64,7 +69,7 @@
 
             <div class="project_detail">
               {% if solicitudtarea.img_referencia %}
-              <img src="{{ solicitudtarea.img_referencia.url }}">
+              <img class="img-fluid" src="{{ solicitudtarea.img_referencia.url }}">
               {% endif %}
             </div>
 
