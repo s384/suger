@@ -20,6 +20,11 @@
       <h2>Listado de Solicitudes <small>Solicitudes de Tareas</small></h2>
 
       <div class="clearfix"></div>
+
+      <div class="ml-auto">
+        <a href="{% url 'createSolicitudTarea' %}" class="btn btn-success">Nueva Solicitud</a>
+      </div>
+
     </div>
 
     <div class="x_content">
@@ -32,6 +37,7 @@
             
             <!--tabla-->
             <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
+
               <thead>
                 <tr>
                   <th>Detalle</th>
@@ -41,6 +47,7 @@
                   <th>Opciones</th>
                 </tr>
               </thead>
+
               <tbody>
                 {% for solicitud in object_list %}
                 <tr>

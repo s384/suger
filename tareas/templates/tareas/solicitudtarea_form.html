@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+
+      <!--Sección de encabezado-->
+      <div class="x_title">
+        <h2>NNueva solicitud de tarea <small>Cree su nueva solicitud de tarea para asignación</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+
+
+      <div class="x_content">
+        <br />
+        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+          {% csrf_token %}
+
+          <!--Campo título-->
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre del area <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.titulo }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Jefe de area <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select name="boss_user" id="id_boss_user" class="form-control">
+                <option value="" selected="">---------</option>
+                {% for user in users %}
+                  <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="ln_solid"></div>
+          <div class="item form-group">
+            <div class="col-md-6 col-sm-6 offset-md-3">
+              <button class="btn btn-primary" type="button">Cancelar</button>
+              <input type="submit" class="btn btn-success" value="Grabar" />
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

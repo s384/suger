@@ -42,7 +42,8 @@ class SolicitudTareaList(ListView):
 class SolicitudTareasCreate(CreateView):
     model = SolicitudTarea
     form_class = SolicitudTareaForm
-    success_url = reverse_lazy(' ')
+    template_name = "tareas/solicitudtarea_form.html"
+    success_url = reverse_lazy('listSolicitudTarea')
 
     def post(self, request, *args, **kwargs):
         self.object = None

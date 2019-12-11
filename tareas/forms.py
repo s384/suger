@@ -16,10 +16,11 @@ class TareasForm(forms.ModelForm):
 class SolicitudTareaForm(forms.ModelForm):
 	class Meta:
 		model = SolicitudTarea
-		fields = ('titulo','area_destino','descripcion','prioridad')
+		fields = ('titulo','area_destino','descripcion','prioridad','img_referencia')
 		widgets = {
 			'titulo' : forms.TextInput(attrs={'class':'form-control'}),
 			'area_destino' : forms.Select(attrs={'class':'form-control'}),
 			'descripcion' : forms.Textarea(attrs={'class':'form-control', 'cols': 8}),
 			'prioridad' : forms.Select(attrs={'class':'form-control'}),
+			'img_referencia' : forms.FileInput(attrs={'Class':'form-control'}),
 		}
