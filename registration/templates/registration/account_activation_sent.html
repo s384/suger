@@ -1,0 +1,17 @@
+
+{% load static %}
+{% block title %}Sistema{% endblock %}
+{% block head %}
+<style type="text/css">
+  .form-signin{
+    max-width: 500px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+    <form class="form-signin">{% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">Active su cuenta</h1>
+      <h5 class="mb-3">Por favor revise su correo electronico para confirmar su cuenta, el correo no deberia demorar mas de 5 minutos en llegar, si no ve el correo en la bandeja principal, revise su bandeja de spam.</h5>
+      <a class="btn btn-outline-primary btn-block" href="{% url 'login' %}">Iniciar sesion</a>
+  </form>
+{% endblock %}

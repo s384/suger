@@ -1,0 +1,17 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% block title %}Sistema{% endblock %}
+{% block head %}
+<link href="{% static 'registration/css/signin.css' %}" rel="stylesheet">
+<style type="text/css">
+  .form-signin{
+    max-width: 500px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+    <form class="form-signin">{% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">Error al activar la cuenta</h1>
+      <h5 class="mb-3">Por favor pongase en contacto con un administrador del sistema para solucionar su problema.</h5>
+  </form>
+{% endblock %}

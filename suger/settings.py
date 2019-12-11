@@ -130,3 +130,8 @@ MEDIA_ROOT = 'media/'
 # Auth redirects
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Email config
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'no-responder@asd.com'
+EMAIL_HOST = 'localhost'

@@ -52,7 +52,9 @@
               <div>
                 <input type="submit" class="btn btn-primary btn-block" value="Ingresar">
                 <div class="separator">
-                <a class="" href="#">Haz olvidado tu contraseña?</a>
+                <a class="" href="{% url 'password_reset' %}">Haz olvidado tu contraseña?</a>
+                <div class="separator">
+                <a class="" href="{% url 'account_activation_form' %}">Primer inicio de sesion?</a>
               </div>
 
               <div class="clearfix"></div>

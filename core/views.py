@@ -147,14 +147,8 @@ class UserCreate(CreateView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            print(form)
             return self.form_invalid(form)
 
-    def form_valid(self, form):
-        user_creation = form.save(commit=False)
-        user_creation.is_active = True
-        user_creation.save()
-        return redirect(self.success_url)
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):
@@ -196,8 +190,8 @@ def home(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        if request.user.profile.first_login:
-            return render(request, 'core/work.html')
+        if not request.user.profile.first_login:
+            return render(request, 'registration/first_login.html')
         else:
             return render(request, 'core/index.html')
     else:

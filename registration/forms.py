@@ -74,3 +74,11 @@ class UserActive(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['is_active']
+
+
+class EmailForm(forms.ModelForm):
+    email = forms.EmailField(required=True, help_text="Requerido. 254 carácteres como máximo y debe ser válido.")
+
+    class Meta:
+        model = User
+        fields = ['email']

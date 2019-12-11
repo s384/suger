@@ -1,0 +1,14 @@
+{% autoescape off %}
+Hola {{ user.username }},
+
+Por favor haga click en el siguiente enlace para activar su cuenta
+Al cargar la pagina debera realizar el cambio de contraseña.
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Si el enlace no funciona, copia la url en tu navegador favorito.
+
+Muchas gracias.
+Equipo Suger
+
+{% endautoescape %}

@@ -1,0 +1,32 @@
+{% load static %}
+<!-- Bootstrap -->
+<link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+<!-- NProgress -->
+<link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+
+{% block static %}{% endblock %}
+<!-- Custom Theme Style -->
+<link href="{% static 'build/css/custom.css' %}" rel="stylesheet">
+<div class="container">
+  <div class="row align-items-center" style="height: 100%;">
+    <div class="col-10 mx-auto">
+      <div class="x_panel">
+        <div class="x_title text-center">
+          <h2>Activacion de la cuenta <small>Ingrese su correo</small> </h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <br />
+          <form class="form-signin" method="post">{% csrf_token %}
+            {% if form.email.errors %} {{ form.email.errors }} {% endif %}
+            <label for="inputEmail" class="sr-only">Correo electronico</label>
+            <input type="email" id="id_email" name="email" class="form-control" placeholder="correo@correo.cl" required autofocus>
+            <input class="btn btn-lg btn-outline-primary btn-block mt-3" type="submit" value="Enviar">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
