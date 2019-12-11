@@ -1,21 +1,16 @@
-# Librerias y moduslos a ser utilizados
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-# CCBV de django
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-# Funcion para slugifaicear los campos
 from django.template.defaultfilters import slugify
-# Login required para ver las paginas
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-# Importamos el modelo desde la app registration
 from registration.models import TypeUser, Profile, Area, SubArea
 from django.contrib.auth.models import User
-# Importamos el formulario desde la app registration
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
     ProfileForm, AreaForm, SubAreaForm, UserActive)
+from tareas.models import Tareas
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserList(ListView):
@@ -189,7 +184,9 @@ class ProfileCreate(UpdateView):
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'core/index.html')
+        tareas = Tareas.objects.filter(responsable=request.user)
+        print(request.user.pk)
+        return render(request, 'core/index.html', {'tareas':tareas})
     else:
         return render(request, 'registration/login.html')
 
@@ -199,6 +196,7 @@ def profile(request):
         if not request.user.profile.first_login:
             return render(request, 'registration/account_activation_form.html')
         else:
+            # Crear index del perfil, para editar datos
             return render(request, 'core/index.html')
     else:
         return render(request, 'registration/login.html')
