@@ -1,17 +1,30 @@
-
 {% load static %}
-{% block title %}Sistema{% endblock %}
-{% block head %}
-<style type="text/css">
-  .form-signin{
-    max-width: 500px;
-  }
-</style>
-{% endblock %}
-{% block content %}
-    <form class="form-signin">{% csrf_token %}
-      <h1 class="h3 mb-3 font-weight-normal">Active su cuenta</h1>
-      <h5 class="mb-3">Por favor revise su correo electronico para confirmar su cuenta, el correo no deberia demorar mas de 5 minutos en llegar, si no ve el correo en la bandeja principal, revise su bandeja de spam.</h5>
-      <a class="btn btn-outline-primary btn-block" href="{% url 'login' %}">Iniciar sesion</a>
-  </form>
-{% endblock %}
+<!-- Bootstrap -->
+<link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+<!-- NProgress -->
+<link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+
+{% block static %}{% endblock %}
+<!-- Custom Theme Style -->
+<link href="{% static 'build/css/custom.css' %}" rel="stylesheet">
+<div class="container">
+  <div class="row align-items-center" style="height: 100%;">
+    <div class="col-10 mx-auto">
+      <div class="x_panel">
+        <div class="x_title text-center">
+          <h1>Correo enviado</h1>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <h2 class="text-center">
+            Le hemos enviado un correo con las instrucciones para activar su cuenta. Debería recibirlas en breve.
+            <br>
+            Si no recibe el correo, revise su carpeta de spam, si en 10 minutos no recibe el correo, por favor acerquese a administración.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
