@@ -20,10 +20,11 @@
       <h2>Listado de Solicitudes <small>Solicitudes de Tareas</small></h2>
 
       <div class="clearfix"></div>
-
+      {% if request.user.profile.type_user <= 2%}
       <div class="ml-auto">
         <a href="{% url 'createSolicitudTarea' %}" class="btn btn-success">Nueva Solicitud</a>
       </div>
+      {% endif %}
 
     </div>
 
@@ -41,9 +42,9 @@
               <thead>
                 <tr>
                   <th>Detalle</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Email</th>
+                  <th>Titulo</th>
+                  <th>Solicitante</th>
+                  <th>Area destino</th>
                   <th>Opciones</th>
                 </tr>
               </thead>
@@ -53,11 +54,11 @@
                 <tr>
                   <th scope="row">
                     <div class="my-auto">
-                      <a href="{% url 'detailUser' user.id %}" class="btn btn-primary registro">Ver</a>
+                      <a href="{% url 'detailSolicitudTarea' solicitud.slug %}" class="btn btn-primary registro">Ver</a>
                     </div>
                   </th>
                   <td>{{ solicitud.titulo }}</td>
-                  <td>{{ solicitud.solicitante }}</td>
+                  <td>{{ solicitud.solicitante.get_full_name }}</td>
                   <td>{{ solicitud.area_destino }}</td>
                   <td>
                     <div class="my-auto">

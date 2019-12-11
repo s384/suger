@@ -27,7 +27,7 @@
 
   </head>
 
-  <body class="nav-md footer_fixed">
+  <body class="nav-md">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col menu_fixed mCustomScrollbar _mCS_1 mCS-autoHide">
@@ -52,7 +52,6 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'user' %}">Usuarios</a></li>
                       <li><a href="{% url 'area' %}">Areas</a></li>
-                      <li><a href="{% url 'SubAreas' %}">Sub Áreas</a></li>
                       <li><a href="{% url 'job' %}">Cargos</a></li>
                     </ul>
                   </li>
@@ -120,7 +119,15 @@
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">{{ request.user.first_name}}
+                    <span class="fa {% if request.user.profile.type_user == 1%}
+                  fa-bank
+                {% elif request.user.profile.type_user == 2%}
+                  fa-male
+                {% elif request.user.profile.type_user == 3%}
+                  fa-group
+                {% else %}
+                  fa-adjust
+                {% endif %} mr-2"></span>{{ request.user.first_name}}
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="javascript:;">Perfil</a>

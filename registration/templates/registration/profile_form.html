@@ -31,10 +31,6 @@
         {% endif %}
         <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
           {% csrf_token %}
-          <div hidden="True">
-              <input type="password" name="password1" value="suger1234">
-              <input type="password" name="password2" value="suger1234">
-          </div>
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo de usuario <span class="required">*</span>
             </label>
@@ -52,6 +48,22 @@
             </label>
             <div class="col-md-6 col-sm-6 ">
               {{ form.area_user }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Direccion
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.direccion }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Telefono
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.telefono }}
             </div>
           </div>
           <div class="ln_solid"></div>

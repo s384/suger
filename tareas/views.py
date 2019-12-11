@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -20,9 +21,9 @@ class TareasCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        supervisor = User.objects.filter(profile__type_user=1)
+        supervisor = User.objects.exclude(profile__type_user=3)
         context['users'] = supervisor
-        responsable = User.objects.exclude(profile__type_user=1)
+        responsable = User.objects.filter(profile__type_user=3)
         context['responsable'] = responsable
         return context
 
@@ -58,11 +59,14 @@ class SolicitudTareasCreate(CreateView):
     def form_valid(self, form):
         tareas_creation = form.save(commit = False)
         tareas_creation.solicitante = self.user
+        tareas_creation.estado_solicitud = 1
         tareas_creation.save()
 
         return redirect(self.success_url)
 
-class SolicitudesTareasUpdate(UpdateView):
+class SolicitudTareasUpdate(UpdateView):
     model = SolicitudTarea
     form_class = SolicitudTareaForm
 
+class SolicitudTareasDetail(DetailView):
+    model = SolicitudTarea

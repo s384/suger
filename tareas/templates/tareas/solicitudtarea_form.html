@@ -19,12 +19,12 @@
 
       <div class="x_content">
         <br />
-        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
           {% csrf_token %}
 
           <!--Campo título-->
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre del area <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre de la solicitud <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               {{ form.titulo }}
@@ -32,15 +32,34 @@
           </div>
 
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Jefe de area <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area de destino <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <select name="boss_user" id="id_boss_user" class="form-control">
-                <option value="" selected="">---------</option>
-                {% for user in users %}
-                  <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
-                {% endfor %}
-              </select>
+              {{ form.area_destino }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Prioridad <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.prioridad }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Imagen de referencia <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.img_referencia }}
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Descripcion <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.descripcion }}
             </div>
           </div>
 

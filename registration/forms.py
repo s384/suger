@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import TypeUser, Profile, Area, SubArea
+from .models import TypeUser, Profile, Area
 
 class UserCreationFormWithEmail(UserCreationForm):
 	email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -30,10 +30,12 @@ class UserCreationFormWithEmail(UserCreationForm):
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['type_user','area_user']
+		fields = ['type_user','area_user','direccion','telefono']
 		widgets = {
 			'type_user' : forms.Select(attrs={'class':'form-control'}),
 			'area_user' : forms.Select(attrs={'class':'form-control'}),
+			'direccion' : forms.TextInput(attrs={'class':'form-control'}),
+			'telefono' : forms.TextInput(attrs={'class':'form-control'}),
 		}
 
 # Creamos el formulario para ser llamado en el html
@@ -60,16 +62,6 @@ class AreaForm(forms.ModelForm):
 			'boss_user' : forms.Select(attrs={'class':'form-control'}),
 		}
 
-class SubAreaForm(forms.ModelForm):
-	class Meta:
-		model = SubArea
-		fields = ['nombre','area','detalle_subarea']
-		widgets = {
-			'nombre' : forms.TextInput(attrs={'class': 'form-control'}),
-			'area' : forms.Select(attrs={'class':'form-control'}),
-			'detalle_subarea' : forms.Textarea(attrs={'class' : 'form-control', 'cols' : 8}),
-		}
-
 class UserActive(forms.ModelForm):
 	class Meta:
 		model = User
@@ -82,3 +74,15 @@ class EmailForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email']
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username','first_name','last_name','email']
+        widgets = {
+			'username' : forms.TextInput(attrs={'class':'form-control'}),
+			'first_name' : forms.TextInput(attrs={'class':'form-control'}),
+			'last_name' : forms.TextInput(attrs={'class':'form-control'}),
+		}

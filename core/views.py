@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -6,10 +7,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from registration.models import TypeUser, Profile, Area, SubArea
+from registration.models import TypeUser, Profile, Area
 from django.contrib.auth.models import User
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
-    ProfileForm, AreaForm, SubAreaForm, UserActive)
+    ProfileForm, AreaForm, UserActive, UserUpdateForm)
 from tareas.models import Tareas
 
 @method_decorator(login_required, name='dispatch')
@@ -37,6 +38,7 @@ class TypeUserDelete(DeleteView):
     success_url = reverse_lazy('typeUser')
 
 
+
 @method_decorator(login_required, name='dispatch')
 class AreaList(ListView):
     model = Area
@@ -52,24 +54,9 @@ class AreaCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        usuarios = User.objects.filter(profile__type_user=1)
-        context['users'] = usuarios
+        usuarios = User.objects.exclude(profile__type_user=3)
+        context['users_list'] = usuarios
         return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-@method_decorator(login_required, name='dispatch')
-class SubAreaCreate(CreateView):
-    model = SubArea
-    template_name = 'registration/subareacreate_form.html'
-    form_class = SubAreaForm
-    success_url = reverse_lazy('SubAreas')
 
     def post(self, request, *args, **kwargs):
         self.object = None
@@ -88,20 +75,7 @@ class AreaUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        usuarios = User.objects.all()
-        context['users'] = usuarios
-        return context
-
-@method_decorator(login_required, name='dispatch')
-class SubAreaUpdate(UpdateView):
-    model = SubArea
-    form_class = SubAreaForm
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('SubAreas')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuarios = User.objects.all()
+        usuarios = User.objects.exclude(profile__type_user=3)
         context['users'] = usuarios
         return context
 
@@ -111,17 +85,7 @@ class AreaDelete(DeleteView):
     template_name = 'registration/area_confirm_delete.html'
     success_url = reverse_lazy('area')
 
-@method_decorator(login_required, name='dispatch')
-class SubAreaDelete(DeleteView):
-    model = SubArea
-    template_name = 'registration/subarea_confirm_delete.html'
-    success_url = reverse_lazy('SubAreas')
 
-@method_decorator(login_required, name='dispatch')
-class SubAreaList(ListView):
-    model = SubArea
-    template_name = 'registration/subarea_list.html'
-    paginate_by = 10
 
 @method_decorator(login_required, name='dispatch')
 class UserList(ListView):
@@ -134,7 +98,6 @@ class UserCreate(CreateView):
     model = User
     template_name = 'registration/user_form.html'
     form_class = UserCreationFormWithEmail
-    success_url = reverse_lazy('newPerfil')
 
     def post(self, request, *args, **kwargs):
         self.object = None
@@ -148,15 +111,17 @@ class UserCreate(CreateView):
         user_creation = form.save(commit=False)
         user_creation.is_active = False
         user_creation.save()
-        return redirect(self.success_url)
-
+        return HttpResponseRedirect(reverse_lazy('newPerfil', kwargs={'pk': user_creation.pk}))
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):
     model = User
-    form_class = UserCreationFormWithEmail
+    form_class = UserUpdateForm
     template_name = 'registration/user_form.html'
-    success_url = reverse_lazy('user')
+
+    def get_success_url(self):
+        userId=self.kwargs['pk']
+        return reverse_lazy('updatePerfil', kwargs={'pk': userId})
 
 @method_decorator(login_required, name='dispatch')
 class UserDelete(UpdateView):
@@ -171,15 +136,22 @@ class UserDetail(DetailView):
     template_name = 'registration/profile_detail.html'
 
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileCreate(UpdateView):
+    model = Profile
     template_name = 'registration/profile_form.html'
     form_class = ProfileForm
     success_url = reverse_lazy('user')
 
-    def get_object(self):
-        profile = Profile.objects.last()
-        return profile
+
+@method_decorator(login_required, name='dispatch')
+class ProfileUpdate(UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'registration/profile_form.html'
+    success_url = reverse_lazy('user')
+
 
 
 def home(request):

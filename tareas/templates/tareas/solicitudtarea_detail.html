@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Detalle {{ solicitudtarea.titulo }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h3>{{ solicitudtarea.titulo }}</h3>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6 col-md-3 border-right text-center">
+              <h5 class="name"> Solicitante </h5>
+              <h4 class="value text-success"> {{ solicitudtarea.solicitante.get_full_name }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border-right text-center">
+              <h5 class="name"> Area de destino </h5>
+              <h4 class="value text-success"> {{ solicitudtarea.area_destino }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border-right text-center">
+              <h5 class="name"> Prioridad </h5>
+              <h4 class="value text-success">
+              {% if solicitudtarea.prioridad == 1 %}
+                Baja
+              {% elif solicitudtarea.prioridad == 2 %}
+                Media
+              {% elif solicitudtarea.prioridad == 3 %}
+                Alta
+              {% endif %}
+              </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border-right text-center">
+              <h5 class="name"> Estado de solicitud </h5>
+              <h4 class="value text-success"> 
+              {% if solicitudtarea.estado_solicitud == 1 %}
+                No Revisado
+              {% elif solicitudtarea.estado_solicitud == 2 %}
+                En revisión
+              {% elif solicitudtarea.estado_solicitud == 3 %}
+                Rechazada
+              {% elif solicitudtarea.estado_solicitud == 4 %}
+                Aprovada
+              {% endif %}</h4>
+            </div>
+          </div>
+          <div class="mb-2"></div>
+        </div>
+      </div>
+      <!-- start project-detail sidebar -->
+      <div class="col-auto mx-auto">
+
+        <section class="panel">
+
+          <div class="x_title">
+            <h2>Detalle de la solicitud</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-body mb-4">
+            <p>{{ solicitudtarea.descripcion }}.</p>
+            <br>
+
+            <div class="project_detail">
+              {% if solicitudtarea.img_referencia %}
+              <img src="{{ solicitudtarea.img_referencia.url }}">
+              {% endif %}
+            </div>
+
+            <br>
+            <h5>Project files</h5>
+            <div>Fecha de creacion: {{ solicitudtarea.created }}</div>
+            <div>Fecha ultima actualizacion: {{ solicitudtarea.updated }}</div>
+          </div>
+
+        </section>
+      </div>
+      <!-- end project-detail sidebar -->
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -12,13 +12,15 @@
 {% block title %}Inicio{% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-md-8 mx-auto">
+  <div class="col-md-10 mx-auto">
     <div class="x_panel">
       <div class="x_title form-inline">
         <h2>Usuarios <small>Listado de usuarios</small></h2>
+        {% if request.user.profile.type_user <= 2%}
         <div class="ml-auto">
           <a href="{% url 'newUser' %}" class="btn btn-success">Nuevo Usuario</a>
         </div>
+        {% endif %}
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -27,8 +29,8 @@
             <tr>
               <th>Detalle</th>
               <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Email</th>
+              <th>Area</th>
+              <th>Telefono</th>
               <th>Opciones</th>
             </tr>
           </thead>
@@ -40,9 +42,17 @@
                   <a href="{% url 'detailUser' user.id %}" class="btn btn-primary registro">Ver</a>
                 </div>
               </th>
-              <td>{{ user.first_name }}</td>
-              <td>{{ user.last_name }}</td>
-              <td>{{ user.email }}</td>
+              <td>{{ user.get_full_name }}</td>
+              <td>{{ user.profile.area_user }}</td>
+              <td>
+                {% if user.profile.type_user == 1%}
+                  Administrador
+                {% elif user.profile.type_user == 2%}
+                  Supervisor
+                {% elif user.profile.type_user == 3%}
+                  Trabajador
+                {% endif %}
+              </td>
               <td>
                 <div class="my-auto">
                   <a href="{% url 'updateUser' user.id %}" class="btn btn-warning registro">Modificar</a>

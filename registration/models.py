@@ -17,32 +17,22 @@ def custom_upload_to(instance, filename):
 
 # Modelo para el tipo de usuario
 class TypeUser(models.Model):
-    # Nombre del tipo de usuario
     nombre = models.CharField(max_length=50, verbose_name='Nombre tipo de usuario')
-    # Campo slug para mostrar url, cuando necesitemos acceder al objeto
     slug = models.SlugField(max_length=100, verbose_name="Slug")
-    # Fecha de creacion del objeto
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
-    # Fecha de actualizacion del mismo
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
 
-    # Clase meta, ordenamos los modelos por el nombre, esto se ve cuando
-    # llamamos los objetos, se retornan ordenados por este valor
     class Meta:
         ordering = ['nombre']
 
-    # funcion str, retorna el nombre cuando llamamos al objeto, sino diria objeto + pk
     def __str__(self):
         return self.nombre
 
-    # Funcion save, esta la creamos para editar el campo slug de manera automatica
-    # reemplazando los espacios por guiones, para ser utilizado en urls
     def save(self, *args, **kwargs):
         self.slug = slugify(self.nombre)
         super(TypeUser, self).save(*args, **kwargs)
 
 
-# Modelo para el tipo de usuario
 class Area(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre de area')
     boss_user = models.OneToOneField(User, on_delete=models.CASCADE, 
@@ -61,34 +51,16 @@ class Area(models.Model):
         self.slug = slugify(self.nombre)
         super(Area, self).save(*args, **kwargs)
 
-class SubArea(models.Model):
-    nombre = models.CharField(max_length=50, verbose_name='Nombre de sub-area')
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='area de dependencia')
-    detalle_subarea = models.TextField(null = True, blank = True, verbose_name='Información adicional de SubArea')
-    slug = models.SlugField(max_length=100, verbose_name="Slug")
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
-
-    class Meta:
-        ordering = ['area','nombre']
-
-    def __str__(self):
-        return self.nombre
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.nombre)
-        super(SubArea, self).save(*args, **kwargs)
-
 
 class Profile(models.Model):
-    user_options = [(1, "Administrador"),(2, "Supervisor"),(3, "Encargado"),(4, "Trabajador")]
+    user_options = [(1, "Administrador"),(2, "Supervisor"),(3, "Trabajador")]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #type_user = models.ForeignKey(TypeUser, related_name="relacion_typeuser",
             #on_delete=models.CASCADE, verbose_name="Tipo de usuario",
             #null=True, blank=True)
-    type_user = models.PositiveSmallIntegerField(choices=user_options, default=4)
-    area_user = models.ForeignKey(SubArea, on_delete="CASCADE", verbose_name="SubArea",
+    type_user = models.PositiveSmallIntegerField(choices=user_options, default=3)
+    area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
             null=True, blank=True)
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     direccion = models.CharField(max_length=100, null=True, blank=True,

@@ -22,5 +22,5 @@ class SolicitudTareaForm(forms.ModelForm):
 			'area_destino' : forms.Select(attrs={'class':'form-control'}),
 			'descripcion' : forms.Textarea(attrs={'class':'form-control', 'cols': 8}),
 			'prioridad' : forms.Select(attrs={'class':'form-control'}),
-			'img_referencia' : forms.FileInput(attrs={'Class':'form-control'}),
+			'img_referencia' : forms.FileInput(),
 		}
