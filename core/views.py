@@ -149,6 +149,12 @@ class UserCreate(CreateView):
         else:
             return self.form_invalid(form)
 
+    def form_valid(self, form):
+        user_creation = form.save(commit=False)
+        user_creation.is_active = False
+        user_creation.save()
+        return redirect(self.success_url)
+
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):
@@ -191,7 +197,7 @@ def home(request):
 def profile(request):
     if request.user.is_authenticated:
         if not request.user.profile.first_login:
-            return render(request, 'registration/first_login.html')
+            return render(request, 'registration/account_activation_form.html')
         else:
             return render(request, 'core/index.html')
     else:
