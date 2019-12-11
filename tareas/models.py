@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from registration.models import Area
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -26,8 +27,8 @@ class SolicitudTarea(models.Model):
         verbose_name_plural = "Solicitudes de tareas"
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.nombre)
-        super(SubArea, self).save(*args, **kwargs)
+        self.slug = slugify(self.titulo)
+        super(SolicitudTarea, self).save(*args, **kwargs)
 
 
 class Tareas(models.Model):
