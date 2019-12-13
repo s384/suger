@@ -4,6 +4,7 @@ from .views import (home, job, turn, work, profile, TypeUserUpdate,
                     UserList, UserCreate, UserDelete, UserUpdate,
                     UserDetail, ProfileCreate, ProfileUpdate,
                     AreaList, AreaCreate, AreaDelete, AreaUpdate)
+from cargos.views import (CargoList, CargoCreate, CargoUpdate)
 
 urlpatterns = [
     path('', home, name="home"),
@@ -27,5 +28,9 @@ urlpatterns = [
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),
     path('work/', work, name="work"),
+    # Cargos
+    path('lista-de-cargos/', CargoList, name="CargoList"),
+    path('crear-cargo/', CargoCreate, name="CargoCreate"),
+    path('modificar-cargo/', CargoUpdate, name="CargoUpdate"),    
 
 ]
