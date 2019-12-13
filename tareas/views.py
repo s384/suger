@@ -58,7 +58,7 @@ class TareasCreate(CreateView):
             tareas_creation.area_destino = area
             respon = get_object_or_404(User, pk=self.responsable)
             tareas_creation.responsable = respon
-        #tareas_creation.fecha_termino = Ver como hacerlo
+        
         tareas_creation.save()
 
         solicitud.estado_solicitud = 4

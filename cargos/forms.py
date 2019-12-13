@@ -1,11 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from registration.models import Area
-from cargos.models import Cargo
+from .models import Cargo
 
 class CargoForm(forms.ModelForm):
-	class meta:
+	class Meta:
 		model = Cargo
 		fields = ['area','titulo','descripcion']
 		widgets = {

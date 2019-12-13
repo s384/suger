@@ -21,6 +21,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('tareas/', include('tareas.urls')),
     path('turnos/', include('turnos.urls')),
+    path('cargos/', include('cargos.urls')),
     path('admin/', admin.site.urls),
     # Para el login y administracion de password recovery
     path('accounts/', include('django.contrib.auth.urls')),

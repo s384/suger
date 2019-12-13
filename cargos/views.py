@@ -10,23 +10,19 @@ from registration.models import Area
 from .models import Cargo
 from .forms import CargoForm
 
+
+# Create your views here.
 @method_decorator(login_required, name='dispatch')
 class CargoList(ListView):
     model = Cargo
-    template_name = 'cargos/cargos_list.html'
+
 
 @method_decorator(login_required, name='dispatch')
 class CargoCreate(CreateView):
     model = Cargo
     form_class = CargoForm
-    template_name = 'cargos/cargos_form.html'
-    success_url = reverse_lazy('cargos')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuarios = User.objects.exclude(profile__type_user=3)
-        context['users_list'] = usuarios
-        return context
+    template_name = 'cargos/cargo_form.html'
+    success_url = reverse_lazy('CargoList')
 
     def post(self, request, *args, **kwargs):
         self.object = None
@@ -40,7 +36,6 @@ class CargoCreate(CreateView):
 class CargoUpdate(UpdateView):
     model = Cargo
     form_class = CargoForm
-    template_name = 'cargos/cargos_update.html'
-    success_url = reverse_lazy('cargos')
+    template_name = 'cargos/cargo_update.html'
+    success_url = reverse_lazy('CargoList')
 
-# Create your views here.

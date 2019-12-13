@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block static %}
+  <!-- My Custom Theme Style -->
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h2>Areas <small>Listado de las areas de la empresa</small></h2>
+        <div class="ml-auto">
+          <a href="{% url 'CargoCreate' %}" class="btn btn-success">Nuevo Cargo</a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table table-hover table-responsive-sm text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Area</th>
+              <th>Cargo</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cargo in cargo_list %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ cargo.area }}</td>
+              <td>{{ cargo.titulo }}</td>
+              <td>
+                <div class="my-auto">
+                  <a href="{% url 'CargoUpdate' cargo.slug %}" class="btn btn-warning registro">Modificar</a>
+                  
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
