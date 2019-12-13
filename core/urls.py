@@ -28,9 +28,12 @@ urlpatterns = [
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),
     path('work/', work, name="work"),
+<<<<<<< HEAD
     # Cargos
     path('lista-de-cargos/', CargoList, name="CargoList"),
     path('crear-cargo/', CargoCreate, name="CargoCreate"),
     path('modificar-cargo/', CargoUpdate, name="CargoUpdate"),    
 
+=======
+>>>>>>> origin/master
 ]

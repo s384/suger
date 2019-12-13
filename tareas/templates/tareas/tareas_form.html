@@ -63,17 +63,17 @@
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area
             </label>
             <div class="col-md-6 col-sm-6 ">
               {{ form.area_destino }}
             </div>
           </div>
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <select name="responsable" id="id_responsable" class="form-control">
+              <select name="responsable_2" id="id_responsable" class="form-control">
                 <option value="" selected="">---------</option>
                 {% for trabajador in trabajadores %}
                   <option value="{{ trabajador.pk }}">{{ trabajador.get_full_name }}</option>

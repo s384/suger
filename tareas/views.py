@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.db.models import Count
+from registration.models import Area
 from .models import Tareas, SolicitudTarea
 from .forms import TareasForm, SolicitudTareaForm
 # Create your views here.
@@ -19,15 +20,16 @@ class TareasCreate(CreateView):
     form_class = TareasForm
     success_url = reverse_lazy('listTareas')
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         trabajadores = User.objects.filter(profile__type_user=3)
         context['trabajadores'] = trabajadores
         slug_solicitud=self.kwargs['slug']
-        solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
-        context['solicitud'] = solicitud
+        self.solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
+        context['solicitud'] = self.solicitud
         responsable = User.objects.filter(profile__type_user=3).filter(
-            profile__area_user=solicitud.area_destino)
+            profile__area_user=self.solicitud.area_destino)
         context['responsable'] = responsable
         return context
 
@@ -36,16 +38,31 @@ class TareasCreate(CreateView):
         form = self.get_form()
         if form.is_valid():
             self.user = request.user
-            return self.form_valid(form)
+            self.responsable = request.POST.get('responsable_2')
+            slug_solicitud=self.kwargs['slug']
+            self.solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
+            return self.form_valid(form, self.solicitud)
         else:
-            print(form)
             return self.form_invalid(form)
 
-    def form_valid(self, form):
-        tareas_creation = form.save(commit = False)
-        tareas_creation.solicitante = self.user
-        tareas_creation.estado_solicitud = 1
+    def form_valid(self, form, solicitud):
+        tareas_creation = form.save(commit=False)
+        #tareas_creation.titulo = form.titulo
+        tareas_creation.supervisor = self.user
+        if form['area_destino'].value() == "":
+            tareas_creation.area_destino = solicitud.area_destino
+            respon = get_object_or_404(User, pk=form['responsable'].value())
+            tareas_creation.responsable = respon
+        elif form['area_destino'].value() != "":
+            area = get_object_or_404(Area, pk=form['area_destino'].value())
+            tareas_creation.area_destino = area
+            respon = get_object_or_404(User, pk=self.responsable)
+            tareas_creation.responsable = respon
+        #tareas_creation.fecha_termino = Ver como hacerlo
         tareas_creation.save()
+
+        solicitud.estado_solicitud = 4
+        solicitud.save()
 
         return redirect(self.success_url)
 
@@ -61,6 +78,10 @@ def informe_tareas(request):
 
 class SolicitudTareaList(ListView):
     model = SolicitudTarea
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.exclude(estado_solicitud=4)
 
 class SolicitudTareasCreate(CreateView):
     model = SolicitudTarea
