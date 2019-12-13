@@ -27,5 +27,4 @@ urlpatterns = [
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),
     path('work/', work, name="work"),
-
 ]
