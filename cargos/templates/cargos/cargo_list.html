@@ -10,7 +10,7 @@
   <div class="col-md-8 mx-auto">
     <div class="x_panel">
       <div class="x_title form-inline">
-        <h2>Areas <small>Listado de las areas de la empresa</small></h2>
+        <h2>Cargos <small>Listado de las cargos ordenados por areas</small></h2>
         <div class="ml-auto">
           <a href="{% url 'CargoCreate' %}" class="btn btn-success">Nuevo Cargo</a>
         </div>
@@ -21,8 +21,8 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Area</th>
               <th>Cargo</th>
+              <th>Area</th>
               <th>Opciones</th>
             </tr>
           </thead>
@@ -30,8 +30,8 @@
             {% for cargo in cargo_list %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ cargo.area }}</td>
               <td>{{ cargo.titulo }}</td>
+              <td>{{ cargo.area }}</td>
               <td>
                 <div class="my-auto">
                   <a href="{% url 'CargoUpdate' cargo.slug %}" class="btn btn-warning registro">Modificar</a>

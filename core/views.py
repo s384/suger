@@ -43,7 +43,7 @@ class TypeUserDelete(DeleteView):
 class AreaList(ListView):
     model = Area
     template_name = 'registration/area_list.html'
-    paginate_by = 10
+    #paginate_by = 10
 
 @method_decorator(login_required, name='dispatch')
 class AreaCreate(CreateView):
@@ -91,7 +91,7 @@ class AreaDelete(DeleteView):
 class UserList(ListView):
     model = User
     template_name = 'registration/user_list.html'
-    paginate_by = 10
+    #paginate_by = 10
 
 @method_decorator(login_required, name='dispatch')
 class UserCreate(CreateView):
