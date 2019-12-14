@@ -1,5 +1,7 @@
 from django.db import models
 from registration.models import Area
+from cargos.models import Cargo
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -27,3 +29,11 @@ class Turnos(models.Model):
 	def __str__(self):
 		return self.nombre
 
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.nombre)
+		super(Turnos, self).save(*args, **kwargs)
+
+class DetalleTurnos(models.Model):
+	turno = models.ForeignKey(Turnos, on_delete=models.CASCADE, related_name="turno_detalle")
+	cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, related_name="cargo_detalle")
+	cantidad = models.PositiveSmallIntegerField(default = 0)
