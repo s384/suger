@@ -18,7 +18,8 @@ class Cargo(models.Model):
         ordering = ['area', 'titulo']
 
     def __str__(self):
-        return self.titulo
+        nombre = self.titulo + " - " + self.area.nombre
+        return nombre
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.titulo)

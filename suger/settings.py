@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'cargos',
+    'notificaciones',
     'tareas',
     'turnos',
 ]
@@ -129,7 +130,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 
 # Auth redirects
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # Email config

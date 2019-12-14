@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.db.models import Count
 from registration.models import Area
+from notificaciones.models import Notificacion
 from .models import Tareas, SolicitudTarea
 from .forms import TareasForm, SolicitudTareaForm
 # Create your views here.
@@ -60,6 +61,13 @@ class TareasCreate(CreateView):
             tareas_creation.responsable = respon
         
         tareas_creation.save()
+
+        noti = Notificacion.objects.get_or_create(
+        asunto = "Tarea asignada",
+        descripcion = form['titulo'].value(),
+        usuario = respon,
+        prioridad = form['prioridad'].value()
+            )
 
         solicitud.estado_solicitud = 4
         solicitud.save()
