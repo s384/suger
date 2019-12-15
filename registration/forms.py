@@ -30,10 +30,10 @@ class UserCreationFormWithEmail(UserCreationForm):
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['type_user','area_user','direccion','telefono','cargo_user']
+		fields = ['type_user','direccion','telefono','cargo_user']
 		widgets = {
 			'type_user' : forms.Select(attrs={'class':'form-control'}),
-			'area_user' : forms.Select(attrs={'class':'form-control'}),
+			#'area_user' : forms.Select(attrs={'class':'form-control'}),
 			'direccion' : forms.TextInput(attrs={'class':'form-control'}),
 			'telefono' : forms.TextInput(attrs={'class':'form-control'}),
 			'cargo_user' : forms.Select(attrs={'class':'form-control'}),

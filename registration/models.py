@@ -56,8 +56,8 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     type_user = models.PositiveSmallIntegerField(choices=user_options, default=3)
-    area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
-            null=True, blank=True, related_name="user_area")
+    #area_user = models.ForeignKey(Area, on_delete="CASCADE", verbose_name="Area",
+            #null=True, blank=True, related_name="user_area")
     cargo_user = models.ForeignKey("cargos.Cargo", on_delete="CASCADE", verbose_name="Cargos",
             null=True, blank=True, related_name="user_cargo")
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
