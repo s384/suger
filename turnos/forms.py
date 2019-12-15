@@ -10,12 +10,9 @@ class TurnosForm(forms.ModelForm):
 			'nombre' : forms.TextInput(attrs={'class' : 'form-control'}),
 			'descripcion' : forms.Textarea(attrs={'class' : 'form-control', 'cols' : 8}),
 			'area' : forms.Select(attrs={'class' : 'form-control'}),
-			'tipo_turno' : forms.RadioSelect(attrs={'class' : 'form-control'}),
-			'fecha_inicio' : forms.TimeInput(attrs={'class' : 'form-control'}),
-			'hora_inicio' : forms.DateInput(attrs={'class' : 'form-control'}),
-			'duracion_horas' : forms.TimeInput(attrs={'class' : 'form-control'}),
-			'tipo_continuidad' : forms.RadioSelect(attrs={'class' : 'form-control'}),
-			'fecha_fin' : forms.DateInput(attrs={'class' : 'form-control'}),
+			'duracion_horas' : forms.TextInput(attrs={'class' : 'form-control'}),
+			'tipo_turno' : forms.RadioSelect(attrs={'class' : 'radio'}),
+			'tipo_continuidad' : forms.RadioSelect(attrs={'class' : 'radio'}),
 		}
 
 class DetalleTurnosForm(forms.ModelForm):

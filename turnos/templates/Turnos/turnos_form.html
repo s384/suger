@@ -1,5 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block static %}
+	<link href="{% static 'vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+}
+{% endblock %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
 <div class="row">
@@ -64,7 +68,14 @@
 						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de inicio del turno<span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							{{ form.fecha_inicio }}
+							<div class="form-group">
+								<div class='input-group date' id='myDatepicker2'>
+									<input type='text' class="form-control" name = "fecha_inicio"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -73,7 +84,14 @@
 						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Hora de inicio del turno<span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							{{ form.hora_inicio }}
+							<div class="form-group">
+								<div class='input-group date' id='myDatepicker3' name = "hora_inicio">
+									<input type='text' class="form-control" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -82,7 +100,7 @@
 						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Duración en horas del turno<span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							{{ form.duracion_turno }}
+							{{ form.duracion_horas }}
 						</div>
 					</div>
 
@@ -100,7 +118,14 @@
 						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Fecha de fin del turno<span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							{{ form.fecha_fin }}
+							<div class="form-group">
+								<div class='input-group date' id='myDatepicker4'>
+									<input type='text' class="form-control" name = "fecha_fin"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -116,4 +141,30 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block script %}
+	<!-- bootstrap-daterangepicker -->
+	<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+	<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+	<!-- bootstrap-datetimepicker -->    
+	<script src="{% static 'vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+	<script  type="text/javascript">
+	$(function () {
+				$('#myDatepicker').datetimepicker();
+			});
+	
+	$('#myDatepicker2').datetimepicker({
+		format: 'DD/MM/YYYY'
+	});
+
+	$('#myDatepicker4').datetimepicker({
+		format: 'DD/MM/YYYY'
+	});
+	
+	$('#myDatepicker3').datetimepicker({
+		format: 'hh:mm A'
+	});
+	
+</script>
 {% endblock %}

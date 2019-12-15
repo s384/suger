@@ -15,7 +15,7 @@ class Turnos(models.Model):
 	tipo_turno = models.BooleanField(choices=turn_type)  
 	fecha_inicio = models.DateField()
 	hora_inicio = models.TimeField()
-	duracion_horas = models.PositiveSmallIntegerField(default = 0)
+	duracion_horas = models.DecimalField(default = 7.5, max_digits = 4, decimal_places = 1)
 	tipo_continuidad = models.BooleanField(choices=end_type)
 	fecha_fin = models.DateField(null = True, blank = True)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
