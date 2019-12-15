@@ -29,32 +29,40 @@
 
 
       	<!--tipo de tabla-->
-        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
+        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"  >
           
           <!--encabezados de la tabla-->
           <thead>
             <tr>
+              <th>#</th>
               <th>Nombre</th>
               <th>Area</th>
               <th>Fecha inicio</th>
-              <th>tipo de continuidad</th>
+              <th>Tipo</th>
+              <th>Opciones</th>
             </tr>
           </thead>
 
           <!--contenido de la tabla-->
           <tbody>
-            {% for turno in turno_list %}
+            {% for turno in turnos_list %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
               <td>{{ turno.nombre }}</td>
               <td>{{ turno.area }}</td>
-              <td>{{ turno.fecha_inicio }}</td>
-              <td>{{ turno.tipo_continuidad }}</td>
+              <td>{{ turno.fecha_inicio|date:"d /M /Y" }}</td>
+              <td>
+              {% if turno.tipo_continuidad %}
+              Permanente
+              {% else %}
+              Temporal
+              {% endif %}
+              </td>
               <td>
                 <div class="my-auto">
-                  <a href="{% url 'updateArea' area.id %}" class="btn btn-warning registro">Modificar</a>
+                  <a href="" class="btn btn-warning registro">Modificar</a>
                   <div class="d-block d-md-none w-100"></div>
-                  <a href="{% url 'deleteArea' area.id %}" class="btn btn-danger registro">Eliminar</a>
+                  <a href="" class="btn btn-danger registro">Eliminar</a>
                 </div>
               </td>
             </tr>

@@ -5,7 +5,7 @@ class TurnosForm(forms.ModelForm):
 	class Meta:
 		model = Turnos
 		fields = ["nombre","descripcion","area","tipo_turno","fecha_inicio",
-		"hora_inicio","duracion_horas","tipo_continuidad","fecha_fin",]
+		"hora_inicio","duracion_horas","tipo_continuidad","fecha_fin"]
 		widgets = {
 			'nombre' : forms.TextInput(attrs={'class' : 'form-control'}),
 			'descripcion' : forms.Textarea(attrs={'class' : 'form-control', 'cols' : 8}),

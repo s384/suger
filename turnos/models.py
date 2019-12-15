@@ -20,6 +20,7 @@ class Turnos(models.Model):
 	fecha_fin = models.DateField(null = True, blank = True)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
+	slug = models.SlugField(max_length=100, verbose_name="Slug")
 
 	class Meta:
 		ordering = ['nombre','area']

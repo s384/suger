@@ -23,7 +23,6 @@
 			<!--Contenido de formulario-->
 			<div class="x_content">
 				<br />
-
 				<form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 					{% csrf_token %}
 
@@ -86,7 +85,7 @@
 						<div class="col-md-6 col-sm-6 ">
 							<div class="form-group">
 								<div class='input-group date' id='myDatepicker3' name = "hora_inicio">
-									<input type='text' class="form-control" />
+									<input type='text' class="form-control" name="hora_inicio"/>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -163,7 +162,7 @@
 	});
 	
 	$('#myDatepicker3').datetimepicker({
-		format: 'hh:mm A'
+		format: 'hh:mm:ss'
 	});
 	
 </script>
