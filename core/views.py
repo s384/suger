@@ -9,7 +9,6 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from registration.models import TypeUser, Profile, Area
 from django.contrib.auth.models import User
-from notificaciones.models import Notificacion
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
     ProfileForm, AreaForm, UserActive, UserUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
@@ -160,12 +159,9 @@ def home(request):
         tareas = Tareas.objects.filter(responsable=request.user)
         solicitudes = SolicitudTarea.objects.filter(
             area_destino__boss_user=request.user)
-        notificaciones = Notificacion.objects.filter(usuario=request.user)
-        new_noti = Notificacion.objects.filter(usuario=request.user).exclude(
-                                        estado=1)
         return render(request, 'core/index.html', {
             'tareas':tareas, 'solicitudes':solicitudes,
-            'notificaciones':notificaciones,'new_noti':new_noti})
+            })
     else:
         return render(request, 'registration/login.html')
 
