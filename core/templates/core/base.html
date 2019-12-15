@@ -145,40 +145,53 @@
                 <li role="presentation" class="nav-item dropdown open">
                   <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
+                    {% if new_noti %}
                     <span class="badge bg-green">{{ new_noti.count }}</span>
+                    {% endif %}
                   </a>
                   <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                    {% for noti in notificaciones %}
-                    <li class="nav-item">
-                      <a class="dropdown-item">
-                        <span class="fa fa-table"></span>
-                        <span>
-                          <span>{{ noti.asunto }}</span>
-                          <span class="time">{{ noti.created|date:'d/m/Y' }}</span>
-                        </span>
-                        <span class="message form-inline">
-                          <span>{{ noti.descripcion }}</span>
-                          <span class="float-right">
-                            {% if noti.prioridad == 1 %}
-                              Baja
-                            {% elif noti.prioridad == 2 %}
-                              Media
-                            {% elif noti.prioridad == 3 %}
-                              Alta
-                            {% endif %}
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                    {% endfor %}
-                    <li class="nav-item">
-                      <div class="text-center">
+                    {% if notificaciones %}
+                      {% for noti in notificaciones %}
+                      <li class="nav-item">
                         <a class="dropdown-item">
-                          <strong>Ver todas.</strong>
-                          <i class="fa fa-angle-right"></i>
+                          <span class="fa fa-table"></span>
+                          <span>
+                            <span>{{ noti.asunto }}</span>
+                            <span class="time">{{ noti.created|date:'d/m/Y' }}</span>
+                          </span>
+                          <span class="message form-inline">
+                            <span>{{ noti.descripcion }}</span>
+                            <span class="float-right">
+                              {% if noti.prioridad == 1 %}
+                                Baja
+                              {% elif noti.prioridad == 2 %}
+                                Media
+                              {% elif noti.prioridad == 3 %}
+                                Alta
+                              {% endif %}
+                            </span>
+                          </span>
                         </a>
-                      </div>
-                    </li>
+                      </li>
+                      {% endfor %}
+                      <li class="nav-item">
+                        <div class="text-center">
+                          <a class="dropdown-item">
+                            <strong>Ver todas.</strong>
+                            <i class="fa fa-angle-right"></i>
+                          </a>
+                        </div>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <div class="text-center">
+                          <a class="dropdown-item">
+                            <strong>Estamos al día.</strong>
+                            <i class="fa fa-angle-right"></i>
+                          </a>
+                        </div>
+                      </li>
+                    {% endif %}
                   </ul>
                 </li>
               </ul>

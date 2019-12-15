@@ -112,6 +112,15 @@ class SolicitudTareasCreate(CreateView):
         solicitud_creation.solicitante = self.user
         solicitud_creation.estado_solicitud = 1
         solicitud_creation.save()
+        
+        area_soli = get_object_or_404(Area, pk=form['area_destino'].value())
+        
+        noti = Notificacion.objects.get_or_create(
+        asunto = "Solicitud de tarea pendiente",
+        descripcion = form['titulo'].value(),
+        usuario = area_soli.boss_user,
+        prioridad = form['prioridad'].value()
+        )
 
         return redirect(self.success_url)
 

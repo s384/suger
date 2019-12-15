@@ -26,6 +26,9 @@ class SolicitudTarea(models.Model):
         verbose_name = "Solicitud de tarea"
         verbose_name_plural = "Solicitudes de tareas"
 
+    def __str__(self):
+        return self.titulo
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.titulo)
         super(SolicitudTarea, self).save(*args, **kwargs)
