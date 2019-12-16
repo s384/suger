@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'notificaciones',
     'tareas',
     'turnos',
+    'permisos',
 ]
 
 MIDDLEWARE = [
