@@ -8,14 +8,15 @@ from django.template.defaultfilters import slugify
 class Turnos(models.Model):
 	turn_type = [(0, "Fijo"),(1, "Rotativo")]
 	end_type = [(0,"Temporal"),(1,"Permanente")]
+	cantidad_horas = [(0, "Lunes a Viernes"),(1, "Lunes a Sábado"), (2, "Lunes a Viernes / Sábado")]
 
 	nombre = models.CharField(max_length=100)
 	descripcion = models.TextField(null = True, blank = True)
 	area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="area_turnos")
-	tipo_turno = models.BooleanField(choices=turn_type)  
+	tipo_turno = models.BooleanField(choices=turn_type)
 	fecha_inicio = models.DateField()
 	hora_inicio = models.TimeField()
-	duracion_horas = models.DecimalField(default = 7.5, max_digits = 4, decimal_places = 1)
+	duracion_horas = models.PositiveSmallIntegerField(choices=cantidad_horas)
 	tipo_continuidad = models.BooleanField(choices=end_type)
 	fecha_fin = models.DateField(null = True, blank = True)
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
