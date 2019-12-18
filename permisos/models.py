@@ -32,5 +32,5 @@ class SolicitudPermisos(models.Model):
 		verbose_name_plural = "Solicitudes de permisos"
 
 	def __str__(self):
-		nombre = self.usuario + " - " + self.tipo_permiso + " - " + self.fecha_inicio
+		nombre = self.usuario.get_full_name()
 		return nombre
