@@ -22,3 +22,12 @@ class SolicitudPermisosForm(forms.ModelForm):
 			'horas_permiso' :forms.NumberInput(attrs={'class' : 'form-control'}),
 			'img_referencia' : forms.FileInput(),
 		}
+
+
+class EstadoSolicitudForm(forms.ModelForm):
+	class Meta:
+		model = SolicitudPermisos
+		fields = ['estado_solicitud',]
+		widgets = {
+			'estado_solicitud' : forms.Select(attrs={'class' : 'form-control'}),
+		}

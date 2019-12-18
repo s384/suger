@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block static %}
+{% endblock %}
+
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 mx-auto">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h2>Actualizar permiso  <small></small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+          {% csrf_token %}
+
+          <!--Caja de texto de nombre-->
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre de la sub-area <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              {{ form.estado_solicitud }}
+            </div>
+          </div>
+
+          
+
+          <div class="ln_solid"></div>
+
+          <!-- botones de control -->
+          <div class="item form-group">
+            <div class="col-md-6 col-sm-6 offset-md-3">
+              <button class="btn btn-primary" type="button">Cancelar</button>
+              <input type="submit" class="btn btn-success" value="Actualizar" />
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

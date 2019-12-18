@@ -1,14 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.dispatch import receiver
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.db.models import Count
-from notificaciones.models import Notificacion
 from .models import SolicitudPermisos
-from .forms import SolicitudPermisosForm
+from .forms import SolicitudPermisosForm, EstadoSolicitudForm
 
 
 class SolicitudPermisosList(ListView):
@@ -28,8 +25,8 @@ class SolicitudPermisosForm(CreateView):
         else:
             return self.form_invalid(form)
 
-class SolicitudPermisosUpdate(UpdateView):
+class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos
-    form_class = SolicitudPermisosForm
-    template_name = 'permisos/solicitudpermisos_update.html'
+    form_class = EstadoSolicitudForm
+    template_name_suffix = '_update_form'
     success_url = reverse_lazy('SolicitudPermisosList')

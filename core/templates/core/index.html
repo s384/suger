@@ -6,6 +6,160 @@
 {% endblock %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
+<!-- page content -->
+<div class="">
+<div class="page-title">
+<div class="title_left">
+  <h3>Inicio</h3>
+</div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+  <!-- Datos del usuario -->
+  <div class="col-md-3 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Mis Datos</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <button class="btn btn-primary" type="reset">Ver</button>  
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        <div class="profile_img">
+          <div id="crop-avatar">
+            <img class="img-responsive avatar-view" src="images/img.jpg" alt="Avatar" title="Change the avatar">
+            <div class="ln_solid"></div>
+            <div class="form-group row">
+              <h3>{{ request.user.get_full_name }}</h3>
+              <ul class="list-unstyled user_data">
+                <li><i class="fa fa-map-marker user-profile-icon"></i> {{ request.user.profile.direccion }}
+                </li>
+                <li>
+                  <i class="fa fa-briefcase user-profile-icon"></i> {{ request.user.profile.cargo_user.titulo }}
+                </li>
+                <li class="m-top-xs">
+                  <a href="http://www.kimlabs.com/profile/" target="_blank">{{ request.user.email }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Datos del usuario -->
+  <!-- Horario con los turnos -->
+  <div class="col-md-9 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Horario</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <button class="btn btn-primary" type="reset">Ver</button>  
+          </ul>
+         <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        <div class="ln_solid"></div>
+        <div class="form-group row">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Horario con los turnos -->
+</div>
+  
+<div class="row">
+  <!-- Tareas pendientes del usuario -->
+  <div class="col-md-4 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Tareas Pendientes</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <button class="btn btn-primary" type="reset">Ver</button>  
+        </ul>
+         <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+          <div class="form-group row">
+            {% for solicitud in solicitudes %}
+            <div class="col-12">
+              <p>
+                <button class="btn btn-block {% if solicitud.prioridad == 1 %}
+                btn-outline-success
+              {% elif solicitud.prioridad == 2 %}
+                btn-outline-warning
+              {% elif solicitud.prioridad == 3 %}
+                btn-outline-danger
+              {% endif %}" type="button" data-toggle="collapse" data-target="#collapseExample{{solicitud.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                  {{ solicitud.titulo }}
+                </button>
+              </p>
+              <div class="collapse mb-2" id="collapseExample{{solicitud.pk}}">
+                <div class="card card-body">
+                  {{ solicitud.descripcion|truncatechars:100 }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        <div class="ln_solid"></div>
+        </div>
+      </div>
+  </div>
+  <!-- /Tareas pendientes del usuario -->
+  <!-- Rendimiento de tareas -->
+  <div class="col-md-4">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Rendimiento de Tareas</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <button class="btn btn-primary" type="reset">Ver</button>  
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+         <br />
+        <div class="ln_solid"></div>
+          <div class="form-group row">
+            <div class="col-md-9 col-sm-9  offset-md-3">
+              
+            </div>
+          </div>
+        </div>
+     </div>
+  </div>
+  <!-- /Rendimiento de tareas -->
+  <!-- Turnos disponibles -->
+  <div class="col-md-4 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Turnos Disponibles</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <button class="btn btn-primary" type="reset">Ver</button>  
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="x_content">
+        <br />
+        <div class="ln_solid"></div>
+          <div class="form-group row">
+             <div class="col-md-9 col-sm-9  offset-md-3">
+              
+             </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- Turnos disponibles -->
+</div>
+
 <div class="row">
   <div class="col-md-8 mx-auto">
     {% if tareas %}
