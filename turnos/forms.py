@@ -1,5 +1,6 @@
 from django import forms
 from .models import Turnos, DetalleTurnos
+from cargos.models import Cargo
 
 class TurnosForm(forms.ModelForm):
 	class Meta:
@@ -25,6 +26,15 @@ class DetalleTurnosForm(forms.ModelForm):
 		model = DetalleTurnos
 		fields = ["cargo","cantidad"]
 		widgets = {
-			'cargo' : forms.SelectMultiple(attrs = {'class' : 'form-control'}),
+			'cargo' : forms.SelectMultiple(attrs = {'class' : 'form-control',
+					  'style':'height:300px'}),
 			'cantidad' : forms.NumberInput(attrs = {'class' : 'form-control'}),
+		}
+
+class CargosForm(forms.ModelForm):
+	class Meta:
+		model = Cargo
+		fields = ['titulo']
+		widgets = {
+			'titulo' : forms.SelectMultiple(attrs = {'class' : 'form-control'})
 		}

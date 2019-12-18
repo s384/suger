@@ -2,6 +2,8 @@ from django.db import models
 from registration.models import Area
 from cargos.models import Cargo
 from django.template.defaultfilters import slugify
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -37,5 +39,6 @@ class Turnos(models.Model):
 
 class DetalleTurnos(models.Model):
 	turno = models.ForeignKey(Turnos, on_delete=models.CASCADE, related_name="turno_detalle")
-	cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, related_name="cargo_detalle")
-	cantidad = models.PositiveSmallIntegerField(default = 0)
+	cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, 
+		related_name="cargo_detalle", null=True, blank=True)
+	cantidad = models.PositiveSmallIntegerField(default=0)

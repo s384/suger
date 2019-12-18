@@ -1,2 +1,29 @@
 {% extends 'core/base.html' %}
-{{ form.as_p }}
+{% load static %}
+
+{% block static %}
+  <!-- My Custom Theme Style -->
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/datatables.net-bs/css/dataTables.bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 mx-auto">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h2>Actualizar permiso  <small></small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        {{ form.as_p }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
