@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
@@ -24,6 +24,20 @@ class SolicitudPermisosForm(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def form_valid(self, form):
+        permisos_form = form.save(commit=False)
+        permisos_form.usuario = self.request.user
+        permisos_form.save()
+        '''
+        noti = Notificacion.objects.get_or_create(
+        asunto = "Tarea asignada",
+        descripcion = form['titulo'].value(),
+        usuario = respon,
+        prioridad = form['prioridad'].value()
+        )
+        '''
+        return redirect(self.success_url)
 
 class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos
