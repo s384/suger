@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block static %}
+
+{% endblock %}
+{% block title %}Seleccione los cargos{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+
+            <!--Encabezado de formulario-->
+            <div class="x_title">
+                <h2>Agrege trabajadores<small>Selecciones los trabajadores para los cargos</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <!--Contenido de formulario-->
+            <div class="x_content">
+                <br />
+                <form method="POST" action="" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    {% csrf_token %}
+                    <!-- Nombre del turno -->
+                    {% for cargo in cargos_turno %}
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">{{ cargo.cargo.titulo }}<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <select name="cargo" multiple="multiple" id="id_cargo" style="height:300px" class="form-control">
+                            {% for usuarios in contador %}
+                              <option value="{{ usuarios.pk }}">{{ usuarios.get_full_name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-6 offset-md-3">
+                            <a href="{% url 'TurnosList' %}" class="btn btn-primary" type="button">Cancelar</a>
+                            <input type="submit" class="btn btn-success" value="Siguiente" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    
+{% endblock %}

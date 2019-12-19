@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+from django.contrib.auth.models import User
 from cargos.models import Cargo
 from .models import Turnos, DetalleTurnos
 from .forms import TurnosForm, DetalleTurnosForm, CargosForm
@@ -48,13 +49,27 @@ class TurnosUpdate(UpdateView):
 class DetalleTurnosList(ListView):
     model = DetalleTurnos
 
+# Asignacion manual de los negros a los turnos
+def AsignarNegrosTurno(request, pk):
+    turno_obtenido = Turnos.objects.get(pk=pk)
+    cargos_turno = DetalleTurnos.objects.filter(turno=turno_obtenido)
+    context = {'cargos_turno':cargos_turno}
+    for i in cargos_turno:
+        usuarios_cargo = User.objects.filter(profile__cargo_user=i.cargo)
+        context[i.cargo.slug] = usuarios_cargo
+
+    print(context)
+
+    return render(request, 'turnos/agregar_usuarios_form.html', context)
+
 def CrearDetalleTurnosCicloFor(request, pk):
-    turno = Turnos.objects.get(pk=pk)
+    turno_obtenido = Turnos.objects.get(pk=pk)
     cargos = request.POST
     for variable in cargos:
         if variable != 'csrfmiddlewaretoken':
-            cargo = Cargo.objects.get(titulo=variable)
-            detail_turn = DetalleTurnos(turno=turno,
+            cargo_filtrado = Cargo.objects.filter(area=turno_obtenido.area)
+            cargo = cargo_filtrado.get(titulo=variable)
+            detail_turn = DetalleTurnos(turno=turno_obtenido,
                 cargo=cargo, cantidad=request.POST.get(variable))
             detail_turn.save()
 
