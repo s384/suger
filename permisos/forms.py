@@ -15,6 +15,7 @@ class SolicitudPermisosForm(forms.ModelForm):
 			'img_referencia'
 		]
 		widgets = {
+			'titulo' : forms.TextInput(attrs={'class' : 'form-control'}),
 			'comentario' : forms.Textarea(attrs={'class' : 'form-control', 'cols' : 8}),
 			'tipo_permiso' : forms.Select(attrs={'class' : 'form-control'}),
 			'tipo_jornada' : forms.Select(attrs={'class' : 'form-control'}),

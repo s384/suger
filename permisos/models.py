@@ -23,7 +23,7 @@ class SolicitudPermisos(models.Model):
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
 
 	class Meta:
-		ordering = ['created']
+		ordering = ['fecha_inicio']
 		verbose_name = "Solicitud de permiso"
 		verbose_name_plural = "Solicitudes de permisos"
 

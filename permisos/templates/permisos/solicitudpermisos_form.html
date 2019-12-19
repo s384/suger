@@ -1,1 +1,153 @@
-{{ form.as_p }}
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block static %}
+	<link href="{% static 'vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+}
+{% endblock %}
+
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col-md-12 col-sm-12 ">
+		<div class="x_panel">
+
+			<div class="x_title">
+				<h2>Nueva solicitud de Permiso <small>Formulario para la solicitud de permisos, vacaciones, ect.
+				</small></h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="x_content">
+
+				<br />
+
+				<form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+					{% csrf_token %}
+
+					<!--Titulo-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Titulo para la solicitud<span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.titulo }}
+						</div>
+					</div>
+
+					<!--Comentario-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Comentarios o detalle de la solicitud <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.comentario }}
+						</div>
+					</div>
+					
+					<!--Tipo permiso-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo de permiso a solicitar <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.tipo_permiso }}
+						</div>
+					</div>
+					
+					<!--Tipo jornada-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Titulo para la solicitud<span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.titulo }}
+						</div>
+					</div>
+					
+					<!--Fecha de incio-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Titulo para la solicitud<span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<div class="form-group">
+								<div class='input-group date' id='myDatepicker2'>
+									<input type='text' class="form-control" name = "fecha_inicio"/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--Dias Permiso-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Días para permiso <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.dias_permiso }}
+						</div>
+					</div>
+
+					<!--Horas Permiso-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Horas para permiso <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.horas_permiso }}
+						</div>
+					</div>
+
+					<!--imagen de ferencia-->
+					<div class="item form-group">
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Imagen o archivo de referncia <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							{{ form.img_referencia }}
+						</div>
+					</div>
+
+					
+					<div class="ln_solid"></div>
+					
+					<!--Botonera de formulario-->
+					<div class="item form-group">
+						<div class="col-md-6 col-sm-6 offset-md-3">
+							<button class="btn btn-primary" type="button">Cancelar</button>
+							<input type="submit" class="btn btn-success" value="Grabar" />
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block script %}
+	<!-- bootstrap-daterangepicker -->
+	<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+	<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+	<!-- bootstrap-datetimepicker -->    
+	<script src="{% static 'vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+	<script  type="text/javascript">
+		$(function () {
+					$('#myDatepicker').datetimepicker();
+				});
+		
+		$('#myDatepicker2').datetimepicker({
+			format: 'DD/MM/YYYY'
+		});
+
+		$('#myDatepicker4').datetimepicker({
+			format: 'DD/MM/YYYY'
+		});
+		
+		$('#myDatepicker3').datetimepicker({
+			format: 'hh:mm:ss'
+		});
+	</script>
+{% endblock %}
