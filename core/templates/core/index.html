@@ -64,6 +64,11 @@
           </div>
           <div class="x_content">
             <br />
+            {% for dia in horario %}
+            <p>{{dia.dia_semana|date:'d/m/Y'}} {{dia.hora_inicio}}
+            - {{dia.hora_fin}}</p>
+            {% endfor %}
+            <!--
             <div class="table-responsive">
               <table class="table table-striped jambo_table bulk_action">
                 <thead>
@@ -135,6 +140,7 @@
                 </tbody>
               </table>
             </div>
+            !-->
               <div class="ln_solid"></div>
               <ul class="nav navbar-right panel_toolbox">
                 <li> <h6>HORAS TRABAJADAS: 24/45</h6>

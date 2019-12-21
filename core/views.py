@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
     ProfileForm, AreaForm, UserActive, UserUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
+# Para el horario
+from datetime import timedelta, date, time, datetime
+from turnos.models import HorarioUsuario
 
 @method_decorator(login_required, name='dispatch')
 class TypeUserList(ListView):
@@ -159,9 +162,20 @@ def home(request):
         tareas = Tareas.objects.filter(responsable=request.user)
         solicitudes = SolicitudTarea.objects.filter(
             area_destino__boss_user=request.user)
-        return render(request, 'core/index.html', {
-            'tareas':tareas, 'solicitudes':solicitudes,
-            })
+        inicio_semana = datetime.today()-timedelta(days=datetime.today().weekday())
+        dias_restantes = 7 - datetime.today().isoweekday() 
+        fin_semana = datetime.today()+timedelta(days=dias_restantes)
+        #.filter(dia_semana=)
+        horario = HorarioUsuario.objects.filter(
+            turno_usuario__usuario=request.user).filter(
+            dia_semana__range=[inicio_semana, fin_semana])
+        context = {
+        'tareas':tareas, 
+        'solicitudes':solicitudes,
+        'horario':horario,
+        }
+
+        return render(request, 'core/index.html', context)
     else:
         return render(request, 'registration/login.html')
 

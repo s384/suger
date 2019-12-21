@@ -30,7 +30,7 @@ class TareasCreate(CreateView):
         self.solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
         context['solicitud'] = self.solicitud
         responsable = User.objects.filter(profile__type_user=3).filter(
-            profile__area_user=self.solicitud.area_destino)
+            profile__cargo_user__area=self.solicitud.area_destino)
         context['responsable'] = responsable
         return context
 

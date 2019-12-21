@@ -76,7 +76,7 @@
               <select name="responsable_2" id="id_responsable" class="form-control">
                 <option value="" selected="">---------</option>
                 {% for trabajador in trabajadores %}
-                  <option value="{{ trabajador.pk }}">{{ trabajador.get_full_name }}</option>
+                  <option value="{{ trabajador.pk }}">{{ trabajador.get_full_name }} - {{ trabajador.profile.cargo_user.area }}</option>
                 {% endfor %}
               </select>
             </div>

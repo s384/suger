@@ -1,5 +1,6 @@
 from django.db import models
 from registration.models import Area
+from django.contrib.auth.models import User
 from cargos.models import Cargo
 from django.template.defaultfilters import slugify
 from django.dispatch import receiver
@@ -42,3 +43,34 @@ class DetalleTurnos(models.Model):
 	cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, 
 		related_name="cargo_detalle", null=True, blank=True)
 	cantidad = models.PositiveSmallIntegerField(default=0)
+
+
+class TurnoUsuario(models.Model):
+	turno = models.ForeignKey(Turnos, on_delete=models.CASCADE, related_name="turno_usuario")
+	usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="usuario_turno")
+
+	def __str__(self):
+		nombre = (self.turno.nombre + " - " + self.usuario.get_full_name() + 
+			" - " + self.usuario.profile.cargo_user.titulo + 
+			" - " + self.usuario.profile.cargo_user.area.nombre)
+		return nombre
+
+class HorarioUsuario(models.Model):
+	inter = [(0,'Trabajado'), (1,'Intercambiado')]
+	traba = [(0,'Trabajado'), (1,'Ausencia')]
+
+	turno_usuario = models.ForeignKey(TurnoUsuario, on_delete=models.CASCADE,
+					related_name="horario_turno")
+	dia_semana = models.DateField(null=True, blank=True)
+	hora_inicio = models.TimeField(null=True, blank=True)
+	hora_fin = models.TimeField(null=True, blank=True)
+	# Estado para intercambios de turnos
+	intercambio = models.BooleanField(default=0, choices=inter)
+	# Estado para cambio en solicitudes de permisos
+	trabajado = models.BooleanField(default=0, choices=traba)
+
+	def __str__(self):
+		nombre = (self.turno_usuario.usuario.get_full_name() + " " +
+			self.dia_semana.strftime("%a %d/%m") + " " +
+			str(self.hora_inicio))
+		return nombre
