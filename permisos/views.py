@@ -5,11 +5,24 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import SolicitudPermisos
+from django.contrib.auth.models import User
 from .forms import SolicitudPermisosForm, EstadoSolicitudForm
 
 
 class SolicitudPermisosList(ListView):
     model = SolicitudPermisos
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 1:
+            return qs
+        elif usuario.profile.type_user == 2:
+            qs = qs.filter(usuario__profile__cargo_user__area__boss_user  = usuario)
+            return qs
+        elif usuario.profile.type_user == 3:
+            qs = qs.filter(usuario = self.request.user)
+        return qs.exclude(estado_solicitud=4)
 
 class SolicitudPermisosForm(CreateView):
     model = SolicitudPermisos
@@ -43,4 +56,10 @@ class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos
     form_class = EstadoSolicitudForm
     template_name_suffix = '_update_form'
+    success_url = reverse_lazy('SolicitudPermisosList')
+
+class EstadoSolicitudUpdateTrabajador(UpdateView):
+    model = SolicitudPermisos
+    form_class = EstadoSolicitudForm
+    template_name_suffix = '_update_form_trabajador'
     success_url = reverse_lazy('SolicitudPermisosList')

@@ -12,12 +12,11 @@ class SolicitudPermisos(models.Model):
 	usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="usuarios_solicitudes_permisos")
 	comentario = models.TextField()
 	tipo_permiso = models.PositiveSmallIntegerField(choices = tipos_permisos)
-	tipo_jornada = models.PositiveSmallIntegerField(choices = tipos_jornadas, null = True ,blank = True)
 	fecha_inicio = models.DateField()
 	dias_permiso = models.PositiveSmallIntegerField(default = 1)
 	horas_permiso = models.PositiveSmallIntegerField(null = True ,blank = True)
 	img_referencia = models.ImageField(upload_to = "Permisos", null = True ,blank = True)
-	estado_solicitud = models.PositiveSmallIntegerField(choices=opciones_estado, default = 1)
+	estado_solicitud = models.PositiveSmallIntegerField(choices=opciones_estado, default = 2)
 
 	created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
 	updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")

@@ -10,7 +10,7 @@
   <div class="col-md-10 mx-auto">
     <div class="x_panel">
       <div class="x_title form-inline">
-        <h2>Actualizar permiso  <small></small></h2>
+        <h2>Actualizar estado del permiso <small>aprobar o rechazar estado de la solicitud</small></h2>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -18,23 +18,36 @@
 
           {% csrf_token %}
 
-          <!--Caja de texto de nombre-->
+          <!--información asociada a la solicitud-->
+
+          {{ object.titulo }}
+          <br>
+          {{ object.comentario }}
+          <br>
+          {{ object.tipo_permiso }}
+          <br>
+          {{ object.fecha_inicio }}
+          <br>
+          {{ object.dias_permiso }}
+          <br>
+          {{ object.img_referencia }}
+
+
+          <!--Caja de texto de estado de solicitud-->
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre de la sub-area <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Estado de la solicitud <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               {{ form.estado_solicitud }}
             </div>
           </div>
 
-          
-
           <div class="ln_solid"></div>
 
           <!-- botones de control -->
           <div class="item form-group">
             <div class="col-md-6 col-sm-6 offset-md-3">
-              <button class="btn btn-primary" type="button">Cancelar</button>
+              <a href="{% url 'SolicitudPermisosList' %}" class="btn btn-primary">Cancelar</a>
               <input type="submit" class="btn btn-success" value="Actualizar" />
             </div>
           </div>

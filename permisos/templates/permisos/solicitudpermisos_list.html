@@ -24,32 +24,71 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
+
         <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
+
           <thead>
             <tr>
               <th>usuario</th>
               <th>tipo permiso</th>
-              <th>tipo jornada</th>
+              <th>fecha creación</th>
               <th>fecha inicio</th>
               <th>dias permiso</th>
               <th>horas permiso</th>
+              <th>estado solicitud</th>
+              <th>cambiar estado</th>
             </tr>
           </thead>
+
           <tbody>
             {% for permisos in solicitudpermisos_list %}
             <tr>
-              <td>{{ permisos.usuario }}</td>
-              <td>{{ permisos.tipo_permiso }}</td>
-              <td>{{ permisos.tipo_jornada }}</td>
+              <td>{{ permisos.usuario.get_full_name }}</td>
+              <td>
+                {% if permisos.tipo_permiso == 0 %}
+                  Ausencia
+                {% elif permisos.tipo_permiso == 1 %}
+                  Permiso Administrativo
+                {% elif permisos.tipo_permiso == 2 %}
+                  Vacaciones
+                {% elif permisos.tipo_permiso == 3 %}
+                  Licencia Médica
+                {% elif permisos.tipo_permiso == 4 %}
+                  Atraso
+                {% elif permisos.tipo_permiso == 5 %}
+                  Salida Anticipada
+                {% endif %}
+              </td>
+              <td>{{ permisos.created }}</td>
               <td>{{ permisos.fecha_inicio }}</td>
               <td>{{ permisos.dias_permiso }}</td>
               <td>{{ permisos.horas_permiso }}</td>
               <td>
-                <div class="my-auto">
-                  <a href="{% url 'EstadoSolicitudUpdate' permisos.pk %}" class="btn btn-warning registro">Cambiar estado</a>
-                  
-                </div>
+                {% if permisos.estado_solicitud == 1 %}
+                  No Revisado
+                {% elif permisos.estado_solicitud == 2 %}
+                  En revisión
+                {% elif permisos.estado_solicitud == 3 %}
+                  Rechazada
+                {% elif permisos.estado_solicitud == 4 %}
+                  Aprovada  
+                {% endif %}
               </td>
+
+              {% if request.user.profile.type_user == 3 %}
+                <td>
+                  <div class="my-auto">
+                    <a href="{% url 'EstadoSolicitudUpdateTrabajador' permisos.pk %}" class="btn btn-warning registro">Modificar Solicitud</a>
+                  </div>
+                </td>
+              {% else %}
+                <td>
+                  <div class="my-auto">
+                    <a href="{% url 'EstadoSolicitudUpdate' permisos.pk %}" class="btn btn-warning registro">Cambiar estado</a>
+                  </div>
+                </td>
+              {% endif %}
+              
             </tr>
             {% endfor %}
           </tbody>
