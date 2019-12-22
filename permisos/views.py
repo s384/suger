@@ -6,7 +6,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import SolicitudPermisos
 from django.contrib.auth.models import User
-from .forms import SolicitudPermisosForm, EstadoSolicitudForm
+from .forms import (SolicitudPermisosForm, EstadoSolicitudForm,
+    TrabajadorSolicitudForm)
 
 
 class SolicitudPermisosList(ListView):
@@ -60,6 +61,6 @@ class EstadoSolicitudUpdate(UpdateView):
 
 class EstadoSolicitudUpdateTrabajador(UpdateView):
     model = SolicitudPermisos
-    form_class = EstadoSolicitudForm
+    form_class = TrabajadorSolicitudForm
     template_name_suffix = '_update_form_trabajador'
     success_url = reverse_lazy('SolicitudPermisosList')
