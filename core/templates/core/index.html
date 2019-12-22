@@ -64,89 +64,33 @@
           </div>
           <div class="x_content">
             <br />
-            {% for dia in horario %}
-            <p>{{dia.dia_semana|date:'d/m/Y'}} {{dia.hora_inicio}}
-            - {{dia.hora_fin}}</p>
-            {% endfor %}
-            <!--
-            <div class="table-responsive">
-              <table class="table table-striped jambo_table bulk_action">
+            <div class="table-responsive" >
+              <table class="table table-bordered">
                 <thead>
-                  <tr class="headings">
-                    <th class="column-title">LUNES</th>
-                    <th class="column-title">MARTES</th>
-                    <th class="column-title">MIERCOLES</th>
-                    <th class="column-title">JUEVES</th>
-                    <th class="column-title">VIERNES</th>
-                    <th class="column-title">SABADO</th>
-                    <th class="column-title">DOMINGO</th>
-                    <th class="bulk-actions" colspan="7">
-                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                    </th>
+                  <tr>
+                    <th>Dia Semana</th>
+                    <th>Hora inicio</th>
+                    <th>Hora de fin</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  <tr class="even pointer">
-                    <td>08:00-17:00</td>
-                    <td>08:00-17:00</td>
-                    <td>08:00-17:00</td>
-                    <td>08:00-17:00</td>
-                    <td>08:00-17:00</td>
-                    <td>08:00-13:00</td>
-                    <td> -  - - </td>
-                    
-
-                  </tr>
-                  <tr class="odd pointer">
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class="a-right a-right "></td>
-                    <td class=" last"><a href="#"></a>
+                  {% now 'd F Y' as current_date %}
+                  {% for dia in horario %}
+                  <tr class="{% if current_date == dia.dia_semana|date:'d F Y' %}bg-secondary{% endif %}">
+                    <th scope="row">{{dia.dia_semana|date:'l'}}</th>
+                    <td>{% if dia.hora_inicio %}
+                    {{ dia.hora_inicio }}
+                    {% else %}Libre{% endif %}
+                    </td>
+                    <td>{% if dia.hora_fin %}
+                    {{ dia.hora_fin }}
+                    {% else %}Libre{% endif %}
                     </td>
                   </tr>
-                  <tr class="even pointer">
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class="a-right a-right "></td>
-                    <td class=" last"><a href="#"></a>
-                    </td>
-                  </tr>
-                  <tr class="odd pointer">
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class=" "></td>
-                    <td class="a-right a-right "></td>
-                    <td class=" last"><a href="#"></a>
-                    </td>
-                  </tr>
-                  <tr class="even pointer">
-                    <td> HORA EXTRA (1)</td>
-                    <td></td>
-                    <td> HORA EXTRA (2)</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
-            !-->
-              <div class="ln_solid"></div>
-              <ul class="nav navbar-right panel_toolbox">
-                <li> <h6>HORAS TRABAJADAS: 24/45</h6>
-                    <h6>HORAS EXTRAS: 3</h6>
-                </li>
-              </ul>
           </div>
         </div>
     </div>
