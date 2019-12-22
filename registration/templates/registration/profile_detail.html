@@ -12,13 +12,13 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="row justify-content-center">
-          <div class="col-md-auto col-xd-12">
+        <div class="row justify-content-left">
+          <div class="col-md-3 col-xd-3">
             <div class="product-image">
-              <img src="{% static 'imgs/prod-1.jpg' %}" style="height: 200px; width: auto;">
+              <img src="{% static 'imgs/img.jpg' %}" style="height: 300px; width: auto;">
             </div>
           </div>
-          <div class="col-md-4 col-xs-12">
+          <div class="col-md-3 col-xs-12">
             <div class="col-12">
               <h3 class="prod_title">Direccion</h3>
               <p>{{ user.profile.direccion }}</p>
@@ -27,14 +27,13 @@
               <h3 class="prod_title">Telefono</h3>
               <p>{{ user.profile.telefono }}</p>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-xs-12">
+            <div class="col-12">
             <h3 class="prod_title">Correo</h3>
             <p>{{ user.email }}</p>
           </div>
-          <div class="col-md-4 col-xs-12">
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <div class="col-12">
             <h3 class="prod_title">Tipo de usuario</h3>
             <p>
               {% if user.profile.type_user == 1 %}
@@ -46,7 +45,11 @@
               {% endif %}
           </p>
           </div>
-          <div class="col-md-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="prod_title">Area</h3>
+            <p>{{ user.profile.cargo_user.area.nombre }}</p>
+          </div>
+          <div class="col-12">
             <h3 class="prod_title">Estado</h3>
             <p>{% if user.is_active %}Activo{% else %}Deshabilitado{% endif %}</p>
           </div>
@@ -54,5 +57,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

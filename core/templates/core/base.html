@@ -48,7 +48,9 @@
                 <ul class="nav side-menu">
                   <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Inicio</a>
                   </li>
+                  	{% if request.user.profile.type_user <= 2%}
                   <li><a><i class="fa fa-edit"></i> Mantenedores <span class="fa fa-chevron-down"></span></a>
+                  	{% endif %}
                     <ul class="nav child_menu">
                       <li><a href="{% url 'user' %}">Usuarios</a></li>
                       <li><a href="{% url 'area' %}">Areas</a></li>
@@ -59,7 +61,9 @@
                   <li><a><i class="fa fa-table"></i> Tareas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'listTareas' %}">Tareas</a></li>
+                      {% if request.user.profile.type_user <= 2%}
                       <li><a href="{% url 'listSolicitudTarea' %}">Solicitud de Tareas</a></li>
+                      {% endif %}
                     </ul>
                   </li>
 

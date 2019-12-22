@@ -23,7 +23,7 @@
       <div class="x_title">
         <h2>Mis Datos</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <button class="btn btn-primary" type="reset">Ver</button>  
+          <a class="btn btn-primary" href="{% url 'detailUser' request.user.pk %}">Ver</a>  
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -58,7 +58,7 @@
           <div class="x_title">
             <h2>Horario</h2>
               <ul class="nav navbar-right panel_toolbox">
-                 <button class="btn btn-primary" type="reset">Ver</button>  
+                 <a class="btn btn-primary" href="{% url 'TurnosList' %}">Ver</a>  
               </ul>
              <div class="clearfix"></div>
           </div>
@@ -105,7 +105,7 @@
       <div class="x_title">
         <h2>Tareas Pendientes</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <button class="btn btn-primary" type="reset">Ver</button>  
+          <a class="btn btn-primary" href="{% url 'listTareas' %}">Ver</a>  
         </ul>
          <div class="clearfix"></div>
       </div>
@@ -142,9 +142,9 @@
   <div class="col-md-4">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Rendimiento de Tareas</h2>
+        <h2>Cambios de Turno</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <button class="btn btn-primary" type="reset">Ver</button>  
+          <a class="btn btn-primary" href="{% url 'SolicitudPermisosList' %}">Ver</a>   
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -164,9 +164,9 @@
   <div class="col-md-4 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Turnos Disponibles</h2>
+        <h2>Permisos</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <button class="btn btn-primary" type="reset">Ver</button>  
+          <a class="btn btn-primary" href="{% url 'SolicitudPermisosList' %}">Ver</a>   
         </ul>
         <div class="clearfix"></div>
       </div>
