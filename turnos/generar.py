@@ -12,7 +12,7 @@ def generar_horario(request, pk):
 	fecha_inicio = turno_obtenido.fecha_inicio
 	rotacion = turno_obtenido.tipo_turno
 	
-	
+	# Obtenemos el tipo de turno y le asignamos la cantidad de horas a utilizar
 	if turno_obtenido.duracion_horas == 0:
 		print("Turno de lunes a viernes, opcion 0")
 		# Lunes a viernes
@@ -44,9 +44,11 @@ def generar_horario(request, pk):
 	dias_turno = fecha_fin - fecha_inicio
 	print("Duracion del turno: {}".format(dias_turno))
 			
-	# Si el turno es fijo, establecemos la hora de fin
+	# Establecemos el horario de inicio del turno
 	hora_inicio = turno_obtenido.hora_inicio
 
+	# Por cada detalle del turno generamos un ciclo,
+	# esto corresponde a cada cargo 
 	for detail in detalle:
 		print("Cargo seleccionado {}".format(detail.cargo.titulo))
 		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
@@ -129,20 +131,31 @@ def generar_horario(request, pk):
 							hora_inicio_guardada, hora_fin_guardada)
 
 				elif turno_dias == 2:
-					if dia_ciclo.weekday() in range(0,5):
-						# El rango es de 0 a 4 (Lunes a viernes)
-						# Lunes a viernes 8 horas
-						hora_inicio_guardada = hora_inicio
-						hora_fin_guardada = hora_fin
-					elif dia_ciclo.weekday() == 5:
-						# Sabado.weekday = 5
-						# Sabado 5 horas
-						hora_inicio_guardada = hora_inicio
-						hora_fin_guardada = (datetime.combine(date.today(), 
-								hora_inicio) + duracion_sabado).time()
+					if not (contador-1) % 2:
+						if dia_ciclo.weekday() in range(0,5):
+							# El rango es de 0 a 4 (Lunes a viernes)
+							# Lunes a viernes 8 horas
+							hora_inicio_guardada = hora_inicio
+							hora_fin_guardada = hora_fin
+						elif dia_ciclo.weekday() == 5:
+							# Sabado.weekday = 5
+							# Sabado 5 horas
+							print("Dia sabado")
+							print(dia_ciclo)
+							hora_inicio_guardada = hora_inicio
+							hora_fin_guardada = (datetime.combine(date.today(), 
+									hora_inicio) + duracion_sabado).time()
+						else:
+							hora_inicio_guardada = None
+							hora_fin_guardada = None
 					else:
-						hora_inicio_guardada = None
-						hora_fin_guardada = None
+						if dia_ciclo.weekday() in range(0,5):
+							# Lunes a viernes
+							hora_inicio_guardada = hora_inicio
+							hora_fin_guardada = hora_fin
+						else:
+							hora_inicio_guardada = None
+							hora_fin_guardada = None
 
 					guardar_turno(turno_usuario, dia_ciclo,
 							hora_inicio_guardada, hora_fin_guardada)
