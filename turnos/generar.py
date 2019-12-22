@@ -11,7 +11,7 @@ def generar_horario(request, pk):
 	detalle = DetalleTurnos.objects.filter(turno=turno_obtenido)
 	fecha_inicio = turno_obtenido.fecha_inicio
 	rotacion = turno_obtenido.tipo_turno
-	hora_inicio = turno_obtenido.hora_inicio
+	
 	
 	if turno_obtenido.duracion_horas == 0:
 		print("Turno de lunes a viernes, opcion 0")
@@ -45,33 +45,55 @@ def generar_horario(request, pk):
 	print("Duracion del turno: {}".format(dias_turno))
 			
 	# Si el turno es fijo, establecemos la hora de fin
-	if not rotacion:
-		hora_fin = (datetime.combine(date.today(), hora_inicio) +
-				duracion_horas).time()
+	hora_inicio = turno_obtenido.hora_inicio
 
 	for detail in detalle:
 		print("Cargo seleccionado {}".format(detail.cargo.titulo))
 		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
 		usuario_azar = usuario_obtenido.order_by('?')[:detail.cantidad]
 		print("usuarios seleccionado {}".format(usuario_azar))
-		# Guardamos los usuarios al modelo turnousuario
 		for usuario_guardar in usuario_azar:
+			print("Rotacion para el usuario {}".format(usuario_guardar.get_full_name()))
+			# Reiniciamos la hora inicio para el siguiente usuario
+			hora_inicio = turno_obtenido.hora_inicio
+			# Guardamos el turno_usuario
 			turno_usuario = TurnoUsuario(turno=turno_obtenido,
 					usuario=usuario_guardar)
 			turno_usuario.save()
-
+			# Creamos un contador para consultar la rotacion
+			contador = 0
+			# Recorremos el rango de fechas
 			for i in range((fecha_fin - fecha_inicio).days + 1):
 				dia_ciclo = fecha_inicio + timedelta(days=i)
 
+				#print("El turno comienza a las {}".format(hora_inicio))
+				
 				# Si rotacion es verdadero, hacer calculo horario
-				print("El turno comienza a las {}".format(hora_inicio))
 				if rotacion:
-					if dia_ciclo.weekday() == 0:
-						print("Rotacion de turno el dia {}".format(dia_ciclo))
-						hora_inicio = (datetime.combine(date.today(), hora_inicio) +
-								duracion_horas).time()
+					# Para el turno numero 3, en opcion rotativa, el turno de 
+					# noche es de lunes a viernes, no trabajan el sabado medio dia
 
-				'''
+					# Dia de la semana = a domingo
+					if dia_ciclo.weekday() == 0:
+						print("Cambio numero {}".format(contador))
+						# Si es el segundo cambio
+						if contador % 2:
+							hora_inicio = turno_obtenido.hora_inicio
+							hora_inicio = (datetime.combine(date.today(), hora_inicio) +
+									duracion_horas + timedelta(minutes=30)).time()
+						else:
+							hora_inicio = turno_obtenido.hora_inicio
+						
+						contador += 1
+						print("Rotacion de turno el dia {}".format(dia_ciclo))
+
+				print("El turno {} comienza a las {}".format(dia_ciclo, hora_inicio))
+
+				hora_fin = (datetime.combine(date.today(), hora_inicio) +
+							duracion_horas).time()
+
+				print("El turno {} termina a las {}".format(dia_ciclo, hora_fin))
+				
 				if turno_dias == 0:
 					if dia_ciclo.weekday() in range(0,5):
 						# Lunes a viernes
@@ -85,14 +107,23 @@ def generar_horario(request, pk):
 							hora_inicio_guardada, hora_fin_guardada)
 
 				elif turno_dias == 1:
-					if dia_ciclo.weekday() in range(0,6):
-						# El rango es de 0 a 5 (Lunes a sabado)
-						# Lunes a sabado 7.5 horas
-						hora_inicio_guardada = hora_inicio
-						hora_fin_guardada = hora_fin
+					if not (contador-1) % 2:
+						if dia_ciclo.weekday() in range(0,6):
+							# El rango es de 0 a 5 (Lunes a sabado)
+							# Lunes a sabado 7.5 horas
+							hora_inicio_guardada = hora_inicio
+							hora_fin_guardada = hora_fin
+						else:
+							hora_inicio_guardada = None
+							hora_fin_guardada = None
 					else:
-						hora_inicio_guardada = None
-						hora_fin_guardada = None
+						if dia_ciclo.weekday() in range(0,5):
+							# Lunes a viernes
+							hora_inicio_guardada = hora_inicio
+							hora_fin_guardada = hora_fin
+						else:
+							hora_inicio_guardada = None
+							hora_fin_guardada = None
 
 					guardar_turno(turno_usuario, dia_ciclo,
 							hora_inicio_guardada, hora_fin_guardada)
@@ -115,7 +146,9 @@ def generar_horario(request, pk):
 
 					guardar_turno(turno_usuario, dia_ciclo,
 							hora_inicio_guardada, hora_fin_guardada)
-				'''
+
+				
+				
 	return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
 		
 
