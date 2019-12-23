@@ -16,7 +16,7 @@ class Notificacion(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualizacion")
 
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
 
     def __str__(self):
         return self.asunto
