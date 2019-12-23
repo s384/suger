@@ -7,10 +7,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from registration.models import TypeUser, Profile, Area
+from registration.models import TypeUser, Profile
 from django.contrib.auth.models import User
 from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
-    ProfileForm, AreaForm, UserActive, UserUpdateForm)
+    ProfileForm, UserActive, UserUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
 # Para el horario
 from datetime import timedelta, date, time, datetime
@@ -40,53 +40,6 @@ class TypeUserDelete(DeleteView):
     model = TypeUser
     success_url = reverse_lazy('typeUser')
 
-
-
-@method_decorator(login_required, name='dispatch')
-class AreaList(ListView):
-    model = Area
-    template_name = 'registration/area_list.html'
-    #paginate_by = 10
-
-@method_decorator(login_required, name='dispatch')
-class AreaCreate(CreateView):
-    model = Area
-    template_name = 'registration/area_form.html'
-    form_class = AreaForm
-    success_url = reverse_lazy('area')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuarios = User.objects.exclude(profile__type_user=3)
-        context['users_list'] = usuarios
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-@method_decorator(login_required, name='dispatch')
-class AreaUpdate(UpdateView):
-    model = Area
-    form_class = AreaForm
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('area')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuarios = User.objects.exclude(profile__type_user=3)
-        context['users'] = usuarios
-        return context
-
-@method_decorator(login_required, name='dispatch')
-class AreaDelete(DeleteView):
-    model = Area
-    template_name = 'registration/area_confirm_delete.html'
-    success_url = reverse_lazy('area')
 
 
 

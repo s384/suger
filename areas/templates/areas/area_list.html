@@ -26,7 +26,7 @@
         <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
           <thead>
             <tr>
-              <th>#</th>
+              <th>Detalles</th>
               <th>Nombre</th>
               <th>Jefe</th>
               <th>Opciones</th>
@@ -35,14 +35,12 @@
           <tbody>
             {% for area in area_list %}
             <tr>
-              <th scope="row">{{ forloop.counter }}</th>
+              <th><a href="{% url 'detailArea' area.slug %}" class="btn btn-primary registro">Ver</a></th>
               <td>{{ area.nombre }}</td>
               <td>{{ area.boss_user.get_full_name }}</td>
               <td>
                 <div class="my-auto">
                   <a href="{% url 'updateArea' area.id %}" class="btn btn-warning registro">Modificar</a>
-                  <div class="d-block d-md-none w-100"></div>
-                  <a href="{% url 'deleteArea' area.id %}" class="btn btn-danger registro">Eliminar</a>
                 </div>
               </td>
             </tr>

@@ -19,6 +19,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', include('core.urls')),
+    path('areas/', include('areas.urls')),
     path('tareas/', include('tareas.urls')),
     path('turnos/', include('turnos.urls')),
     path('cargos/', include('cargos.urls')),

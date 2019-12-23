@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (home, job, turn, work, profile, TypeUserUpdate,
                     TypeUserList, TypeUserCreate, TypeUserDelete,
                     UserList, UserCreate, UserDelete, UserUpdate,
-                    UserDetail, ProfileCreate, ProfileUpdate,
-                    AreaList, AreaCreate, AreaDelete, AreaUpdate)
+                    UserDetail, ProfileCreate, ProfileUpdate
+                    )
 from cargos.views import (CargoList, CargoCreate, CargoUpdate)
 
 urlpatterns = [
@@ -19,11 +19,6 @@ urlpatterns = [
     path('activar-usuario/<int:pk>/', UserDelete.as_view(), name="activeUser"),
     path('modificar-usuario/<int:pk>/', UserUpdate.as_view(), name="updateUser"),
     path('detalle-usuario/<int:pk>/', UserDetail.as_view(), name="detailUser"),
-    # Areas
-    path('areas/', AreaList.as_view(), name="area"),
-    path('borrar-area/<int:pk>/', AreaDelete.as_view(), name="deleteArea"),
-    path('modificar-area/<int:pk>/', AreaUpdate.as_view(), name="updateArea"),
-    path('nueva-area/', AreaCreate.as_view(), name="newArea"),
     # Otras
     path('job/', job, name="job"),
     path('turn/', turn, name="turn"),

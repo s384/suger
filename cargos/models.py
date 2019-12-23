@@ -8,8 +8,8 @@ from registration.models import Area
 # Create your models here.
 
 class Cargo(models.Model):
-    area = models.ForeignKey(Area, on_delete = "CASCADE", verbose_name = "dependiente de",
-                             related_name="Area_cargo")
+    area = models.ForeignKey(Area, on_delete = models.SET_NULL, verbose_name = "dependiente de",
+                             related_name="Area_cargo", null=True)
     titulo = models.CharField(max_length=100, verbose_name="título del cargo")
     slug = models.SlugField(max_length=100, verbose_name="Slug")
     descripcion = models.TextField(null = True, blank = True)
@@ -18,7 +18,10 @@ class Cargo(models.Model):
         ordering = ['area', 'titulo']
 
     def __str__(self):
-        nombre = self.titulo + " - " + self.area.nombre
+        if self.area:
+            nombre = self.titulo + " - " + self.area.nombre
+        else:
+            nombre = self.titulo
         return nombre
 
     def save(self, *args, **kwargs):
