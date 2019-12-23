@@ -51,7 +51,7 @@
             <div class="col-md-6 col-sm-6 ">
               <select name="responsable" id="id_responsable" class="form-control">
                 <option value="" selected="">---------</option>
-                {% for user in responsable %}
+                {% for user in responsable_sol %}
                   <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
                 {% endfor %}
               </select>

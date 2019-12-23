@@ -131,7 +131,7 @@
 										<td>
 											{% if solicitud.estado_solicitud == 1 %}
 											<div class="my-auto">
-												<a href="" class="btn btn-warning registro">Modificar</a>
+												<a href="{% url 'updateSolicitudTarea' solicitud.slug %}" class="btn btn-warning registro">Modificar</a>
 											</div>
 											{% endif %}
 										</td>

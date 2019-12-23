@@ -24,10 +24,19 @@ class TareasCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        trabajadores = User.objects.filter(profile__type_user=3)
-        context['trabajadores'] = trabajadores
         slug_solicitud=self.kwargs['slug']
         self.solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
+        if self.request.user.profile.type_user == 1:
+            trabajadores = User.objects.exclude(profile__type_user=1)
+            responsable_sol = User.objects.filter(profile__cargo_user__area=self.solicitud.area_destino)
+            responsable_sol = responsable_sol.exclude(profile__type_user=1)
+        else:
+            trabajadores = User.objects.filter(profile__type_user=3)
+            responsable_sol = User.objects.filter(profile__cargo_user__area=self.solicitud.area_destino)
+            responsable_sol = responsable_sol.filter(profile__type_user=3)
+            print(responsable_sol)
+        context['responsable_sol'] = responsable_sol
+        context['trabajadores'] = trabajadores
         context['solicitud'] = self.solicitud
         responsable = User.objects.filter(profile__type_user=3).filter(
             profile__cargo_user__area=self.solicitud.area_destino)
@@ -71,6 +80,15 @@ class TareasCreate(CreateView):
         noti.save()
 
         solicitud.estado_solicitud = 4
+
+        noti_2 = Notificacion(
+        asunto = "Solicitud aprobada",
+        descripcion = solicitud.titulo,
+        usuario = solicitud.solicitante,
+        prioridad = solicitud.prioridad
+        )
+        noti_2.save()
+        
         solicitud.save()
 
         return redirect(self.success_url)
@@ -90,8 +108,10 @@ class SolicitudTareaList(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        # Limitamos a las solicitudes que corresponden al area
-        qs = qs.filter(area_destino__boss_user=self.request.user)
+        # Si el usuario es supervisor, filtramos a su area
+        if self.request.user.profile.type_user == 2:
+            # Limitamos a las solicitudes que corresponden al area
+            qs = qs.filter(area_destino__boss_user=self.request.user)
         # Sacamos las solicitudes ya aprobadas
         qs = qs.exclude(estado_solicitud=4)
         return qs
@@ -139,6 +159,8 @@ class SolicitudTareasCreate(CreateView):
 class SolicitudTareasUpdate(UpdateView):
     model = SolicitudTarea
     form_class = SolicitudTareaForm
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('listSolicitudTarea')
 
 class SolicitudTareasDetail(DetailView):
     model = SolicitudTarea
