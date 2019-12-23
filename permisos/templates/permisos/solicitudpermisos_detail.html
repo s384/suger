@@ -1,69 +1,95 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block static %}
-{% endblock %}
-{% block title %}Inicio{% endblock %}
+{% block title %}Detalle {{ solicitudpermisos.titulo }}{% endblock %}
 {% block content %}
-<div class="row mb-4">
-  	<div class="col-md-12 col-sm-12 ">
-    	<div class="x_panel">
-			
-		  	<div class="x_title">
-			    <h2>{{ user.get_full_name }}</h2>
-			    <div class="clearfix"></div>
-		  	</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h3>{{ solicitudpermisos.titulo }}</h3>
 
-		    <div class="x_content">
-		        <div class="row justify-content-left">
+        <div class="ml-auto">
+        	<a href="{% url 'SolicitudPermisosList' %}" class="btn btn-success">Volver</a>
+    		<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
+        	<a href="{% url 'EstadoSolicitudUpdateTrabajador' solicitudpermisos.pk %}" class="btn btn-success">Modificar</a>
+        	<div class="clearfix"></div>
+      	</div>
 
-			        <div class="col-md-3 col-xd-3">
-			            <div class="product-image">
-			            	<img src="{% static 'imgs/img.jpg' %}" style="height: 300px; width: auto;">
-			            </div>
-			        </div>
+      <div class="x_content">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Solicitante </h5>
+              <h4 class="value text-success"> {{ solicitudpermisos.usuario.get_full_name }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Area de trabajador </h5>
+              <h4 class="value text-success"> {{ solicitudpermisos.usuario.profile.cargo_user.area.nombre }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Tipo de permiso </h5>
+              <h4 class="value text-success">
+              {% if solicitudpermisos.tipo_permiso == 0 %}
+                Ausencia
+              {% elif solicitudpermisos.tipo_permiso == 1 %}
+                Permiso Administrativo
+              {% elif solicitudpermisos.tipo_permiso == 2 %}
+              	Vacaciones
+              {% elif solicitudpermisos.tipo_permiso == 3 %}
+              	Licencia Médica
+              {% elif solicitudpermisos.tipo_permiso == 4 %}
+              	Atraso
+              {% elif solicitudpermisos.tipo_permiso == 5 %}
+                Salida Anticipada
+              {% endif %}
+              </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Estado de solicitud </h5>
+              <h4 class="value text-success"> 
+              {% if solicitudpermisos.estado_solicitud == 1 %}
+                No Revisado
+              {% elif solicitudpermisos.estado_solicitud == 2 %}
+                En revisión
+              {% elif solicitudpermisos.estado_solicitud == 3 %}
+                Rechazada
+              {% elif solicitudpermisos.estado_solicitud == 4 %}
+                Aprovada
+              {% endif %}</h4>
+            </div>
+          </div>
+          <div class="mb-2"></div>
+        </div>
+      </div>
+      <!-- start project-detail sidebar -->
+      <div class="col-auto mx-auto">
 
-			        <div class="col-md-3 col-xs-12">
-			            <div class="col-12">
-				            <h3 class="prod_title">Titulo de la solicitud</h3>
-				            <p>{{ SolicitudPermisos.titulo }}</p>
-			            </div>
-			            <div class="col-12 ">
-			                <h3 class="prod_title">Fecha de creación de la solicitud solicitud</h3>
-			                <p>{{  }}</p>
-			            </div>
-			            <div class="col-12">
-			                <h3 class="prod_title">Fecha de la solicitud</h3>
-			            	<p>{{  }}</p>
-			          	</div>
-			        </div>
+        <section class="panel">
 
-			        <div class="col-md-3 col-xs-12">
+          <div class="x_title">
+            <h4>Detalle de la solicitud</h4>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-body mb-4">
+            <h5>{{ solicitudpermisos.comentario }}.</h5>
+            <br>
 
-			            <div class="col-12">
-				            <h3 class="prod_title">Tipo de usuario</h3>
-				            <p>
-					            
-				          	</p>
-			          	</div>
+            <div class="project_detail">
+              {% if solicitudpermisos.img_referencia %}
+              <img class="img-thumbnail img-fluid rounded" src="{{ solicitudpermisos.img_referencia.url }}">
+              {% endif %}
+            </div>
 
-		          		<div class="col-12">
-			            	<h3 class="prod_title">Area</h3>
-			            	<p>
-			            		{{  }}
-			            	</p>
-			          	</div>
+            <br>
+            <h5>Fecha de creacion y actualizacion</h5>
+            <div>Fecha de creacion: {{ solicitudpermisos.created }}</div>
+            <div>Fecha ultima actualizacion: {{ solicitudpermisos.updated }}</div>
+          </div>
 
-			          	<div class="col-12">
-			            	<h3 class="prod_title">Estado</h3>
-			            	<p>
-			            		
-			            	</p>
-			          	</div>
-
-			        </div>
-		      	</div>
-		    </div>
-	  	</div>
-	</div>
+        </section>
+      </div>
+      <!-- end project-detail sidebar -->
+    </div>
+  </div>
 </div>
 {% endblock %}
