@@ -15,7 +15,11 @@
         <div class="row">
           <div class="col-5 col-sm-4 col-md-3">
             <div class="product-image">
-              <img class="img-fluid rounded img-thumbnail" src="{% static 'imgs/img.jpg' %}">
+              {% if user.profile.avatar %}
+              <img class="img-fluid rounded img-thumbnail" src="{{ request.user.profile.avatar.url}}" alt="Avatar">
+              {% else %}
+              <img class="img-fluid img-circle img-thumbnail" src="{% static 'imgs/no_img.jpg' %}" alt="Avatar">
+              {% endif %}
             </div>
           </div>
           <div class="col-7 col-sm-8 col-md-3">

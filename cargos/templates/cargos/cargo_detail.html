@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block static %}
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="animated flipInY col-lg-5 col-md-5 col-sm-6  ">
+    <div class="tile-stats">
+      <div class="icon"><i class="fa fa-check-square-o"></i>
+      </div>
+      <div class="count">Cargo:</div>
+
+      <h3>{{ cargo.titulo }}</h3>
+      <div class="count"><small>Encargado Area</small></div>
+      <p style="font-size: 1rem;">{{ cargo.area.boss_user.get_full_name }}</p>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center">  
+{% for usuario in cargo.user_cargo.all %}
+  <!-- Datos del usuario -->
+  <div class="col-md-3">
+    <div class="x_panel">
+      <div class="profile_img">
+        <div class="row justify-content-center"> 
+          <div class="form-group row text-left col-6 col-md-12 text-center">
+            <h3>{{ usuario.user.get_full_name }}</h3>
+          </div>
+        </div>
+        <div id="crop-avatar">
+          <div class="text-center">
+            {% if usuario.user.profile.avatar %}
+            <img class="img-fluid rounded img-thumbnail" style="height: 100px;" src="{{ request.user.profile.avatar.url}}" alt="Avatar">
+            {% else %}
+            <img class="img-fluid img-circle img-thumbnail" style="height: 100px;" src="{% static 'imgs/no_img.jpg' %}" alt="Avatar">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="pt-3">
+        <a class="btn btn-outline-primary btn-block" href="{% url 'detailUser' usuario.pk %}">Ver Usuario</a>  
+      </div>
+    </div>
+  </div>
+  <!-- /Datos del usuario -->
+{% endfor %}
+</div>
+{% endblock %}

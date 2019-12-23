@@ -18,7 +18,7 @@
 
 <div class="row">
   <!-- Datos del usuario -->
-  <div class="col-md-3 ">
+  <div class="col-md-3">
     <div class="x_panel">
       <div class="x_title">
         <h2>Mis Datos</h2>
@@ -31,23 +31,28 @@
         <br />
         <div class="profile_img">
           <div id="crop-avatar">
-            <img class="img-responsive avatar-view" src="{% static 'imgs/img.jpg' %}" alt="Avatar" title="Change the avatar">
+            <div class="text-center">
+              {% if request.user.profile.avatar %}
+              <img class="img-fluid rounded img-thumbnail" src="{{ request.user.profile.avatar.url}}" alt="Avatar">
+              {% else %}
+              <img class="img-fluid img-circle img-thumbnail" src="{% static 'imgs/no_img.jpg' %}" alt="Avatar">
+              {% endif %}
+            </div>
             <div class="ln_solid"></div>
             <div class="row"> 
-            <div class="form-group row text-left col-4">
-              <h3>{{ request.user.get_full_name }}</h3></div>
-              <div class="form-group row text-left col-4">
-              </div>
-              <ul class="list-unstyled user_data col-4">
-                <li><i class="fa fa-map-marker user-profile-icon"></i> {{ request.user.profile.direccion }}
-                </li>
-                <li>
-                  <i class="fa fa-briefcase user-profile-icon"></i> {{ request.user.profile.cargo_user.titulo }}
-                </li>
-                <li class="m-top-xs">
-                  <a href="http://www.kimlabs.com/profile/" target="_blank">{{ request.user.email }}</a>
-                </li>
-              </ul>
+            <div class="form-group row text-left col-6 col-md-12 text-center">
+              <h3>{{ request.user.get_full_name }}</h3>
+            </div>
+            <ul class="list-unstyled user_data col-6 col-md-12">
+              <li><i class="fa fa-map-marker user-profile-icon"></i> {{ request.user.profile.direccion }}
+              </li>
+              <li>
+                <i class="fa fa-briefcase user-profile-icon"></i> {{ request.user.profile.cargo_user.titulo }}
+              </li>
+              <li class="m-top-xs">
+                <i class="fa fa-send user-profile-icon"></i>{{ request.user.email }}
+              </li>
+            </ul>
               
             </div>
           </div>

@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block static %}
+  <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
@@ -12,28 +13,30 @@
       <div class="count">Area:</div>
 
       <h3>{{ area.nombre }}</h3>
+      <div class="count"><small>Encargado</small></div>
       <p style="font-size: 1rem;">{{ area.boss_user.get_full_name }}</p>
     </div>
   </div>
 </div>
-<div class="row">  
+<div class="row justify-content-center">  
 {% for cargo in cargos %}
   <div class="col-md-3 widget widget_tally_box">
-    <div class="x_panel fixed_height_390">
+    <div class="x_panel min_300">
       <div class="x_content">
 
-        <div class="flex">
-          <ul class="widget_profile_box">
-            <p style="font-size: 1.3rem;">{{ cargo.titulo }}</p>
+          <ul class="widget_profile_custom">
+            <p>{{ cargo.titulo }}</p>
           </ul>
-        </div>
+        {% if cargo.user_cargo.all%}
+        <h3 class="text-center">Personal</h3>
+        {% else %}
+        <h3 class="text-center">Sin personal asignado al area</h3>
+        {% endif %}
 
-        <h3 class="name">Personal</h3>
-
-        <div class="flex">
-          <ul class="list-inline count2">
+        <div class="justify-content-center">
+          <ul class="list-inline text-center">
           {% for usuario in cargo.user_cargo.all %}
-            <div class="{% if not forloop.last %}border-bottom{%endif%}">{{usuario}}</div>
+            <div class="{% if forloop.first %}border-top{%endif%} border-bottom">{{usuario}}</div>
           {% endfor %}
           </ul>
         </div>

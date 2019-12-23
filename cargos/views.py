@@ -16,6 +16,18 @@ from .forms import CargoForm
 class CargoList(ListView):
     model = Cargo
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        # Si el usuario es supervisor, filtramos a su area
+        if self.request.user.profile.type_user == 2:
+            # Limitamos a las solicitudes que corresponden al area
+            qs = qs.filter(area__boss_user=self.request.user)
+        # Sacamos las solicitudes ya aprobadas
+        return qs
+
+@method_decorator(login_required, name='dispatch')
+class CargoDetail(DetailView):
+    model = Cargo
 
 @method_decorator(login_required, name='dispatch')
 class CargoCreate(CreateView):

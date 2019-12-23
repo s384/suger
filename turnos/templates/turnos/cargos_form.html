@@ -25,6 +25,11 @@
                 <form method="POST" action="{% url 'DetalleTurnosCreate' turno.pk %}" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                     {% csrf_token %}
                     <!-- Nombre del turno -->
+                    <div class="text-center">
+                        <h6>Presione la tecla ctrl si desea seleccionar mas de un registro.</h6>
+                        <h6>Si desea seleccionarlos todos, seleccione el primero, mantenga presionado y deslize hacia abajo.</h6>
+                        <h6>Si desea sacar un cargo seleccionado presione ctrl y vuelva a clickearlo</h6>
+                    </div>
                     <div class="item form-group">
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Cargos<span class="required">*</span>
                         </label>

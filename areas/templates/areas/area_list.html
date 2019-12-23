@@ -17,9 +17,11 @@
     <div class="x_panel">
       <div class="x_title form-inline">
         <h2>Areas <small>Listado de las areas de la empresa</small></h2>
+        {% if request.user.profile.type_user == 1 %}
         <div class="ml-auto">
           <a href="{% url 'newArea' %}" class="btn btn-success">Nueva Area</a>
         </div>
+        {% endif %}
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -39,9 +41,11 @@
               <td>{{ area.nombre }}</td>
               <td>{{ area.boss_user.get_full_name }}</td>
               <td>
+                {% if request.user.profile.type_user == 1 %}
                 <div class="my-auto">
                   <a href="{% url 'updateArea' area.id %}" class="btn btn-warning registro">Modificar</a>
                 </div>
+                {% endif %}
               </td>
             </tr>
             {% endfor %}

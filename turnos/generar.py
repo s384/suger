@@ -11,6 +11,7 @@ def generar_horario(request, pk):
 	detalle = DetalleTurnos.objects.filter(turno=turno_obtenido)
 	fecha_inicio = turno_obtenido.fecha_inicio
 	rotacion = turno_obtenido.tipo_turno
+
 	
 	# Obtenemos el tipo de turno y le asignamos la cantidad de horas a utilizar
 	if turno_obtenido.duracion_horas == 0:
@@ -174,3 +175,6 @@ def guardar_turno(turno, dia, inicio, fin):
 		hora_fin = fin,
 	)
 	horario.save()
+
+def validacion_usuarios(pk):
+	pass
