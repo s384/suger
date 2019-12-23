@@ -12,13 +12,13 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="row justify-content-left">
-          <div class="col-md-3 col-xd-3">
+        <div class="row">
+          <div class="col-5 col-sm-4 col-md-3">
             <div class="product-image">
-              <img src="{% static 'imgs/img.jpg' %}" style="height: 300px; width: auto;">
+              <img class="img-fluid rounded img-thumbnail" src="{% static 'imgs/img.jpg' %}">
             </div>
           </div>
-          <div class="col-md-3 col-xs-12">
+          <div class="col-7 col-sm-8 col-md-3">
             <div class="col-12">
               <h3 class="prod_title">Direccion</h3>
               <p>{{ user.profile.direccion }}</p>

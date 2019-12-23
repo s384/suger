@@ -9,7 +9,7 @@ class Notificacion(models.Model):
 
     asunto = models.CharField(max_length=100, verbose_name="Asunto")
     descripcion = models.CharField(max_length=200, verbose_name="Descripcion")
-    usuario = models.OneToOneField(User, on_delete="CASCADE")
+    usuario = models.ForeignKey(User, on_delete="CASCADE")
     prioridad = models.PositiveSmallIntegerField(choices=priority)
     estado = models.BooleanField(choices=estado_noti, default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")

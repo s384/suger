@@ -8,7 +8,7 @@ from django.db.models import Count
 from registration.models import Area
 from notificaciones.models import Notificacion
 from .models import Tareas, SolicitudTarea
-from .forms import TareasForm, SolicitudTareaForm
+from .forms import TareasForm, SolicitudTareaForm, SolicitudEnRevisionForm
 # Create your views here.
 
 #class tareas
@@ -62,12 +62,13 @@ class TareasCreate(CreateView):
         
         tareas_creation.save()
 
-        noti = Notificacion.objects.get_or_create(
+        noti = Notificacion(
         asunto = "Tarea asignada",
         descripcion = form['titulo'].value(),
         usuario = respon,
         prioridad = form['prioridad'].value()
-            )
+        )
+        noti.save()
 
         solicitud.estado_solicitud = 4
         solicitud.save()
@@ -89,7 +90,17 @@ class SolicitudTareaList(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.exclude(estado_solicitud=4)
+        # Limitamos a las solicitudes que corresponden al area
+        qs = qs.filter(area_destino__boss_user=self.request.user)
+        # Sacamos las solicitudes ya aprobadas
+        qs = qs.exclude(estado_solicitud=4)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mis_solicitud = SolicitudTarea.objects.filter(solicitante=self.request.user)
+        context['mis_solicitud'] = mis_solicitud
+        return context
 
 class SolicitudTareasCreate(CreateView):
     model = SolicitudTarea
@@ -115,12 +126,13 @@ class SolicitudTareasCreate(CreateView):
         
         area_soli = get_object_or_404(Area, pk=form['area_destino'].value())
         
-        noti = Notificacion.objects.get_or_create(
+        noti = Notificacion(
         asunto = "Solicitud de tarea pendiente",
         descripcion = form['titulo'].value(),
         usuario = area_soli.boss_user,
         prioridad = form['prioridad'].value()
         )
+        noti.save()
 
         return redirect(self.success_url)
 
@@ -130,3 +142,41 @@ class SolicitudTareasUpdate(UpdateView):
 
 class SolicitudTareasDetail(DetailView):
     model = SolicitudTarea
+
+class SolicitudEnRevision(UpdateView):
+    model = SolicitudTarea
+    form_class = SolicitudEnRevisionForm
+    template_name = "tareas/solicitudtarea_revision.html"
+
+    def get_success_url(self):
+        return reverse_lazy('detailSolicitudTarea', kwargs={'slug': self.object.slug})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        noti = Notificacion(
+        asunto = "Solicitud en revision",
+        descripcion = self.object.titulo,
+        usuario = self.object.solicitante,
+        prioridad = self.object.prioridad
+        )
+        noti.save()
+        return super().post(request, *args, **kwargs)
+
+class SolicitudRechazada(UpdateView):
+    model = SolicitudTarea
+    form_class = SolicitudEnRevisionForm
+    template_name = "tareas/solicitudtarea_rechazada.html"
+
+    def get_success_url(self):
+        return reverse_lazy('detailSolicitudTarea', kwargs={'slug': self.object.slug})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        noti = Notificacion(
+        asunto = "Solicitud rechazada",
+        descripcion = self.object.titulo,
+        usuario = self.object.solicitante,
+        prioridad = self.object.prioridad
+        )
+        noti.save()
+        return super().post(request, *args, **kwargs)

@@ -25,3 +25,8 @@ class SolicitudTareaForm(forms.ModelForm):
 			'prioridad' : forms.Select(attrs={'class':'form-control'}),
 			'img_referencia' : forms.FileInput(),
 		}
+
+class SolicitudEnRevisionForm(forms.ModelForm):
+	class Meta:
+		model = SolicitudTarea
+		fields = ('estado_solicitud',)

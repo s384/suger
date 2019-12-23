@@ -9,7 +9,19 @@
         <h3>{{ solicitudtarea.titulo }}</h3>
         {% if solicitudtarea.area_destino.boss_user == request.user %}
         <div class="ml-auto">
-          <a href="{% url 'createTareas' solicitudtarea.slug %}" class="btn btn-success">Nueva Tarea</a>
+        {% if solicitudtarea.estado_solicitud < 3 %}
+          <a href="{% url 'createTareas' solicitudtarea.slug %}" class="btn btn-success">Crear Tarea</a>
+        {% endif %}
+        </div>
+        <div class="ml-2">
+          {% if solicitudtarea.estado_solicitud == 1 %}
+          <a href="{% url 'revisionSolicitud' solicitudtarea.slug %}" class="btn btn-info">En revision</a>
+          {% endif %}
+        </div>
+        <div class="ml-2">
+          {% if solicitudtarea.estado_solicitud < 3 %}
+          <a href="{% url 'rechazarSolicitud' solicitudtarea.slug %}" class="btn btn-danger">Rechazada</a>
+          {% endif %}
         </div>
         {% endif %}
         <div class="clearfix"></div>
@@ -60,16 +72,16 @@
         <section class="panel">
 
           <div class="x_title">
-            <h2>Detalle de la solicitud</h2>
+            <h4>Detalle de la solicitud</h4>
             <div class="clearfix"></div>
           </div>
           <div class="panel-body mb-4">
-            <p>{{ solicitudtarea.descripcion }}.</p>
+            <h5>{{ solicitudtarea.descripcion }}.</h5>
             <br>
 
             <div class="project_detail">
               {% if solicitudtarea.img_referencia %}
-              <img class="img-fluid" src="{{ solicitudtarea.img_referencia.url }}">
+              <img class="img-thumbnail img-fluid rounded" src="{{ solicitudtarea.img_referencia.url }}">
               {% endif %}
             </div>
 

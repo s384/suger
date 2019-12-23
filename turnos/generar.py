@@ -45,7 +45,7 @@ def generar_horario(request, pk):
 	print("Duracion del turno: {}".format(dias_turno))
 			
 	# Establecemos el horario de inicio del turno
-	hora_inicio = turno_obtenido.hora_inicio
+	# hora_inicio = turno_obtenido.hora_inicio
 
 	# Por cada detalle del turno generamos un ciclo,
 	# esto corresponde a cada cargo 
@@ -119,6 +119,7 @@ def generar_horario(request, pk):
 							hora_inicio_guardada = None
 							hora_fin_guardada = None
 					else:
+						# Turno de noche
 						if dia_ciclo.weekday() in range(0,5):
 							# Lunes a viernes
 							hora_inicio_guardada = hora_inicio

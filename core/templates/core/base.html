@@ -58,7 +58,7 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-table"></i> Tareas <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-newspaper-o"></i> Tareas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'listTareas' %}">Tareas</a></li>
                       {% if request.user.profile.type_user <= 2%}
@@ -66,19 +66,20 @@
                       {% endif %}
                     </ul>
                   </li>
-
-                  <li><a><i class="fa fa-table"></i> Horario <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-calendar"></i> Horario <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="">Mi Horario</a></li>
+                      {% if request.user.profile.type_user <= 2%}
                       <li><a href="{% url 'TurnosList' %}">Ver Turnos</a></li>
+                      {% endif %}
                     </ul>
                   </li>
-
-                  <li><a><i class="fa fa-table"></i> Permisos <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-ticket"></i> Permisos <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'SolicitudPermisosList' %}">Solicitar permiso</a></li>
                     </ul>
                   </li>
-
+                  {% if request.user.profile.type_user <= 2%}
                   <li><a><i class="fa fa-table"></i> Estadisticas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'informeTareas' %}">Tareas</a></li>
@@ -86,6 +87,7 @@
                       <li><a href="{% url 'work' %}">Rendimiento</a></li>
                     </ul>
                   </li>
+                  {% endif %}
                 </ul>
               </div>
             </div>
