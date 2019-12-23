@@ -75,19 +75,11 @@
                 {% endif %}
               </td>
 
-              {% if request.user.profile.type_user == 3 %}
-                <td>
-                  <div class="my-auto">
-                    <a href="{% url 'EstadoSolicitudUpdateTrabajador' permisos.pk %}" class="btn btn-warning registro">Modificar Solicitud</a>
-                  </div>
-                </td>
-              {% else %}
-                <td>
-                  <div class="my-auto">
-                    <a href="{% url 'EstadoSolicitudUpdate' permisos.pk %}" class="btn btn-warning registro">Cambiar estado</a>
-                  </div>
-                </td>
-              {% endif %}
+              <td>
+                <div class="my-auto">
+                  <a href="{% url 'SolicitudPermisosDetail' permisos.pk %}" class="btn btn-warning registro">Detalles</a>
+                </div>
+              </td>
               
             </tr>
             {% endfor %}

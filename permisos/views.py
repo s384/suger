@@ -53,6 +53,10 @@ class SolicitudPermisosForm(CreateView):
         '''
         return redirect(self.success_url)
 
+class SolicitudPermisosDetail(DetailView):
+    model = SolicitudPermisos
+    template_name_suffix = '_detail'
+
 class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos
     form_class = EstadoSolicitudForm
