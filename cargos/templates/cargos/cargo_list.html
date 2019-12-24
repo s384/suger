@@ -34,12 +34,12 @@
           <tbody>
             {% for cargo in cargo_list %}
             <tr>
-              <th><a href="{% url 'CargoDetail' cargo.slug %}" class="btn btn-primary registro">Ver</a></th>
+              <th><a href="{% url 'CargoDetail' cargo.pk %}" class="btn btn-primary registro">Ver</a></th>
               <td>{{ cargo.titulo }}</td>
               <td>{{ cargo.area }}</td>
               <td>
                 <div class="my-auto">
-                  <a href="{% url 'CargoUpdate' cargo.slug %}" class="btn btn-warning registro">Modificar</a>
+                  <a href="{% url 'CargoUpdate' cargo.pk %}" class="btn btn-warning registro">Modificar</a>
                   
                 </div>
               </td>
