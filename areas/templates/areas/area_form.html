@@ -5,6 +5,20 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
+      {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
       <div class="x_title">
         <h2>Nueva Area <small>Area para destinar negros</small></h2>
         <ul class="nav navbar-right panel_toolbox">
@@ -15,6 +29,7 @@
       </div>
       <div class="x_content">
         <br />
+
         <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
           {% csrf_token %}
           <div class="item form-group">
