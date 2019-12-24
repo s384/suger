@@ -12,7 +12,8 @@ class CargoForm(forms.ModelForm):
 		}
 	def clean_titulo(self):
 		titulo = self.cleaned_data.get("titulo")
-		if Cargo.objects.filter(titulo=titulo).exists():
+		area = self.cleaned_data.get("area")
+		if Cargo.objects.filter(titulo=titulo).filter(area=area).exists():
 			raise forms.ValidationError("Este cargo ya existe dentro del area seleccionada")
 		return titulo
 

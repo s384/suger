@@ -7,40 +7,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from registration.models import TypeUser, Profile
+from registration.models import Profile
 from django.contrib.auth.models import User
-from registration.forms import (TypeUserForm, UserCreationFormWithEmail,
+from registration.forms import (UserCreationFormWithEmail,
     ProfileForm, UserActive, UserUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
 # Para el horario
 from datetime import timedelta, date, time, datetime
 from turnos.models import HorarioUsuario
-
-@method_decorator(login_required, name='dispatch')
-class TypeUserList(ListView):
-    model = TypeUser
-    # paginate_by = 8
-
-@method_decorator(login_required, name='dispatch')
-class TypeUserCreate(CreateView):
-    model = TypeUser
-    form_class = TypeUserForm
-    success_url = reverse_lazy('typeUser')
-
-
-@method_decorator(login_required, name='dispatch')
-class TypeUserUpdate(UpdateView):
-    model = TypeUser
-    form_class = TypeUserForm
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('typeUser')
-
-@method_decorator(login_required, name='dispatch')
-class TypeUserDelete(DeleteView):
-    model = TypeUser
-    success_url = reverse_lazy('typeUser')
-
-
 
 
 @method_decorator(login_required, name='dispatch')

@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import (home, job, turn, work, profile, TypeUserUpdate,
-                    TypeUserList, TypeUserCreate, TypeUserDelete,
+from .views import (home, job, turn, work, profile,
                     UserList, UserCreate, UserDelete, UserUpdate,
                     UserDetail, ProfileCreate, ProfileUpdate
                     )

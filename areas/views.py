@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from registration.models import Area
 from cargos.models import Cargo
 from django.contrib.auth.models import User
-from registration.forms import AreaForm, AreaUpdateForm
+from .forms import AreaForm, AreaUpdateForm
 
 # Create your views here.
 

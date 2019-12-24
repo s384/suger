@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import TypeUser, Profile, Area
+from .models import Profile
 
 class UserCreationFormWithEmail(UserCreationForm):
 	email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -54,46 +54,6 @@ class ProfileForm(forms.ModelForm):
 			'cargo_user' : forms.Select(attrs={'class':'form-control'}),
 		}
 
-class TypeUserForm(forms.ModelForm):
-	class Meta:
-		model = TypeUser
-		fields = ['nombre',]
-		widgets = {
-			'nombre' : forms.TextInput(attrs={'class':'form-control'}),
-		}
-
-class AreaForm(forms.ModelForm):
-	class Meta:
-		model = Area
-		fields = ['nombre','boss_user']
-		widgets = {
-			'nombre' : forms.TextInput(attrs={'class':'form-control'}),
-			'boss_user' : forms.Select(attrs={'class':'form-control'}),
-		}
-
-	def clean_nombre(self):
-		nombre = self.cleaned_data.get("nombre")
-		if Area.objects.filter(nombre=nombre).exists():
-			raise forms.ValidationError("Está área ya ha sido creada")
-		return nombre
-
-
-	def clean_boss_user(self):
-		boss_user = self.cleaned_data.get("boss_user")
-		if Area.objects.filter(boss_user=boss_user).exists():
-			raise forms.ValidationError("El usuario seleccionado ya cuenta con jefatura")
-		return boss_user
-
-class AreaUpdateForm(forms.ModelForm):
-	class Meta:
-		model = Area
-		fields = ['nombre','boss_user']
-		widgets = {
-			'nombre' : forms.TextInput(attrs={'class':'form-control'}),
-			'boss_user' : forms.Select(attrs={'class':'form-control'}),
-		}
-
-#Condicionar la modificacion del nombre, para que pueda guardar el mismo nombre si no es cambiado.
 
 class UserActive(forms.ModelForm):
 	class Meta:
