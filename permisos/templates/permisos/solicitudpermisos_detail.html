@@ -10,8 +10,19 @@
 
         <div class="ml-auto">
         	<a href="{% url 'SolicitudPermisosList' %}" class="btn btn-success">Volver</a>
-    		<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
-        	<a href="{% url 'EstadoSolicitudUpdateTrabajador' solicitudpermisos.pk %}" class="btn btn-success">Modificar</a>
+
+        	{% if solicitudpermisos.usuario == request.user %}
+        		{% if solicitudpermisos.estado_solicitud == 1 %}
+        			<a href="{% url 'EstadoSolicitudUpdateTrabajador' solicitudpermisos.pk %}" class="btn btn-success">Modificar</a>
+        		{% endif %}
+        	{% endif %}
+
+			{% if request.user.profile.type_user != 3 %}
+				{% if request.user != solicitudpermisos.usuario %}
+					<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
+				{% endif %}
+        	{% endif %}
+
         	<div class="clearfix"></div>
       	</div>
 
