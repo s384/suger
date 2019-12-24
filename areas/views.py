@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from registration.models import Area
 from cargos.models import Cargo
 from django.contrib.auth.models import User
-from registration.forms import AreaForm
+from registration.forms import AreaForm, AreaUpdateForm
 
 # Create your views here.
 
@@ -53,7 +53,7 @@ class AreaCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class AreaUpdate(UpdateView):
     model = Area
-    form_class = AreaForm
+    form_class = AreaUpdateForm
     template_name = 'areas/area_update_form.html'
     success_url = reverse_lazy('area')
 

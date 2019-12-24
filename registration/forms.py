@@ -84,7 +84,16 @@ class AreaForm(forms.ModelForm):
 			raise forms.ValidationError("El usuario seleccionado ya cuenta con jefatura")
 		return boss_user
 
+class AreaUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Area
+		fields = ['nombre','boss_user']
+		widgets = {
+			'nombre' : forms.TextInput(attrs={'class':'form-control'}),
+			'boss_user' : forms.Select(attrs={'class':'form-control'}),
+		}
 
+#Condicionar la modificacion del nombre, para que pueda guardar el mismo nombre si no es cambiado.
 
 class UserActive(forms.ModelForm):
 	class Meta:
