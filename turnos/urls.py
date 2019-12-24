@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (TurnosList, TurnosCreate, TurnosUpdate, 
     DetalleTurnosList, DetalleTurnosCreate,	DetalleTurnosUpdate,
     form_cargos, CrearDetalleTurnosCicloFor, AsignarNegrosTurno)
-from .generar import generar_horario
+from .generar import generar_horario, validacion_horario
 
 urlpatterns = [
 	# URL's de Turnos
@@ -19,4 +19,5 @@ urlpatterns = [
     path('asignar-trabajadores/<int:pk>', AsignarNegrosTurno, name="AsignarNegros"),
     # Generar horarios
     path('horario-generado/<int:pk>', generar_horario, name="generateTimeTable"),
+    path('validacion-horario/<int:turno>', validacion_horario, name="validateTimeTable"),
 ]

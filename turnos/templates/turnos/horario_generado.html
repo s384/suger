@@ -14,14 +14,23 @@
 
       <!--Encabezado del formulario-->  
       <div class="x_title form-inline">
-        <h2>Horario generado <small>Detalle de los turnos generados</small></h2>
+        <h3>Horario generado <small>Detalle de los turnos generados</small></h3>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-          {{ detail.cargo.titulo }}
-          {{ detail.cantidad }}
-        {% for user in usuario %}
-          <h2>Usuario seleccionado aleatoriamente: <b>{{ user.get_full_name }}</b></h2>
+          <h5>Se ha generado el horario para el turno: <b>{{ turno.nombre }}</b></h5>
+          <h4>{{ turno.descripcion }}</h4>
+          <h5>Este turno corresponde al area: <b>{{ turno.area }}</b></h5>
+
+
+        {% for cargo in turno.turno_detalle.all %}
+          <h2>Los cargos seleccionados son: </h2>
+          <b>{{ cargo.cargo.titulo }}</b>: {{ cargo.cantidad }}
+          <br>
+          Los usuarios seleccionados son:
+          {% for user in turno.turno_detalle.turno_usuario.horario_turno.all %}
+            {{ user }}
+          {% endfor %}
         {% endfor %}
       </div>
     </div>

@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block static %}
+
+{% endblock %}
+
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 mx-auto">
+    <div class="x_panel">
+
+      <!--Encabezado del formulario-->  
+      <div class="x_title form-inline">
+        <h3>Turno: {{ turno }}<small class="ml-5">Area: {{ turno.area }}</small></h3>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <h2 class="text-center">Requisitos del turno</h2>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="text-center">
+              <h2>Los cargos requeridos son: </h2>
+              {% for cargo in turno.turno_detalle.all %}
+                <b>{{ cargo.cargo.titulo }}</b>: {{ cargo.cantidad }}
+                <br>
+              {% endfor %}
+            </div>      
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="text-center">
+              <h2>Personal disponible para los cargos:</h2>
+              <div class="clearfix"></div>
+                {% for cargo in turno.turno_detalle.all %}
+                <b>{{ cargo.cargo.titulo }}</b>
+                <br>
+                <ul class="list-group">
+                  {% for user in cargo.cargo.user_cargo.all %}
+                    {% if usuario in user.usuario_turno.all %}
+                      {{ usuario.turno }}
+                    {% endif %}
+                    {% if user.user.is_active %}
+                      <li class="list-group-item list-group-item-primary">{{ user }}</li>
+                    {% else %}
+                      <li class="list-group-item list-group-item-secondary" data-toggle="tooltip" data-placement="left" title="Cuenta no activada">{{ user }}</li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+                {% endfor %}
+            </div>      
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -55,7 +55,12 @@ class TurnoUsuario(models.Model):
 
 class HorarioUsuario(models.Model):
 	inter = [(0,'Trabajado'), (1,'Intercambiado')]
-	traba = [(0,'Trabajado'), (1,'Ausencia')]
+	traba = [
+		(0,"Ausencia"),(1,"Permiso Administrativo"),
+		(2,"Vacaciones"),(3,"Licencia Médica"),
+		(4,"Atraso"),(5,"Salida Anticipada"),
+		(6, "Trabajado")
+	]	
 
 	turno_usuario = models.ForeignKey(TurnoUsuario, on_delete=models.CASCADE,
 					related_name="horario_turno")
@@ -65,7 +70,7 @@ class HorarioUsuario(models.Model):
 	# Estado para intercambios de turnos
 	intercambio = models.BooleanField(default=0, choices=inter)
 	# Estado para cambio en solicitudes de permisos
-	trabajado = models.BooleanField(default=0, choices=traba)
+	trabajado = models.BooleanField(default=6, choices=traba)
 
 	def __str__(self):
 		nombre = (self.turno_usuario.usuario.get_full_name() + " " +
