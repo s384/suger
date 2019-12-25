@@ -70,7 +70,7 @@ class HorarioUsuario(models.Model):
 	# Estado para intercambios de turnos
 	intercambio = models.BooleanField(default=0, choices=inter)
 	# Estado para cambio en solicitudes de permisos
-	trabajado = models.BooleanField(default=6, choices=traba)
+	trabajado = models.PositiveSmallIntegerField(default=6, choices=traba)
 
 	def __str__(self):
 		nombre = (self.turno_usuario.usuario.get_full_name() + " " +
