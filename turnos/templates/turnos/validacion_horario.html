@@ -17,6 +17,21 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
+        <div class="row">
+          <div class="col-12">
+            <div class="text-center">
+            {% if validacion == 0 %}
+              <div class="alert alert-danger" role="alert">
+                <h2>No se cumplen los requisitos para generar el turno.</h2>
+              </div>
+            {% else %}
+              <div class="alert alert-success" role="alert">
+                <h2>Todo correcto, generemos el horario.</h2>
+              </div>
+            {% endif %}
+            </div>      
+          </div>
+        </div>
         <h2 class="text-center">Requisitos del turno</h2>
         <div class="row">
           <div class="col-12 col-md-6">
@@ -37,11 +52,11 @@
                 <br>
                 <ul class="list-group">
                   {% for user in cargo.cargo.user_cargo.all %}
-                    {% if usuario in user.usuario_turno.all %}
-                      {{ usuario.turno }}
-                    {% endif %}
-                    {% if user.user.is_active %}
-                      <li class="list-group-item list-group-item-primary">{{ user }}</li>
+  
+                    {% if user.user.is_active and not user.user.usuario_turno.exists %}
+                      <li class="list-group-item list-group-item-primary" data-toggle="tooltip" data-placement="left" title="Usuario disponible">{{ user }}</li>
+                    {% elif user.user.usuario_turno.exists %}
+                      <li class="list-group-item list-group-item-warning" data-toggle="tooltip" data-placement="left" title="Usuario con turno asignado">{{ user }}</li>
                     {% else %}
                       <li class="list-group-item list-group-item-secondary" data-toggle="tooltip" data-placement="left" title="Cuenta no activada">{{ user }}</li>
                     {% endif %}
@@ -50,6 +65,15 @@
                 {% endfor %}
             </div>      
           </div>
+          {% if validacion == 1 %}
+          <div class="col-8 mx-auto mt-5">
+            <a href="{% url 'generateTimeTable' turno.pk %}" class="btn btn-outline-success btn-lg btn-block">Generar Horario</a>
+          </div>
+          {% else %}
+          <div class="col-8 mx-auto mt-5">
+            <a href="{% url 'user' %}" class="btn btn-outline-info btn-lg btn-block">Revisemos los usuarios</a>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

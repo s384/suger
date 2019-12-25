@@ -53,10 +53,15 @@ def generar_horario(request, pk):
 	for detail in detalle:
 		print("Cargo seleccionado {}".format(detail.cargo.titulo))
 		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
+		# Filtramos por tipo de usuario (trabajador)
+		usuario_obtenido = User.objects.filter(profile__type_user=3)
+		# Sacamos aquellos que no tengan activa la cuenta
 		usuario_obtenido = usuario_obtenido.exclude(is_active=0)
-		usuario_obtenido = usuario_obtenido.filter(
-			usuario_turno__isnull=True)
+		# Sacamos los usuarios con turno
+		usuario_obtenido = usuario_obtenido.exclude(usuario_turno__usuario__in=usuario_obtenido)
+
 		print("Usuarios obtenidos: {}".format(usuario_obtenido.count()))
+		print("Lista de usuario: {}".format(usuario_obtenido))
 		if usuario_obtenido.count() >= detail.cantidad:
 			usuario_azar = usuario_obtenido.order_by('?')[:detail.cantidad]
 			print("usuarios seleccionado {}".format(usuario_azar))
@@ -66,9 +71,9 @@ def generar_horario(request, pk):
 				hora_inicio = turno_obtenido.hora_inicio
 				# Guardamos el turno_usuario
 
-				#turno_usuario = TurnoUsuario(turno=turno_obtenido,
-						#usuario=usuario_guardar)
-				#turno_usuario.save()
+				turno_usuario = TurnoUsuario(turno=turno_obtenido,
+						usuario=usuario_guardar)
+				turno_usuario.save()
 
 				# Creamos un contador para consultar la rotacion
 				contador = 0
@@ -161,12 +166,9 @@ def generar_horario(request, pk):
 								hora_fin_guardada = None
 
 
-					#guardar_turno(turno_usuario, dia_ciclo,
-							#hora_inicio_guardada, hora_fin_guardada)
+					guardar_turno(turno_usuario, dia_ciclo,
+							hora_inicio_guardada, hora_fin_guardada)
 			return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
-		else:
-			error = 1
-			render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
 
 
 def guardar_turno(turno, dia, inicio, fin):
@@ -182,9 +184,27 @@ def guardar_turno(turno, dia, inicio, fin):
 def validacion_horario(request, turno):
 	turno_obtenido = Turnos.objects.get(pk=turno)
 	detalle = DetalleTurnos.objects.filter(turno=turno_obtenido)
-			
+	validacion = 1
+	for detail in detalle:
+		# Obtenemos los usuarios del cargo
+		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
+		# Filtramos por tipo de usuario (trabajador)
+		usuario_obtenido = User.objects.filter(profile__type_user=3)
+		# Sacamos aquellos que no tengan activa la cuenta
+		usuario_obtenido = usuario_obtenido.exclude(is_active=0)
+		# Sacamos los usuarios con turno
+		usuario_obtenido = usuario_obtenido.exclude(usuario_turno__usuario__in=usuario_obtenido)
+
+		if usuario_obtenido.count() < detail.cantidad:
+			# Si algun cargo no cumple con los requisitos
+			# rompeemos el ciclo for
+			validacion = 0
+			break
+
+
 	context = {
 	'turno':turno_obtenido, 'detalle':detalle,
+	'validacion': validacion
 	}
 
 	return render(request, 'turnos/validacion_horario.html', context)
