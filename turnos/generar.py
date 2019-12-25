@@ -168,7 +168,8 @@ def generar_horario(request, pk):
 
 					guardar_turno(turno_usuario, dia_ciclo,
 							hora_inicio_guardada, hora_fin_guardada)
-			return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
+					
+	return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
 
 
 def guardar_turno(turno, dia, inicio, fin):

@@ -23,14 +23,16 @@ class UserCreationFormWithEmail(UserCreationForm):
 
 	def clean_first_name(self):
 		first_name = self.cleaned_data['first_name']
-		if not first_name.isalpha():
-			raise forms.ValidationError('El campo Nombre no puede contener números')
+		for l in first_name:
+			if l != " " and not l.isalpha():
+				raise forms.ValidationError('El campo Nombre no puede contener números')
 		return first_name
 
 	def clean_last_name(self):
 		last_name = self.cleaned_data['last_name']
-		if not last_name.isalpha():
-			raise forms.ValidationError('El campo Apellido no puede contener números')
+		for l in last_name:
+			if l != " " and not l.isalpha():
+				raise forms.ValidationError('El campo Apellido no puede contener números')
 		return last_name
 
 	def clean_email(self):
