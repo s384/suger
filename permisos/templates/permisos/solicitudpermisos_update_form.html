@@ -18,27 +18,17 @@
 
           {% csrf_token %}
 
-          <!--información asociada a la solicitud-->
-
-          {{ object.titulo }}
-          <br>
-          {{ object.comentario }}
-          <br>
-          {{ object.tipo_permiso }}
-          <br>
-          {{ object.fecha_inicio }}
-          <br>
-          {{ object.dias_permiso }}
-          <br>
-          {{ object.img_referencia }}
-
-
           <!--Caja de texto de estado de solicitud-->
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Estado de la solicitud <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              {{ form.estado_solicitud }}
+
+              <select name="estado_solicitud" class="form-control" id="id_estado_solicitud">
+                <option value="3">Rechazada</option>
+                <option value="4">Aprovada</option>
+              </select>
+
             </div>
           </div>
 

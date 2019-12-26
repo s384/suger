@@ -17,11 +17,11 @@
         		{% endif %}
         	{% endif %}
 
-			{% if request.user.profile.type_user != 3 %}
-				{% if request.user != solicitudpermisos.usuario %}
-					<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
-				{% endif %}
-        	{% endif %}
+    			{% if request.user.profile.type_user != 3 %}
+    				{% if request.user != solicitudpermisos.usuario or request.user.profile.type_user == 1 %}
+    					<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
+    				{% endif %}
+          {% endif %}
 
         	<div class="clearfix"></div>
       	</div>
