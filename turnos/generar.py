@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 # Modelos turnos
 from .models import Turnos, DetalleTurnos, TurnoUsuario, HorarioUsuario
 
+def ver_horario(request, pk):
+	turno_obtenido = Turnos.objects.get(pk=pk)
+	return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
+
 def generar_horario(request, pk):
 	turno_obtenido = Turnos.objects.get(pk=pk)
 	detalle = DetalleTurnos.objects.filter(turno=turno_obtenido)
@@ -15,24 +19,18 @@ def generar_horario(request, pk):
 	
 	# Obtenemos el tipo de turno y le asignamos la cantidad de horas a utilizar
 	if turno_obtenido.duracion_horas == 0:
-		print("Turno de lunes a viernes, opcion 0")
 		# Lunes a viernes
 		turno_dias = 0
 		duracion_horas = timedelta(hours=10,minutes=0)
 	elif turno_obtenido.duracion_horas == 1:
 		# Lunes a sabado parejo
-		print("Turno de lunes a sabado, opcion 1")
 		turno_dias = 1
 		duracion_horas = timedelta(hours=8,minutes=30)
 	elif turno_obtenido.duracion_horas == 2:
-		print("Turno de lunes a sabado, opcion 2")
 		# Lunes a viernes 8 horas, sabado 5 horas
 		turno_dias = 2
 		duracion_horas = timedelta(hours=9,minutes=0)
 		duracion_sabado = timedelta(hours=5,minutes=0)
-
-	print("Datos del turno: {}".format(turno_obtenido))
-	print("Inicio del turno: {}".format(fecha_inicio.strftime("%w %d/%m/%Y")))
 
 	# Si el turno tiene fecha de fin
 	if turno_obtenido.fecha_fin:
@@ -41,17 +39,9 @@ def generar_horario(request, pk):
 	else:
 		fecha_fin = date(date.today().year, 12, 31)
 	
-	print("Fecha de fin: {}".format(fecha_fin.strftime("%w %d/%m/%Y")))
-	dias_turno = fecha_fin - fecha_inicio
-	print("Duracion del turno: {}".format(dias_turno))
-			
-	# Establecemos el horario de inicio del turno
-	# hora_inicio = turno_obtenido.hora_inicio
-
 	# Por cada detalle del turno generamos un ciclo,
 	# esto corresponde a cada cargo 
 	for detail in detalle:
-		print("Cargo seleccionado {}".format(detail.cargo.titulo))
 		# Filtramos por tipo de usuario (trabajador)
 		usuario_obtenido = User.objects.filter(profile__type_user=3)
 		# Obtenemos los usuarios del cargo
@@ -61,13 +51,9 @@ def generar_horario(request, pk):
 		# Sacamos los usuarios con turno
 		usuario_obtenido = usuario_obtenido.exclude(usuario_turno__usuario__in=usuario_obtenido)
 
-		print("Usuarios obtenidos: {}".format(usuario_obtenido.count()))
-		print("Lista de usuario: {}".format(usuario_obtenido))
 		if usuario_obtenido.count() >= detail.cantidad:
 			usuario_azar = usuario_obtenido.order_by('?')[:detail.cantidad]
-			print("usuarios seleccionado {}".format(usuario_azar))
 			for usuario_guardar in usuario_azar:
-				print("Rotacion para el usuario {}".format(usuario_guardar.get_full_name()))
 				# Reiniciamos la hora inicio para el siguiente usuario
 				hora_inicio = turno_obtenido.hora_inicio
 				# Guardamos el turno_usuario
@@ -91,7 +77,6 @@ def generar_horario(request, pk):
 
 						# Dia de la semana = a domingo
 						if dia_ciclo.weekday() == 0:
-							print("Cambio numero {}".format(contador))
 							# Si es el segundo cambio
 							if contador % 2:
 								hora_inicio = turno_obtenido.hora_inicio
@@ -101,15 +86,11 @@ def generar_horario(request, pk):
 								hora_inicio = turno_obtenido.hora_inicio
 							
 							contador += 1
-							print("Rotacion de turno el dia {}".format(dia_ciclo))
-
-					print("El turno {} comienza a las {}".format(dia_ciclo, hora_inicio))
 
 					hora_fin = (datetime.combine(date.today(), hora_inicio) +
 								duracion_horas).time()
 
-					print("El turno {} termina a las {}".format(dia_ciclo, hora_fin))
-					
+
 					if turno_dias == 0:
 						if dia_ciclo.weekday() in range(0,5):
 							# Lunes a viernes
@@ -170,7 +151,7 @@ def generar_horario(request, pk):
 					guardar_turno(turno_usuario, dia_ciclo,
 							hora_inicio_guardada, hora_fin_guardada)
 					
-	return render(request, 'turnos/horario_generado.html', {'turno':turno_obtenido})
+	return redirect('detailTimeTable', turno_obtenido.pk)
 
 
 def guardar_turno(turno, dia, inicio, fin):

@@ -8,18 +8,25 @@
 
 {% block title %}Horario generado{% endblock %}
 {% block content %}
+<div class="row mt-3">
+  <div class="col-md-10 mx-auto">
+    <div class="x_panel">
+      <div class="text-center">
+        <form action="" method="post">{% csrf_token %}
+          <h3 class="mb-5">¿Estás seguro de que quieres borrar <b>"{{ object }}"<b>?</h3>
+          <input class="btn btn-danger btn-block" type="submit" value="Sí, borrar el registro" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-10 mx-auto">
     <div class="x_panel">
 
       <!--Encabezado del formulario-->  
       <div class="x_title form-inline">
-        <h3>Horario generado <small>Detalle de los turno generado</small></h3>
-        <div class="ml-auto">
-        {% if request.user.profile.type_user == 1 or request.user.profile.cargo_user.area.boss_user == request.user %}
-          <a href="{% url 'TurnosDelete' turno.pk %}" class="btn btn-danger">Eliminar turno</a>
-        {% endif %}
-        </div>
+        <h3>Detalle del turno generado</h3>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -27,16 +34,16 @@
         <div class="row">
           <div class="col-sm-6 col-md-3 border text-center">
             <h5 class="name"> Turno: </h5>
-            <h4 class="value text-success"> {{ turno.nombre }} </h4>
+            <h4 class="value text-success"> {{ turnos.nombre }} </h4>
           </div>
           <div class="col-sm-6 col-md-3 border text-center">
             <h5 class="name"> Area destino: </h5>
-            <h4 class="value text-success"> {{ turno.area }} </h4>
+            <h4 class="value text-success"> {{ turnos.area }} </h4>
           </div>
           <div class="col-sm-6 col-md-6 border text-center">
             <h5 class="name"> Descripción: </h5>
             <h4 class="value text-success">
-            {{ turno.descripcion }}
+            {{ turnos.descripcion }}
             </h4>
           </div>
         </div>
@@ -46,10 +53,10 @@
           
         </div>
 
-        {% for cargo in turno.turno_detalle.all %}
+        {% for cargo in turnos.turno_detalle.all %}
         <ul class="list-group mb-3">
           <li class="list-group-item active"><b>{{ cargo.cargo.titulo }}</b></li>
-          {% for user in turno.turno_usuario.all %}
+          {% for user in turnos.turno_usuario.all %}
             {% if user.usuario.profile.cargo_user == cargo.cargo %}
             <li class="list-group-item">{{ user.usuario.get_full_name }}</li>
             {% endif %}

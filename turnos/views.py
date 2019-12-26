@@ -43,6 +43,11 @@ class TurnosUpdate(UpdateView):
     form_class = TurnosForm
     success_url = reverse_lazy('TurnosList')
 
+
+class TurnosDelete(DeleteView):
+    model = Turnos
+    success_url = reverse_lazy('TurnosList')
+
 # Views asociadas a DetalleTurnos
 
 @method_decorator(login_required, name='dispatch')
