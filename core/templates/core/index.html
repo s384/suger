@@ -108,13 +108,13 @@
   <!-- /Horario con los turnos -->
 </div>
   
-<div class="row">
-
+<div class="row justify-content-center">
+  {% if solicitudes %}
   <!-- Tareas pendientes del usuario -->
   <div class="col-md-4 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Tareas Pendientes</h2>
+        <h2>Solicitudes Tareas</h2>
         <ul class="nav navbar-right panel_toolbox">
           <a class="btn btn-primary" href="{% url 'listTareas' %}">Ver</a>  
         </ul>
@@ -145,35 +145,56 @@
             {% endfor %}
           </div>
         <div class="ln_solid"></div>
-        </div>
       </div>
+    </div>
   </div>
+  {% endif %}
   <!-- /Tareas pendientes del usuario -->
 
-  <!-- Rendimiento de tareas -->
-  <div class="col-md-4">
+  {% if tareas %}
+  <!-- Tareas pendientes del usuario -->
+  <div class="col-md-4 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Cambios de Turno</h2>
+        <h2>Tareas Pendientes</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <a class="btn btn-primary" href="{% url 'SolicitudPermisosList' %}">Ver</a>   
+          <a class="btn btn-primary" href="{% url 'listTareas' %}">Ver</a>  
         </ul>
-        <div class="clearfix"></div>
+         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-         <br />
-        <div class="ln_solid"></div>
+        <br />
           <div class="form-group row">
-            <div class="col-md-9 col-sm-9  offset-md-3">
-              
+            {% for tarea in tareas %}
+            <div class="col-12">
+              <p>
+                <button class="btn btn-block {% if tarea.prioridad == 1 %}
+                btn-outline-success
+              {% elif tarea.prioridad == 2 %}
+                btn-outline-warning
+              {% elif tarea.prioridad == 3 %}
+                btn-outline-danger
+              {% endif %}" type="button" data-toggle="collapse" data-target="#collapseExample{{tarea.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                  {{ tarea.titulo }}
+                </button>
+              </p>
+              <div class="collapse mb-2" id="collapseExample{{tarea.pk}}">
+                <div class="card card-body">
+                  {{ tarea.descripcion|truncatechars:100 }}
+                </div>
+              </div>
             </div>
+            {% endfor %}
           </div>
-        </div>
-     </div>
+        <div class="ln_solid"></div>
+      </div>
+    </div>
   </div>
-  <!-- /Rendimiento de tareas -->
+  {% endif %}
+  <!-- /Tareas pendientes del usuario -->
 
-  <!-- Turnos disponibles -->
+  <!-- Permisos aprobados -->
+  {% if permisos %}
   <div class="col-md-4 ">
     <div class="x_panel">
       <div class="x_title">
@@ -186,102 +207,138 @@
 
       <div class="x_content">
         <br />
+        <div class="form-group row">
+           {% for permiso in permisos %}
+            <div class="col-12">
+            <p>
+              <button class="btn btn-block btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample{{permiso.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                {{ permiso.usuario.get_full_name }}
+              </button>
+            </p>
+            <div class="collapse mb-2" id="collapseExample{{permiso.pk}}">
+              <div class="card card-body">
+                {{ permiso.fecha_inicio|truncatechars:100 }}
+              </div>
+            </div>
+            </div>
+          {% endfor %}
+        </div>
         <div class="ln_solid"></div>
-          <div class="form-group row">
-             {% for permisos in permisos %}
-              <div class="col-12">
-              <p>
-                <button class="btn btn-block btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample{{permisos.pk}}" aria-expanded="false" aria-controls="collapseExample">
-                  {{ permisos.usuario.get_full_name }}
-                </button>
-              </p>
-              <div class="collapse mb-2" id="collapseExample{{permisos.pk}}">
-                <div class="card card-body">
-                  {{ permisos.fecha_inicio|truncatechars:100 }}
-                </div>
+      </div>
+    </div>
+  </div>
+  <!-- Permisos aprobados -->
+  {% endif %}
+
+  <!-- El tiempo -->
+  <div class="col-md-4">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Daily active users <small>Sessions</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Settings 1</a>
+                <a class="dropdown-item" href="#">Settings 2</a>
               </div>
-              </div>
-            {% endfor %}
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="temperature"><b>Monday</b>, 07:30 AM
+              <span>F</span>
+              <span><b>C</b></span>
+            </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="weather-icon">
+              <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="weather-text">
+              <h2>Texas <br><i>Partly Cloudy Day</i></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="weather-text pull-right">
+            <h3 class="degrees">23</h3>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row weather-days">
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Mon</h2>
+              <h3 class="degrees">25</h3>
+              <canvas id="clear-day" width="32" height="32"></canvas>
+              <h5>15 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Tue</h2>
+              <h3 class="degrees">25</h3>
+              <canvas height="32" width="32" id="rain"></canvas>
+              <h5>12 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Wed</h2>
+              <h3 class="degrees">27</h3>
+              <canvas height="32" width="32" id="snow"></canvas>
+              <h5>14 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Thu</h2>
+              <h3 class="degrees">28</h3>
+              <canvas height="32" width="32" id="sleet"></canvas>
+              <h5>15 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Fri</h2>
+              <h3 class="degrees">28</h3>
+              <canvas height="32" width="32" id="wind"></canvas>
+              <h5>11 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="daily-weather">
+              <h2 class="day">Sat</h2>
+              <h3 class="degrees">26</h3>
+              <canvas height="32" width="32" id="cloudy"></canvas>
+              <h5>10 <i>km/h</i></h5>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
       </div>
     </div>
   </div>
-  <!-- Turnos disponibles -->
+  <!-- /Tiempo -->
 </div>
 
-<div class="row">
-  <div class="col-md-8 mx-auto">
-    {% if tareas %}
-    <div class="x_panel">
-      <div class="x_title form-inline">
-        <h2>Mis tareas pendientes</h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <table class="table table-hover table-responsive-sm text-center">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Titulo</th>
-              <th>Supervisor</th>
-              <th>Responsable</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for tarea in tareas %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ tarea.titulo }}</td>
-              <td>{{ tarea.supervisor.get_full_name }}</td>
-              <td>{{ tarea.responsable.get_full_name }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {% endif %}
-    {% if solicitudes %}
-    <div class="x_panel">
-      <div class="x_title form-inline">
-        <h2>Solicitud de tareas</h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <table class="table table-hover table-responsive-sm text-center">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Titulo</th>
-              <th>Solicitante</th>
-              <th>Prioridad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for solicitud in solicitudes %}
-            <tr>
-              <th scope="row">
-                <div class="my-auto">
-                  <a href="{% url 'detailSolicitudTarea' solicitud.slug %}" class="btn btn-primary">Ver</a>
-                </div>
-              </th>
-              <td>{{ solicitud.titulo }}</td>
-              <td>{{ solicitud.solicitante.get_full_name }}</td>
-              <td>{% if solicitud.prioridad == 1 %}
-                Baja
-              {% elif solicitud.prioridad == 2 %}
-                Media
-              {% elif solicitud.prioridad == 3 %}
-                Alta
-              {% endif %}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {% endif %}
+{% endblock %}
 
-  </div>
-</div>
+{% block script %}
+  <!-- Skycons -->
+  <script src="{% static 'vendors/skycons/skycons.js' %}"></script>
 {% endblock %}
