@@ -132,11 +132,11 @@
                 btn-outline-warning
               {% elif solicitud.prioridad == 3 %}
                 btn-outline-danger
-              {% endif %}" type="button" data-toggle="collapse" data-target="#collapseExample{{solicitud.pk}}" aria-expanded="false" aria-controls="collapseExample">
+              {% endif %}" type="button" data-toggle="collapse" data-target="#solicitud{{solicitud.pk}}" aria-expanded="false" aria-controls="collapseExample">
                   {{ solicitud.titulo }}
                 </button>
               </p>
-              <div class="collapse mb-2" id="collapseExample{{solicitud.pk}}">
+              <div class="collapse mb-2" id="solicitud{{solicitud.pk}}">
                 <div class="card card-body">
                   {{ solicitud.descripcion|truncatechars:100 }}
                 </div>
@@ -174,11 +174,11 @@
                 btn-outline-warning
               {% elif tarea.prioridad == 3 %}
                 btn-outline-danger
-              {% endif %}" type="button" data-toggle="collapse" data-target="#collapseExample{{tarea.pk}}" aria-expanded="false" aria-controls="collapseExample">
+              {% endif %}" type="button" data-toggle="collapse" data-target="#tarea{{tarea.pk}}" aria-expanded="false" aria-controls="collapseExample">
                   {{ tarea.titulo }}
                 </button>
               </p>
-              <div class="collapse mb-2" id="collapseExample{{tarea.pk}}">
+              <div class="collapse mb-2" id="tarea{{tarea.pk}}">
                 <div class="card card-body">
                   {{ tarea.descripcion|truncatechars:100 }}
                 </div>
@@ -211,11 +211,11 @@
            {% for permiso in permisos %}
             <div class="col-12">
             <p>
-              <button class="btn btn-block btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample{{permiso.pk}}" aria-expanded="false" aria-controls="collapseExample">
+              <button class="btn btn-block btn-outline-info" type="button" data-toggle="collapse" data-target="#permiso{{permiso.pk}}" aria-expanded="false" aria-controls="collapseExample">
                 {{ permiso.usuario.get_full_name }}
               </button>
             </p>
-            <div class="collapse mb-2" id="collapseExample{{permiso.pk}}">
+            <div class="collapse mb-2" id="permiso{{permiso.pk}}">
               <div class="card card-body">
                 {{ permiso.fecha_inicio|truncatechars:100 }}
               </div>

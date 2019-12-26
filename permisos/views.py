@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .forms import (SolicitudPermisosForm, EstadoSolicitudForm,
     TrabajadorSolicitudForm)
 from turnos.models import TurnoUsuario, HorarioUsuario
+from notificaciones.models import Notificacion
 from datetime import timedelta
 
 
@@ -59,6 +60,23 @@ class SolicitudPermisosDetail(DetailView):
     model = SolicitudPermisos
     template_name_suffix = '_detail'
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user.profile.type_user < 3:
+            if self.object.estado_solicitud == 1:
+                self.object.estado_solicitud = 2
+                self.object.save()
+
+                noti = Notificacion(
+                    asunto = "Permiso en revision",
+                    descripcion = self.object.titulo,
+                    usuario = self.object.usuario,
+                    prioridad = 1
+                    )
+                noti.save()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
 class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos
     form_class = EstadoSolicitudForm
@@ -100,7 +118,22 @@ class EstadoSolicitudUpdate(UpdateView):
                 permiso_dia = permiso_dia.get(dia_semana=dia_inicio)
                 permiso_dia.trabajado = tipo_permiso
                 permiso_dia.save()
-        
+            
+            noti = Notificacion(
+                    asunto = "Permiso aprobado",
+                    descripcion = self.object.titulo,
+                    usuario = self.object.usuario,
+                    prioridad = 3
+                    )
+            noti.save()
+        elif self.estado == 3:
+            noti = Notificacion(
+                    asunto = "Permiso rechazado",
+                    descripcion = self.object.titulo,
+                    usuario = self.object.usuario,
+                    prioridad = 3
+                    )
+            noti.save()
         estado_solicitud.save()
         return redirect(self.success_url)
 

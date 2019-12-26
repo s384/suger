@@ -25,7 +25,7 @@ SECRET_KEY = '^oabch=69g++1#2hlbl!nequ%#tynv$1ii4(5-@53m2po-*n@o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','echopi.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','sugersoftware.pythonanywhere.com']
 
 
 # Application definition
