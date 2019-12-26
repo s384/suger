@@ -41,8 +41,22 @@ class TurnosCreate(CreateView):
 class TurnosUpdate(UpdateView):
     model = Turnos
     form_class = TurnosForm
-    success_url = reverse_lazy('TurnosList')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        turno_update = form.save(commit=False)
+        detalle_turno = DetalleTurnos.objects.filter(turno=turno_update)
+        for detalle in detalle_turno:
+            detalle.delete()
+        turno_update.save()
+        return HttpResponseRedirect(reverse_lazy('seleccionCargos', kwargs={'pk': turno_update.pk}))
 
 class TurnosDelete(DeleteView):
     model = Turnos
@@ -62,8 +76,6 @@ def AsignarNegrosTurno(request, pk):
     for i in cargos_turno:
         usuarios_cargo = User.objects.filter(profile__cargo_user=i.cargo)
         context[i.cargo.slug] = usuarios_cargo
-
-    print(context)
 
     return render(request, 'turnos/agregar_usuarios_form.html', context)
 

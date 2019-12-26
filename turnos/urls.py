@@ -8,7 +8,7 @@ urlpatterns = [
 	# URL's de Turnos
     path('mostrar-turnos/', TurnosList.as_view(), name="TurnosList"),
     path('crear-turnos/', TurnosCreate.as_view(), name="TurnosCreate"),
-    path('actualizar-turnos/', TurnosUpdate.as_view(), name="TurnosUpdate"),
+    path('actualizar-turnos/<int:pk>', TurnosUpdate.as_view(), name="TurnosUpdate"),
     path('borrar-turno/<int:pk>', TurnosDelete.as_view(), name="TurnosDelete"),
     # Formulario para seleccionar los cargos
     path('seleccion-cargos/<int:pk>', form_cargos, name="seleccionCargos"),

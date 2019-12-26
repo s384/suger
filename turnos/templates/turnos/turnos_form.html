@@ -57,8 +57,15 @@
 					<div class="item form-group">
 						<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo del turno<span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 ">
-							{{ form.tipo_turno }}
+						<div class="col-md-6 col-sm-6 mt-2">
+							<div class="form-check form-check-inline">
+							    <input type="radio" name="tipo_turno" value="0" required="" id="id_tipo_turno_1" class="form-check-input" {% if object.tipo_turno == 0 %} checked {% endif %}>
+							    <label class="form-check-label" for="id_tipo_turno_1">Fijo</label>
+							</div>
+							<div class="form-check form-check-inline">
+							    <input type="radio" name="tipo_turno" value="1" required="" id="id_tipo_turno_2" class="form-check-input" {% if object.tipo_turno == 1 %} checked {% endif %}>
+							    <label class="form-check-label" for="id_tipo_turno_2">Rotativo</label>
+							</div>
 						</div>
 					</div>
 
@@ -69,7 +76,7 @@
 						<div class="col-md-6 col-sm-6 ">
 							<div class="form-group">
 								<div class='input-group date' id='myDatepicker2'>
-									<input type='text' class="form-control" name = "fecha_inicio"/>
+									<input type='text' class="form-control" name = "fecha_inicio" value="{{ object.fecha_inicio|date:'d m y' }}" />
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -85,7 +92,7 @@
 						<div class="col-md-6 col-sm-6 ">
 							<div class="form-group">
 								<div class='input-group date' id='myDatepicker3' name = "hora_inicio">
-									<input type='text' class="form-control" name="hora_inicio"/>
+									<input type='text' class="form-control" name="hora_inicio" value="{{ object.hora_inicio }}" />
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -117,7 +124,7 @@
 						<div class="col-md-6 col-sm-6 ">
 							<div class="form-group">
 								<div class='input-group date' id='myDatepicker4'>
-									<input type='text' class="form-control" name = "fecha_fin"/>
+									<input type='text' class="form-control" name = "fecha_fin" value="{{ object.fecha_fin }}" />
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>

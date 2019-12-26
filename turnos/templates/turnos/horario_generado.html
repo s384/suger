@@ -16,6 +16,7 @@
       <div class="x_title form-inline">
         <h3>Horario generado <small>Detalle de los turno generado</small></h3>
         <div class="ml-auto">
+          <a href="{% url 'TurnosList' %}" class="btn btn-info">Aceptar</a>
         {% if request.user.profile.type_user == 1 or request.user.profile.cargo_user.area.boss_user == request.user %}
           <a href="{% url 'TurnosDelete' turno.pk %}" class="btn btn-danger">Eliminar turno</a>
         {% endif %}

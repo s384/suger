@@ -52,6 +52,8 @@
                 <div class="my-auto">
                   {% if turno.turno_usuario.exists %}
                   <a href="{% url 'detailTimeTable' turno.pk %}" class="btn btn-primary registro">Ver</a>
+                  {% else %}
+                  <a href="{% url 'TurnosUpdate' turno.pk %}" class="btn btn-warning registro">Editar</a>
                   {% endif %}
                 </div>
               </th>
