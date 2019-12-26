@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
@@ -8,6 +8,8 @@ from .models import SolicitudPermisos
 from django.contrib.auth.models import User
 from .forms import (SolicitudPermisosForm, EstadoSolicitudForm,
     TrabajadorSolicitudForm)
+from turnos.models import TurnoUsuario, HorarioUsuario
+from datetime import timedelta
 
 
 class SolicitudPermisosList(ListView):
@@ -70,8 +72,37 @@ class EstadoSolicitudUpdate(UpdateView):
             self.user = self.object.usuario
             self.inicio = self.object.fecha_inicio
             self.dias = self.object.dias_permiso
+            self.estado = request.POST.get('estado_solicitud')
+            return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def form_valid(self, form):
+        estado_solicitud = form.save(commit=False)
+        if self.estado_solicitud == 4:
+            tipo_permiso = self.object.tipo_permiso
+            
+            turno = get_object_or_404(TurnoUsuario, usuario=self.user)
+            horario = HorarioUsuario.objects.filter(turno_usuario=turno)
+            horario = horario.get(dia_semana=self.inicio)
+            dia_inicio = horario.dia_semana
+            if tipo_permiso < 4:
+                fin_permiso = dia_inicio + timedelta(days=self.dias)
+
+                for i in range((fin_permiso - dia_inicio).days):
+                    dia_ciclo = dia_inicio + timedelta(days=i)
+                    permiso_dia_ciclo = HorarioUsuario.objects.filter(turno_usuario=turno)
+                    permiso_dia_ciclo = permiso_dia_ciclo.get(dia_semana=dia_ciclo)
+                    permiso_dia_ciclo.trabajado = tipo_permiso
+                    permiso_dia_ciclo.save()
+            else:
+                permiso_dia = HorarioUsuario.objects.filter(turno_usuario=turno)
+                permiso_dia = permiso_dia.get(dia_semana=dia_inicio)
+                permiso_dia.trabajado = tipo_permiso
+                permiso_dia.save()
+        
+        estado_solicitud.save()
+        return redirect(self.success_url)
 
 
 class EstadoSolicitudUpdateTrabajador(UpdateView):
