@@ -79,7 +79,7 @@ class EstadoSolicitudUpdate(UpdateView):
 
     def form_valid(self, form):
         estado_solicitud = form.save(commit=False)
-        if self.estado_solicitud == 4:
+        if self.estado == 4:
             tipo_permiso = self.object.tipo_permiso
             
             turno = get_object_or_404(TurnoUsuario, usuario=self.user)
