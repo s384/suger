@@ -6,7 +6,7 @@
 
 {% endblock %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Horario generado{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
@@ -14,23 +14,42 @@
 
       <!--Encabezado del formulario-->  
       <div class="x_title form-inline">
-        <h3>Horario generado <small>Detalle de los turnos generados</small></h3>
+        <h3>Horario generado <small>Detalle de los turno generado</small></h3>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-          <h5>Se ha generado el horario para el turno: <b>{{ turno.nombre }}</b></h5>
-          <h4>{{ turno.descripcion }}</h4>
-          <h5>Este turno corresponde al area: <b>{{ turno.area }}</b></h5>
 
+        <div class="row">
+          <div class="col-sm-6 col-md-3 border text-center">
+            <h5 class="name"> Turno: </h5>
+            <h4 class="value text-success"> {{ turno.nombre }} </h4>
+          </div>
+          <div class="col-sm-6 col-md-3 border text-center">
+            <h5 class="name"> Area destino: </h5>
+            <h4 class="value text-success"> {{ turno.area }} </h4>
+          </div>
+          <div class="col-sm-6 col-md-6 border text-center">
+            <h5 class="name"> Descripción: </h5>
+            <h4 class="value text-success">
+            {{ turno.descripcion }}
+            </h4>
+          </div>
+        </div>
+        <div class="text-center mb-4 mt-4">
+
+          <h5>Los cargos y el personal seleccionado son: </h5>
+          
+        </div>
 
         {% for cargo in turno.turno_detalle.all %}
-          <h2>Los cargos seleccionados son: </h2>
-          <b>{{ cargo.cargo.titulo }}</b>: {{ cargo.cantidad }}
-          <br>
-          Los usuarios seleccionados son:
-          {% for user in turno.turno_detalle.turno_usuario.horario_turno.all %}
-            {{ user }}
+        <ul class="list-group mb-3">
+          <li class="list-group-item active"><b>{{ cargo.cargo.titulo }}</b></li>
+          {% for user in turno.turno_usuario.all %}
+            {% if user.usuario.profile.cargo_user == cargo.cargo %}
+            <li class="list-group-item">{{ user.usuario.get_full_name }}</li>
+            {% endif %}
           {% endfor %}
+        </ul>
         {% endfor %}
       </div>
     </div>

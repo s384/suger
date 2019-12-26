@@ -52,9 +52,10 @@ def generar_horario(request, pk):
 	# esto corresponde a cada cargo 
 	for detail in detalle:
 		print("Cargo seleccionado {}".format(detail.cargo.titulo))
-		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
 		# Filtramos por tipo de usuario (trabajador)
 		usuario_obtenido = User.objects.filter(profile__type_user=3)
+		# Obtenemos los usuarios del cargo
+		usuario_obtenido = usuario_obtenido.filter(profile__cargo_user=detail.cargo.pk)
 		# Sacamos aquellos que no tengan activa la cuenta
 		usuario_obtenido = usuario_obtenido.exclude(is_active=0)
 		# Sacamos los usuarios con turno
@@ -187,15 +188,16 @@ def validacion_horario(request, turno):
 	detalle = DetalleTurnos.objects.filter(turno=turno_obtenido)
 	validacion = 1
 	for detail in detalle:
-		# Obtenemos los usuarios del cargo
-		usuario_obtenido = User.objects.filter(profile__cargo_user=detail.cargo.pk)
 		# Filtramos por tipo de usuario (trabajador)
 		usuario_obtenido = User.objects.filter(profile__type_user=3)
+		# Obtenemos los usuarios del cargo
+		usuario_obtenido = usuario_obtenido.filter(profile__cargo_user=detail.cargo.pk)
 		# Sacamos aquellos que no tengan activa la cuenta
 		usuario_obtenido = usuario_obtenido.exclude(is_active=0)
 		# Sacamos los usuarios con turno
 		usuario_obtenido = usuario_obtenido.exclude(usuario_turno__usuario__in=usuario_obtenido)
 
+		print(usuario_obtenido)
 		if usuario_obtenido.count() < detail.cantidad:
 			# Si algun cargo no cumple con los requisitos
 			# rompeemos el ciclo for
@@ -209,3 +211,4 @@ def validacion_horario(request, turno):
 	}
 
 	return render(request, 'turnos/validacion_horario.html', context)
+	
