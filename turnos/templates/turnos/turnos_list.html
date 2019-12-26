@@ -11,7 +11,7 @@
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Lista de turnos{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
@@ -34,7 +34,7 @@
           <!--encabezados de la tabla-->
           <thead>
             <tr>
-              <th>#</th>
+              <th>Detalles</th>
               <th>Nombre Turno</th>
               <th>Area</th>
               <th>Fecha inicio</th>
@@ -48,7 +48,13 @@
           <tbody>
             {% for turno in turnos_list %}
             <tr>
-              <th scope="row">{{ forloop.counter }}</th>
+              <th>
+                <div class="my-auto">
+                  {% if turno.turno_usuario.exists %}
+                  <a href="{% url 'detailTimeTable' turno.pk %}" class="btn btn-primary registro">Ver</a>
+                  {% endif %}
+                </div>
+              </th>
               <td>{{ turno.nombre }}</td>
               <td>{{ turno.area }}</td>
               <td>{{ turno.fecha_inicio|date:"d /M /Y" }}</td>
@@ -66,7 +72,9 @@
               </td>
               <td>
                 <div class="my-auto">
+                  {% if not turno.turno_usuario.exists %}
                   <a href="{% url 'validateTimeTable' turno.pk %}" class="btn btn-info registro">Generar</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

@@ -5,7 +5,7 @@
 
 {% endblock %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Validando los datos del turno{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
@@ -53,11 +53,11 @@
                 <ul class="list-group">
                   {% for user in cargo.cargo.user_cargo.all %}
   
-                    {% if user.user.is_active and not user.user.usuario_turno.exists %}
+                    {% if user.user.is_active and not user.user.usuario_turno.exists and user.user.profile.type_user == 3%}
                       <li class="list-group-item list-group-item-primary" data-toggle="tooltip" data-placement="left" title="Usuario disponible">{{ user }}</li>
-                    {% elif user.user.usuario_turno.exists %}
+                    {% elif user.user.usuario_turno.exists and user.user.profile.type_user == 3 %}
                       <li class="list-group-item list-group-item-warning" data-toggle="tooltip" data-placement="left" title="Usuario con turno asignado">{{ user }}</li>
-                    {% else %}
+                    {% elif user.user.profile.type_user == 3 %}
                       <li class="list-group-item list-group-item-secondary" data-toggle="tooltip" data-placement="left" title="Cuenta no activada">{{ user }}</li>
                     {% endif %}
                   {% endfor %}
