@@ -63,6 +63,17 @@ class EstadoSolicitudUpdate(UpdateView):
     template_name_suffix = '_update_form'
     success_url = reverse_lazy('SolicitudPermisosList')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            self.user = self.object.usuario
+            self.inicio = self.object.fecha_inicio
+            self.dias = self.object.dias_permiso
+        else:
+            return self.form_invalid(form)
+
+
 class EstadoSolicitudUpdateTrabajador(UpdateView):
     model = SolicitudPermisos
     form_class = TrabajadorSolicitudForm
