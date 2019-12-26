@@ -61,6 +61,7 @@
     </div>
   </div>
   <!-- /Datos del usuario -->
+
   <!-- Horario con los turnos -->
   <div class="col-md-9 ">
        <div class="x_panel">
@@ -102,12 +103,13 @@
             </div>
           </div>
         </div>
-    </div>
+  </div>
   </div>
   <!-- /Horario con los turnos -->
 </div>
   
 <div class="row">
+
   <!-- Tareas pendientes del usuario -->
   <div class="col-md-4 ">
     <div class="x_panel">
@@ -147,6 +149,7 @@
       </div>
   </div>
   <!-- /Tareas pendientes del usuario -->
+
   <!-- Rendimiento de tareas -->
   <div class="col-md-4">
     <div class="x_panel">
@@ -169,6 +172,7 @@
      </div>
   </div>
   <!-- /Rendimiento de tareas -->
+
   <!-- Turnos disponibles -->
   <div class="col-md-4 ">
     <div class="x_panel">
@@ -184,9 +188,20 @@
         <br />
         <div class="ln_solid"></div>
           <div class="form-group row">
-             <div class="col-md-9 col-sm-9  offset-md-3">
-              
-             </div>
+             {% for permisos in permisos %}
+              <div class="col-12">
+              <p>
+                <button class="btn btn-block btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample{{permisos.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                  {{ permisos.usuario.get_full_name }}
+                </button>
+              </p>
+              <div class="collapse mb-2" id="collapseExample{{permisos.pk}}">
+                <div class="card card-body">
+                  {{ permisos.fecha_inicio|truncatechars:100 }}
+                </div>
+              </div>
+              </div>
+            {% endfor %}
           </div>
       </div>
     </div>

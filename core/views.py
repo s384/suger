@@ -15,6 +15,7 @@ from tareas.models import Tareas, SolicitudTarea
 # Para el horario
 from datetime import timedelta, date, time, datetime
 from turnos.models import HorarioUsuario
+from permisos.models import SolicitudPermisos
 
 
 @method_decorator(login_required, name='dispatch')
@@ -89,6 +90,9 @@ def home(request):
         tareas = Tareas.objects.filter(responsable=request.user)
         solicitudes = SolicitudTarea.objects.filter(
             area_destino__boss_user=request.user)
+        permisos = SolicitudPermisos.objects.filter(
+            estado_solicitud = 4 ).filter(usuario__profile__cargo_user__area =
+            request.user.profile.cargo_user.area)
         inicio_semana = datetime.today()-timedelta(days=datetime.today().weekday())
         dias_restantes = 7 - datetime.today().isoweekday() 
         fin_semana = datetime.today()+timedelta(days=dias_restantes)
@@ -100,6 +104,7 @@ def home(request):
         'tareas':tareas, 
         'solicitudes':solicitudes,
         'horario':horario,
+        'permisos':permisos,
         }
 
         return render(request, 'core/index.html', context)

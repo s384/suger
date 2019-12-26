@@ -14,5 +14,5 @@ urlpatterns = [
 	#Tareas
     path('', TareasList.as_view(), name="listTareas"),
     path('nueva-tarea/<slug:slug>', TareasCreate.as_view(), name="createTareas"),
-    path('informe-tareas', informe_tareas, name="informeTareas"),
+    path('informe-tareas', informe_tareas, name="listSolicitudTarea"),
 ]
