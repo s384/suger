@@ -16,8 +16,7 @@ class UserCreationFormWithEmail(UserCreationForm):
 			'last_name' : forms.TextInput(attrs={'class':'form-control'}),
 		}
 		help_texts = {
-			'username' : ('Ingrese su rut sin puntos ni guion, con digito verificador.'
-						  ' Si su rut termina con K reemplacelo con un 0.'),
+			'username' : ('Ingrese su rut sin puntos pero con guion y digito verificador.'),
 		}
 
 	def clean_username(self):
