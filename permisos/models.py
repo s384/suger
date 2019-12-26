@@ -16,7 +16,7 @@ class SolicitudPermisos(models.Model):
 		(1, "No Revisado"),
 		(2, "En revisión"),
 		(3, "Rechazada"),
-		(4, "Aprovada")
+		(4, "Aprobada")
 	]
 
 	titulo = models.CharField(max_length = 100,verbose_name = "título de la solicitud de permiso")
