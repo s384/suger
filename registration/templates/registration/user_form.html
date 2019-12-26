@@ -9,7 +9,7 @@
   <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Inicio{% endblock %}
+{% block title %}Creando Usuario{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-12 col-sm-12 ">
@@ -46,12 +46,18 @@
               <input type="password" name="password2" value="suger1234">
           </div>
           {% endif %}
+
           <div class="item form-group">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Rut <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
               {{ form.username }}
             </div>
+            <content>
+            <div id="wrapper" >
+              <p class="text-info" id="msgerror"></p>
+            </div>
+          </content>
           </div>
           <div class="item form-group">
             <div class="mx-auto">
@@ -88,7 +94,7 @@
           <div class="item form-group">
             <div class="mx-auto">
               <a class="btn btn-primary" href="{% url 'user' %}">Cancelar</a>
-              <input type="submit" class="btn btn-success" value="Siguiente" />
+              <input type="submit" class="btn btn-success" value="Siguiente" id="btn_siguiente" />
             </div>
           </div>
 
@@ -100,6 +106,38 @@
 {% endblock %}
 
 {% block script %}
+
+  <script>
+    var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+      rutCompleto = rutCompleto.replace("‐","-");
+      if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+        return false;
+      var tmp   = rutCompleto.split('-');
+      var digv  = tmp[1]; 
+      var rut   = tmp[0];
+      if ( digv == 'K' ) digv = 'k' ;
+      
+      return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+      var M=0,S=1;
+      for(;T;T=Math.floor(T/10))
+        S=(S+T%10*(9-M++%6))%11;
+      return S?S-1:'k';
+      }
+    }
+
+    document.getElementById("id_username").onfocusout = function() {myFunction()};
+     function myFunction() {
+      if (Fn.validaRut( $("#id_username").val() )){
+        $("#msgerror").html("El rut ingresado es válido");
+      } else {
+        $("#msgerror").html("El Rut ingresado no es válido");
+      }
+    };</script>
+
   <script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
   <script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
   <script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>

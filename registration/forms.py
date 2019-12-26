@@ -11,7 +11,7 @@ class UserCreationFormWithEmail(UserCreationForm):
 		fields = ("username","first_name", "last_name", "email", 
 				  "password1","password2")
 		widgets = {
-			'username' : forms.TextInput(attrs={'class':'form-control'}),
+			'username' : forms.TextInput(attrs={'class':'form-control','onfocusout':'myFunction'}),
 			'first_name' : forms.TextInput(attrs={'class':'form-control'}),
 			'last_name' : forms.TextInput(attrs={'class':'form-control'}),
 		}
@@ -19,6 +19,12 @@ class UserCreationFormWithEmail(UserCreationForm):
 			'username' : ('Ingrese su rut sin puntos ni guion, con digito verificador.'
 						  ' Si su rut termina con K reemplacelo con un 0.'),
 		}
+
+	def clean_username(self):
+		username = self.cleaned_data.get("username")
+		if User.objects.filter(username=username).exists():
+			raise forms.ValidationError("Este Rut ya ha sido registrado")
+		return username
 
 
 	def clean_first_name(self):
