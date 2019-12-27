@@ -25,9 +25,9 @@ class ActivationForm(FormView):
     def post(self, request, *args, **kwargs):
         self.object = None
         form = self.get_form()
-        self.email = request.POST.get('email')
-        self.user = get_object_or_404(User, email=self.email)
         if form.is_valid():
+            self.email = request.POST.get('email')
+            self.user = User.objects.get(email=self.email)
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
