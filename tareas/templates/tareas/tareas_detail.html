@@ -7,12 +7,15 @@
     <div class="x_panel">
       <div class="x_title form-inline">
         <h3>{{ tareas.titulo }}</h3>
-        {% if tareas.area_destino.boss_user == request.user or request.user == tareas.responsable %}
-          <div class="ml-auto">
-          {% if request.user.profile.type_user < 3 %}
+        
+        <div class="ml-auto">
+          <a href="{% url 'listTareas' %}" class="btn btn-success">Volver a tareas</a>
+          {% if tareas.area_destino.boss_user == request.user or request.user == tareas.responsable %}
+          
+          {% if request.user.profile.type_user < 3 and not tareas.fecha_termino %}
             <a href="{% url 'responsableTarea' tareas.pk %}" class="btn btn-warning">Cambiar responsable</a>
           {% endif %}
-          </div>
+        </div>
           {% if not tareas.fecha_termino %}
           <div class="">
             <a href="{% url 'completeTarea' tareas.pk %}" class="btn btn-success">Tarea Completada</a>

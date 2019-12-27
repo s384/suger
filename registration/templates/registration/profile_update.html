@@ -1,12 +1,12 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}Inicio{% endblock %}
+{% block title %}Modificando el perfil{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Creando el usuario<small>{{ object.user.get_full_name }}</small></h2>
+        <h2>Modificando usuario<small>{{ object.user.get_full_name }}</small></h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -14,6 +14,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
+        <h2 class="text-center">Si desea modificar su contraseña haz <b><a href="{% url 'password_change' %}">Click aqui</a></b></h2>
         <br />
         {% if form.errors %}
             {% for field in form %}
@@ -29,42 +30,13 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo de usuario <span class="required">*</span>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Imagen de perfil <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              <select name="type_user" id="id_type_user" class="form-control">
-                {% if request.user.profile.type_user == 1 %}
-                  <option value="1" selected="">Administrador</option>
-                  <option value="2">Supervisor</option>
-                  <option value="3">Trabajador</option>
-                {% else %}
-                <option value="3">Trabajador</option>
-                {% endif %}
-              </select>
-            </div>
-          </div>
-          <div class="item form-group">
-            <div class="mx-auto">
-              {{ form.type_user.help_text }}
-            </div>
-          </div>
-          <!--
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Area del usuario <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              {{ form.area_user }}
-            </div>
-          </div>
-          -->
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Cargo del usuario <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              {{ form.cargo_user }}
+              {{ form.avatar }}
             </div>
           </div>
           <div class="item form-group">
@@ -85,7 +57,8 @@
           <div class="ln_solid"></div>
           <div class="item form-group">
             <div class="mx-auto">
-              <input type="submit" class="btn btn-success" value="Siguiente" />
+              <a href="{% url 'detailUser' request.user.pk %}" class="btn btn-primary">Cancelar</a>
+              <input type="submit" class="btn btn-success" value="Grabar" />
             </div>
           </div>
 

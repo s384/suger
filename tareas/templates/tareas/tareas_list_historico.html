@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
 {% block static %}
   <!-- My Custom Theme Style -->
   <link href="{% static 'build/css/my_css.css' %}" rel="stylesheet">
@@ -10,82 +9,41 @@
   <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
-
-{% block title %}Listado de solicitudes{% endblock %}
+{% block title %}Listado de tareas ya resueltas {% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
-    <div class="x_panel">
+    <div class="x_panel form-inline">
       <div class="x_title form-inline">
-        <h2>Solicitudes de permisos  <small>Listado de solicitudes realizadas por área</small></h2>
+        <h2>Historial de Tareas <small>Listado de tareas ya resueltas </small></h2>
         <div class="ml-auto">
-          <a href="{% url 'SolicitudPermisosForm' %}" class="btn btn-success">Nueva Solicitud </a>
-          <a href="{% url 'SolicitudPermisosListHistorial' %}" class="btn btn-success">Historial de solicitudes </a>
+          <a href="{% url 'listTareas' %}" class="btn btn-success">Volver a tareas</a>
         </div>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-
-        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
-
+        <table table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%"|  >
           <thead>
             <tr>
-              <th>usuario</th>
-              <th>tipo permiso</th>
-              <th>fecha creación</th>
-              <th>fecha inicio</th>
-              <th>dias permiso</th>
-              <!--
-              <th>horas permiso</th>
-              -->
-              <th>estado solicitud</th>
-              <th>detalles del permiso</th>
+              <th>#</th>
+              <th>Titulo</th>
+              <th>Supervisor</th>
+              <th>Responsable</th>
+              <th>Opciones</th>
             </tr>
           </thead>
-
           <tbody>
-            {% for permisos in solicitudpermisos_list %}
+            {% for tarea in tareas_list %}
             <tr>
-              <td>{{ permisos.usuario.get_full_name }}</td>
-              <td>
-                {% if permisos.tipo_permiso == 0 %}
-                  Ausencia
-                {% elif permisos.tipo_permiso == 1 %}
-                  Permiso Administrativo
-                {% elif permisos.tipo_permiso == 2 %}
-                  Vacaciones
-                {% elif permisos.tipo_permiso == 3 %}
-                  Licencia Médica
-                {% elif permisos.tipo_permiso == 4 %}
-                  Atraso
-                {% elif permisos.tipo_permiso == 5 %}
-                  Salida Anticipada
-                {% endif %}
-              </td>
-              <td>{{ permisos.created }}</td>
-              <td>{{ permisos.fecha_inicio }}</td>
-              <td>{{ permisos.dias_permiso }}</td>
-              <!--
-              <td>{{ permisos.horas_permiso }}</td>
-              -->
-              <td>
-                {% if permisos.estado_solicitud == 1 %}
-                  No Revisado
-                {% elif permisos.estado_solicitud == 2 %}
-                  En revisión
-                {% elif permisos.estado_solicitud == 3 %}
-                  Rechazada
-                {% elif permisos.estado_solicitud == 4 %}
-                  Aprobada  
-                {% endif %}
-              </td>
-
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ tarea.titulo }}</td>
+              <td>{{ tarea.supervisor.get_full_name }}</td>
+              <td>{{ tarea.responsable.get_full_name }}</td>
               <td>
                 <div class="my-auto">
-                  <a href="{% url 'SolicitudPermisosDetail' permisos.pk %}" class="btn btn-warning registro">Detalles</a>
+                  <a href="{% url 'detailTareas' tarea.pk %}" class="btn btn-info registro">Ver detalles</a>
                 </div>
               </td>
-              
             </tr>
             {% endfor %}
           </tbody>

@@ -16,18 +16,35 @@ from datetime import timedelta
 
 class SolicitudPermisosList(ListView):
     model = SolicitudPermisos
+    template_name = 'permisos/solicitudpermisos_list.html'
 
     def get_queryset(self):
         qs = super().get_queryset()
         usuario = User.objects.get(username=self.request.user)
-        if usuario.profile.type_user == 1:
-            return qs
-        elif usuario.profile.type_user == 2:
+        if usuario.profile.type_user == 2:
             qs = qs.filter(usuario__profile__cargo_user__area__boss_user  = usuario)
-            return qs
         elif usuario.profile.type_user == 3:
             qs = qs.filter(usuario = self.request.user)
-        return qs.exclude(estado_solicitud=4)
+        return qs.exclude(estado_solicitud=4).exclude(estado_solicitud=3)
+
+
+class SolicitudPermisosListHistorial(ListView):
+    model = SolicitudPermisos
+    template_name = 'permisos/solicitudpermisos_list_historial.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 2:
+            qs = qs.filter(usuario__profile__cargo_user__area__boss_user  = usuario)
+            print(qs)
+        elif usuario.profile.type_user == 3:
+            qs = qs.filter(usuario = self.request.user)
+            print(qs)
+        print(qs)    
+        return qs.exclude(estado_solicitud=1).exclude(estado_solicitud=2)
+
+
 
 class SolicitudPermisosForm(CreateView):
     model = SolicitudPermisos
@@ -58,6 +75,7 @@ class SolicitudPermisosForm(CreateView):
         permisos_form.save()
         return redirect(self.success_url)
 
+
 class SolicitudPermisosDetail(DetailView):
     model = SolicitudPermisos
     template_name_suffix = '_detail'
@@ -78,6 +96,7 @@ class SolicitudPermisosDetail(DetailView):
                 noti.save()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
+
 
 class EstadoSolicitudUpdate(UpdateView):
     model = SolicitudPermisos

@@ -133,12 +133,7 @@
                 {% endif %} mr-2"></span>{{ request.user.first_name}}
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="javascript:;">Perfil</a>
-                    <a class="dropdown-item" href="javascript:;">
-                      <span class="badge bg-red pull-right">50%</span>
-                      <span>Ajustes</span>
-                    </a>
-                    <a class="dropdown-item"  href="javascript:;">Ayuda</a>
+                    <a class="dropdown-item" href="{% url 'detailUser' request.user.pk %}">Perfil</a>
                     <a class="dropdown-item"  href="{% url 'logout' %}">
                       <i class="fa fa-sign-out pull-right"></i> Salida
                     </a>

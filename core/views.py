@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from registration.models import Profile
 from django.contrib.auth.models import User
 from registration.forms import (UserCreationFormWithEmail,
-    ProfileForm, UserActive, UserUpdateForm)
+    ProfileForm, UserActive, UserUpdateForm, ProfileUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
 # Para el horario
 from datetime import timedelta, date, time, datetime
@@ -23,6 +23,15 @@ class UserList(ListView):
     model = User
     template_name = 'registration/user_list.html'
     #paginate_by = 10
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 1:
+            return qs
+        elif usuario.profile.type_user == 2:
+            qs = qs.filter(profile__cargo_user__area__boss_user = usuario)
+            return qs
+
 
 @method_decorator(login_required, name='dispatch')
 class UserCreate(CreateView):
@@ -83,6 +92,15 @@ class ProfileUpdate(UpdateView):
     template_name = 'registration/profile_form.html'
     success_url = reverse_lazy('user')
 
+
+class ProfileWorkUpdate(UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = 'registration/profile_update.html'
+    
+    def get_success_url(self):
+        userId=self.object.pk
+        return reverse_lazy('detailUser', kwargs={'pk': userId})
 
 
 def home(request):

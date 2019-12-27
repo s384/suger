@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (home, job, turn, work, profile,
                     UserList, UserCreate, UserDelete, UserUpdate,
-                    UserDetail, ProfileCreate, ProfileUpdate
-                    )
+                    UserDetail, ProfileCreate, ProfileUpdate,
+                    ProfileWorkUpdate)
 from cargos.views import (CargoList, CargoCreate, CargoUpdate)
 
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
     path('perfil/', profile, name="profile"),
     path('nuevo-perfil/<int:pk>', ProfileCreate.as_view(), name="newPerfil"),
     path('modificar-perfil/<int:pk>', ProfileUpdate.as_view(), name="updatePerfil"),
+    path('actualizar-datos/<int:pk>', ProfileWorkUpdate.as_view(), name="updateWorkProfile"),
     # Usuarios
     path('usuarios/', UserList.as_view(), name="user"),
     path('nuevo-usuarios/', UserCreate.as_view(), name="newUser"),
