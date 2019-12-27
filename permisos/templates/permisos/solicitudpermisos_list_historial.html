@@ -11,16 +11,15 @@
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Listado de solicitudes{% endblock %}
+{% block title %}Listado de historial de solicitudes{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
     <div class="x_panel">
       <div class="x_title form-inline">
-        <h2>Solicitudes de permisos  <small>Listado de solicitudes realizadas por área</small></h2>
+        <h2>Historial de Solicitudes de Permisos <small>Listado completo de solicitudes realizadas y su estado</small></h2>
         <div class="ml-auto">
-          <a href="{% url 'SolicitudPermisosForm' %}" class="btn btn-success">Nueva Solicitud </a>
-          <a href="{% url 'SolicitudPermisosListHistorial' %}" class="btn btn-success">Historial de solicitudes </a>
+          <a href="{% url 'SolicitudPermisosList' %}" class="btn btn-success">Volver a mis solicitudes pendientes </a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -69,11 +68,7 @@
               <td>{{ permisos.horas_permiso }}</td>
               -->
               <td>
-                {% if permisos.estado_solicitud == 1 %}
-                  No Revisado
-                {% elif permisos.estado_solicitud == 2 %}
-                  En revisión
-                {% elif permisos.estado_solicitud == 3 %}
+                {% if permisos.estado_solicitud == 3 %}
                   Rechazada
                 {% elif permisos.estado_solicitud == 4 %}
                   Aprobada  

@@ -23,6 +23,15 @@ class UserList(ListView):
     model = User
     template_name = 'registration/user_list.html'
     #paginate_by = 10
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 1:
+            return qs
+        elif usuario.profile.type_user == 2:
+            qs = qs.filter(profile__cargo_user__area__boss_user = usuario)
+            return qs
+
 
 @method_decorator(login_required, name='dispatch')
 class UserCreate(CreateView):
