@@ -66,9 +66,11 @@
                       {% endif %}
                     </ul>
                   </li>
+                  {% now 'Y' as current_year %}
+                  {% now 'm' as current_month %}
                   <li><a><i class="fa fa-calendar"></i> Horario <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="">Mi Horario</a></li>
+                      <li><a href="{% url 'myTimeTable' current_year current_month %}">Mi Horario</a></li>
                       {% if request.user.profile.type_user <= 2%}
                       <li><a href="{% url 'TurnosList' %}">Ver Turnos</a></li>
                       {% endif %}
