@@ -2,7 +2,7 @@ from .models import Notificacion
 
 def ctx_dict(request):
     if request.user.is_authenticated:
-        noti =  Notificacion.objects.filter(usuario=request.user)
+        noti =  Notificacion.objects.filter(usuario=request.user)[:5]
     
         return {'notificaciones':noti}
     return {}

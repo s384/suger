@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.generic.dates import MonthArchiveView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -9,7 +10,7 @@ from django.urls import reverse_lazy
 
 from django.contrib.auth.models import User
 from cargos.models import Cargo
-from .models import Turnos, DetalleTurnos
+from .models import Turnos, DetalleTurnos, HorarioUsuario
 from .forms import TurnosForm, DetalleTurnosForm, CargosForm
 
 # Views asociadas a Turnos
@@ -111,3 +112,15 @@ def form_cargos(request, pk):
     context = {'turno':turno,'cargos': cargos,}
 
     return render(request, 'turnos/cargos_form.html', context)
+
+# My Timetable
+class MiHorarioMonth(MonthArchiveView):
+    queryset = HorarioUsuario.objects.all()
+    date_field = "dia_semana"
+    allow_future = True
+    template_name = 'turnos/mi_horario.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(turno_usuario__usuario=self.request.user).order_by('dia_semana')
+        return qs

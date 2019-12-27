@@ -61,14 +61,15 @@
     </div>
   </div>
   <!-- /Datos del usuario -->
-
+  {% now 'Y' as current_year %}
+  {% now 'm' as current_month %}
   <!-- Horario con los turnos -->
   <div class="col-md-9 ">
        <div class="x_panel">
           <div class="x_title">
             <h2>Horario</h2>
               <ul class="nav navbar-right panel_toolbox">
-                 <a class="btn btn-primary" href="{% url 'TurnosList' %}">Ver</a>  
+                 <a class="btn btn-primary" href="{% url 'myTimeTable' current_year current_month %}">Ver</a>  
               </ul>
              <div class="clearfix"></div>
           </div>

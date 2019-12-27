@@ -111,16 +111,21 @@ def home(request):
         solicitudes = SolicitudTarea.objects.filter(
             area_destino__boss_user=request.user)[:3]
         # Solicitudes de permisos aprobadas del area
-        permisos = SolicitudPermisos.objects.filter(
-            estado_solicitud = 4 ).filter(usuario__profile__cargo_user__area =
-            request.user.profile.cargo_user.area)[:3]
+        if request.user.profile.cargo_user:
+            permisos = SolicitudPermisos.objects.filter(
+                estado_solicitud = 4 ).filter(usuario__profile__cargo_user__area =
+                request.user.profile.cargo_user.area)[:3]
+        else: permisos = None
         # Solicitudes de tareas para el jefe de area
-        if request.user.profile.type_user ==2:
-            soli_permisos = SolicitudPermisos.objects.filter(
-                usuario__profile__cargo_user__area__boss_user=request.user)
-            soli_permisos = soli_permisos.exclude(estado_solicitud=4)[:3]
-        elif request.user.profile.type_user ==1:
-            soli_permisos = SolicitudPermisos.objects.exclude(estado_solicitud=4)[:3]
+        if request.user.profile.cargo_user:
+            if request.user.profile.type_user ==2:
+                soli_permisos = SolicitudPermisos.objects.filter(
+                    usuario__profile__cargo_user__area__boss_user=request.user)
+                soli_permisos = soli_permisos.exclude(estado_solicitud=4)[:3]
+            elif request.user.profile.type_user ==1:
+                soli_permisos = SolicitudPermisos.objects.exclude(estado_solicitud=4)[:3]
+            else:
+                soli_permisos = None
         else:
             soli_permisos = None
 

@@ -58,11 +58,11 @@ class TareasCreate(CreateView):
         if self.request.user.profile.type_user == 1:
             trabajadores = User.objects.exclude(profile__type_user=1)
             responsable_sol = User.objects.filter(profile__cargo_user__area=self.solicitud.area_destino)
-            responsable_sol = responsable_sol.exclude(profile__type_user=1)
+            responsable_sol = responsable_sol.exclude(profile__type_user=1).exclude(is_active=0)
         else:
             trabajadores = User.objects.filter(profile__type_user=3)
             responsable_sol = User.objects.filter(profile__cargo_user__area=self.solicitud.area_destino)
-            responsable_sol = responsable_sol.filter(profile__type_user=3)
+            responsable_sol = responsable_sol.filter(profile__type_user=3).exclude(is_active=0)
             print(responsable_sol)
         context['responsable_sol'] = responsable_sol
         context['trabajadores'] = trabajadores
@@ -126,7 +126,7 @@ class TareasUpdateResponsable(UpdateView):
         context = super().get_context_data(**kwargs)
         
         usuarios = User.objects.filter(profile__cargo_user__area=self.object.area_destino)
-        usuarios = usuarios.exclude(profile__type_user=1)
+        usuarios = usuarios.exclude(profile__type_user=1).exclude(is_active=0)
         
         context['usuarios'] = usuarios
         return context

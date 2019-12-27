@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (TurnosList, TurnosCreate, TurnosUpdate, TurnosDelete,
     DetalleTurnosList, DetalleTurnosCreate,	DetalleTurnosUpdate,
-    form_cargos, CrearDetalleTurnosCicloFor, AsignarNegrosTurno)
+    form_cargos, CrearDetalleTurnosCicloFor, AsignarNegrosTurno,
+    MiHorarioMonth)
 from .generar import generar_horario, validacion_horario, ver_horario
 
 urlpatterns = [
@@ -22,4 +23,7 @@ urlpatterns = [
     path('horario-generado/<int:pk>', generar_horario, name="generateTimeTable"),
     path('detalle-horario/<int:pk>', ver_horario, name="detailTimeTable"),
     path('validacion-horario/<int:turno>', validacion_horario, name="validateTimeTable"),
+    # Mi horario
+    path('mi-horario/<int:year>/<int:month>/', MiHorarioMonth.as_view(month_format='%m'),
+        name="myTimeTable"),
 ]
