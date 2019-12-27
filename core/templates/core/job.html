@@ -2,46 +2,44 @@
 {% load static %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
-<div class="row">
-  <div class="col-md-12 col-sm-12 ">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>Nombre del cargo <small>ingrese nombre del cargo a agregar</small></h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <br />
-        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nombre del cargo <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              <input type="text" id="first-name" required="required" class="form-control ">
+			<div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Proyecto de Titulo <small>Suger!</small></h2>
+                  <div class="clearfix"></div>
+                    <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active" data-interval="10000">
+                        <img src="{% static 'imgs/pag1.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item" data-interval="2000">
+                        <img src="{% static 'imgs/pag2.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'imgs/pag3.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'imgs/pag4.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'imgs/pag5.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'imgs/pag6.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                    </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span></a>
+                    <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">Descripción <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 ">
-              <textarea class="form-control" rows="3" placeholder="Descripcion del tipo de usuario"></textarea>
-            </div>
-          </div>
-          <div class="ln_solid"></div>
-          <div class="item form-group">
-            <div class="col-md-6 col-sm-6 offset-md-3">
-              <button class="btn btn-primary" type="button">Cancelar</button>
-              <button type="submit" class="btn btn-success">Grabar</button>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

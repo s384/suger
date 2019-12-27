@@ -140,7 +140,6 @@ def profile(request):
 def user(request):
     return render(request, 'core/user.html')
 
-@login_required
 def job(request):
     return render(request, 'core/job.html')
 
