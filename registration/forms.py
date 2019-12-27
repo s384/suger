@@ -47,8 +47,6 @@ class UserCreationFormWithEmail(UserCreationForm):
 		return email
 
 	
-
-
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
@@ -75,6 +73,7 @@ class EmailForm(forms.ModelForm):
         model = User
         fields = ['email']
 
+
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
 
@@ -85,4 +84,15 @@ class UserUpdateForm(forms.ModelForm):
 			'username' : forms.TextInput(attrs={'class':'form-control'}),
 			'first_name' : forms.TextInput(attrs={'class':'form-control'}),
 			'last_name' : forms.TextInput(attrs={'class':'form-control'}),
+		}
+
+
+class ProfileUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = ['avatar', 'direccion', 'telefono']
+		widgets = {
+			'avatar' : forms.FileInput(attrs={'class':'form-control'}),
+			'direccion' : forms.TextInput(attrs={'class':'form-control'}),
+			'telefono' : forms.NumberInput(attrs={'class':'form-control'}),
 		}

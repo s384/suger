@@ -1,8 +1,9 @@
 {% autoescape off %}
-Hola {{ user.username }},
+Hola {{ user.get_full_name }},
 
-Por favor haga click en el siguiente enlace para activar su cuenta
-Al cargar la pagina debera realizar el cambio de contraseña.
+Por favor haga click en el siguiente enlace para activar su cuenta.
+Su usuario es {{ user.username }} y su contraseña es suger1234
+Al ingresar a la web realize el cambio de contraseña para mayor seguridad.
 
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 

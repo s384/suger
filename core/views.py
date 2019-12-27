@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from registration.models import Profile
 from django.contrib.auth.models import User
 from registration.forms import (UserCreationFormWithEmail,
-    ProfileForm, UserActive, UserUpdateForm)
+    ProfileForm, UserActive, UserUpdateForm, ProfileUpdateForm)
 from tareas.models import Tareas, SolicitudTarea
 # Para el horario
 from datetime import timedelta, date, time, datetime
@@ -83,6 +83,15 @@ class ProfileUpdate(UpdateView):
     template_name = 'registration/profile_form.html'
     success_url = reverse_lazy('user')
 
+
+class ProfileWorkUpdate(UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = 'registration/profile_update.html'
+    
+    def get_success_url(self):
+        userId=self.object.pk
+        return reverse_lazy('detailUser', kwargs={'pk': userId})
 
 
 def home(request):
