@@ -137,7 +137,19 @@ MEDIA_ROOT = 'media/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Email config
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'no-responder@asd.com'
-EMAIL_HOST = 'localhost'
+# ========================================================================== #
+""" En este bloque se debe configurar el servidor de correo que utilizará
+Django para enviar correos.
+"""
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "suger.software@gmail.com"
+EMAIL_HOST_PASSWORD = 'suger1234'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'no-responder@sugersoftware.pythonanywhere.com'
+
+# ========================================================================== #
+""" EL tempo de validez de los token de activación de la cuenta del usuario y
+recuperacion de contraseña del usuario.
+"""
+PASSWORD_RESET_TIMEOUT_DAYS = 1

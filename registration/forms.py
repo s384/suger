@@ -73,6 +73,12 @@ class EmailForm(forms.ModelForm):
         model = User
         fields = ['email']
 
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Correo no registrado en el sistema, intentelo nuevamente.")
+        return email
+
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
