@@ -9,7 +9,7 @@
   <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Inicio{% endblock %}
+{% block title %}Listado de tareas{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
@@ -38,9 +38,9 @@
               <td>{{ tarea.responsable.get_full_name }}</td>
               <td>
                 <div class="my-auto">
-                  <a href="{% url 'updateUser' user.id %}" class="btn btn-warning registro">Modificar</a>
-                  <div class="d-block d-md-none w-100"></div>
-                  <a href="{% url 'deleteUser' user.id %}" class="btn btn-danger registro">Eliminar</a>
+                  {% if request.user.profile.type_user < 3 %}
+                  <a href="{% url 'responsableTarea' tarea.pk %}" class="btn btn-warning registro">Modificar</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

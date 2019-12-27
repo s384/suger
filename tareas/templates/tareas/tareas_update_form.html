@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Cambie el responsable </h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+          {% csrf_token %}
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Responsable<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <select name="responsable" id="id_responsable" class="form-control">
+                <option value="" selected="">---------</option>
+                {% for user in usuarios %}
+                  <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          
+          <div class="ln_solid"></div>
+          <div class="item form-group">
+            <div class="mx-auto">
+              <a href="{% url 'listTareas' %}" class="btn btn-primary mr-4">Cancelar</a>
+              <input type="submit" class="btn btn-success" value="Siguiente" />
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

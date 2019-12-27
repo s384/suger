@@ -14,13 +14,8 @@
         {% endif %}
         </div>
         <div class="ml-2">
-          {% if solicitudtarea.estado_solicitud == 1 %}
-          <a href="{% url 'revisionSolicitud' solicitudtarea.slug %}" class="btn btn-info">En revision</a>
-          {% endif %}
-        </div>
-        <div class="ml-2">
           {% if solicitudtarea.estado_solicitud < 3 %}
-          <a href="{% url 'rechazarSolicitud' solicitudtarea.slug %}" class="btn btn-danger">Rechazada</a>
+          <a href="{% url 'rechazarSolicitud' solicitudtarea.slug %}" class="btn btn-danger">Rechazar solicitud</a>
           {% endif %}
         </div>
         {% endif %}

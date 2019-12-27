@@ -8,10 +8,10 @@ from django.db.models import Count
 from registration.models import Area
 from notificaciones.models import Notificacion
 from .models import Tareas, SolicitudTarea
-from .forms import TareasForm, SolicitudTareaForm, SolicitudEnRevisionForm
-# Create your views here.
+from .forms import (TareasForm, SolicitudTareaForm, SolicitudEnRevisionForm,
+                    TareasUpdateResponsableForm)
 
-#class tareas
+# Create your views here.
 
 class TareasList(ListView):
     model = Tareas
@@ -48,7 +48,6 @@ class TareasCreate(CreateView):
         form = self.get_form()
         if form.is_valid():
             self.user = request.user
-            self.responsable = request.POST.get('responsable_2')
             slug_solicitud=self.kwargs['slug']
             self.solicitud = get_object_or_404(SolicitudTarea, slug=slug_solicitud)
             return self.form_valid(form, self.solicitud)
@@ -59,15 +58,10 @@ class TareasCreate(CreateView):
         tareas_creation = form.save(commit=False)
         #tareas_creation.titulo = form.titulo
         tareas_creation.supervisor = self.user
-        if form['area_destino'].value() == "":
-            tareas_creation.area_destino = solicitud.area_destino
-            respon = get_object_or_404(User, pk=form['responsable'].value())
-            tareas_creation.responsable = respon
-        elif form['area_destino'].value() != "":
-            area = get_object_or_404(Area, pk=form['area_destino'].value())
-            tareas_creation.area_destino = area
-            respon = get_object_or_404(User, pk=self.responsable)
-            tareas_creation.responsable = respon
+        print(solicitud.area_destino)
+        tareas_creation.area_destino = solicitud.area_destino
+        respon = get_object_or_404(User, pk=form['responsable'].value())
+        tareas_creation.responsable = respon
         
         tareas_creation.save()
 
@@ -93,9 +87,21 @@ class TareasCreate(CreateView):
 
         return redirect(self.success_url)
 
-class TareasUpdate(UpdateView):
+class TareasUpdateResponsable(UpdateView):
     model = Tareas
-    form_class = Tareas
+    form_class = TareasUpdateResponsableForm
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('listTareas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        usuarios = User.objects.filter(profile__cargo_user__area=self.object.area_destino)
+        usuarios = usuarios.exclude(profile__type_user=1)
+        
+        context['usuarios'] = usuarios
+        return context
+
 
 def informe_tareas(request):
     cuenta = Tareas.objects.all()
@@ -165,24 +171,23 @@ class SolicitudTareasUpdate(UpdateView):
 class SolicitudTareasDetail(DetailView):
     model = SolicitudTarea
 
-class SolicitudEnRevision(UpdateView):
-    model = SolicitudTarea
-    form_class = SolicitudEnRevisionForm
-    template_name = "tareas/solicitudtarea_revision.html"
-
-    def get_success_url(self):
-        return reverse_lazy('detailSolicitudTarea', kwargs={'slug': self.object.slug})
-
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        noti = Notificacion(
-        asunto = "Solicitud en revision",
-        descripcion = self.object.titulo,
-        usuario = self.object.solicitante,
-        prioridad = self.object.prioridad
-        )
-        noti.save()
-        return super().post(request, *args, **kwargs)
+        if request.user.profile.type_user < 3:
+            if self.object.estado_solicitud == 1:
+                self.object.estado_solicitud = 2
+                self.object.save()
+
+                noti = Notificacion(
+                    asunto = "Solicitud de tarea en revision",
+                    descripcion = self.object.titulo,
+                    usuario = self.object.solicitante,
+                    prioridad = self.object.prioridad
+                    )
+                noti.save()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
 
 class SolicitudRechazada(UpdateView):
     model = SolicitudTarea

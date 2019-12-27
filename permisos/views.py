@@ -6,6 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import SolicitudPermisos
 from django.contrib.auth.models import User
+from registration.models import Area
 from .forms import (SolicitudPermisosForm, EstadoSolicitudForm,
     TrabajadorSolicitudForm)
 from turnos.models import TurnoUsuario, HorarioUsuario
@@ -45,15 +46,16 @@ class SolicitudPermisosForm(CreateView):
     def form_valid(self, form):
         permisos_form = form.save(commit=False)
         permisos_form.usuario = self.request.user
-        permisos_form.save()
-        '''
-        noti = Notificacion.objects.get_or_create(
-        asunto = "Tarea asignada",
-        descripcion = form['titulo'].value(),
-        usuario = respon,
-        prioridad = form['prioridad'].value()
+
+        noti = Notificacion(
+            asunto = "Solicitud de permiso",
+            descripcion = form['titulo'].value(),
+            usuario = self.request.user.profile.cargo_user.area.boss_user,
+            prioridad = 2
         )
-        '''
+        noti.save()
+
+        permisos_form.save()
         return redirect(self.success_url)
 
 class SolicitudPermisosDetail(DetailView):
@@ -97,28 +99,51 @@ class EstadoSolicitudUpdate(UpdateView):
 
     def form_valid(self, form):
         estado_solicitud = form.save(commit=False)
-        if self.estado == 4:
+        if self.estado == '4':
             tipo_permiso = self.object.tipo_permiso
             
-            turno = get_object_or_404(TurnoUsuario, usuario=self.user)
-            horario = HorarioUsuario.objects.filter(turno_usuario=turno)
-            horario = horario.get(dia_semana=self.inicio)
-            dia_inicio = horario.dia_semana
-            if tipo_permiso < 4:
-                fin_permiso = dia_inicio + timedelta(days=self.dias)
+            if TurnoUsuario.objects.filter(usuario=self.user).exists():
+                turno = get_object_or_404(TurnoUsuario, usuario=self.user)
+                horario = HorarioUsuario.objects.filter(turno_usuario=turno)
+                horario = horario.get(dia_semana=self.inicio)
 
-                for i in range((fin_permiso - dia_inicio).days):
-                    dia_ciclo = dia_inicio + timedelta(days=i)
-                    permiso_dia_ciclo = HorarioUsuario.objects.filter(turno_usuario=turno)
-                    permiso_dia_ciclo = permiso_dia_ciclo.get(dia_semana=dia_ciclo)
-                    permiso_dia_ciclo.trabajado = tipo_permiso
-                    permiso_dia_ciclo.save()
-            else:
-                permiso_dia = HorarioUsuario.objects.filter(turno_usuario=turno)
-                permiso_dia = permiso_dia.get(dia_semana=dia_inicio)
-                permiso_dia.trabajado = tipo_permiso
-                permiso_dia.save()
-            
+                dia_inicio = horario.dia_semana
+                if tipo_permiso < 2:
+                    # Ausencia o permiso administrativo
+                    fin_permiso = dia_inicio + timedelta(days=self.dias)
+                    i = 0
+                    dia = 0
+                    while i in range((fin_permiso - dia_inicio).days):
+                        dia_ciclo = dia_inicio + timedelta(days=dia)
+                        permiso_dia_ciclo = HorarioUsuario.objects.filter(turno_usuario=turno)
+                        permiso_dia_ciclo = permiso_dia_ciclo.get(dia_semana=dia_ciclo)
+                        if permiso_dia_ciclo.hora_inicio:
+                            print(permiso_dia_ciclo.dia_semana)
+                            permiso_dia_ciclo.trabajado = tipo_permiso
+                            permiso_dia_ciclo.save()
+                            i += 1
+                        
+                        dia += 1
+                elif tipo_permiso == 2:
+                    # Vacaciones:
+                    pass
+                elif tipo_permiso == 3:
+                    # Licencia
+                    fin_permiso = dia_inicio + timedelta(days=self.dias)
+                    for i in range((fin_permiso - dia_inicio).days):
+                        dia_ciclo = dia_inicio + timedelta(days=i)
+                        permiso_dia_ciclo = HorarioUsuario.objects.filter(turno_usuario=turno)
+                        permiso_dia_ciclo = permiso_dia_ciclo.get(dia_semana=dia_ciclo)
+                        permiso_dia_ciclo.trabajado = tipo_permiso
+                        permiso_dia_ciclo.save()
+                else:
+                    permiso_dia = HorarioUsuario.objects.filter(turno_usuario=turno)
+                    permiso_dia = permiso_dia.get(dia_semana=dia_inicio)
+                    permiso_dia.trabajado = tipo_permiso
+                    permiso_dia.save()
+                
+                print("Permiso modifico los turnos")
+
             noti = Notificacion(
                     asunto = "Permiso aprobado",
                     descripcion = self.object.titulo,
@@ -126,7 +151,7 @@ class EstadoSolicitudUpdate(UpdateView):
                     prioridad = 3
                     )
             noti.save()
-        elif self.estado == 3:
+        elif self.estado == '3':
             noti = Notificacion(
                     asunto = "Permiso rechazado",
                     descripcion = self.object.titulo,
@@ -134,6 +159,7 @@ class EstadoSolicitudUpdate(UpdateView):
                     prioridad = 3
                     )
             noti.save()
+        print("Terminando todos los if")
         estado_solicitud.save()
         return redirect(self.success_url)
 

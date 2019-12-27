@@ -83,11 +83,12 @@
                     <th>Hora de fin</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody >
                   {% now 'd F Y' as current_date %}
                   {% for dia in horario %}
-                  <tr class="{% if current_date == dia.dia_semana|date:'d F Y' %}bg-secondary{% endif %}">
-                    <th scope="row">{{dia.dia_semana|date:'l'}}</th>
+                  <tr class="{% if dia.trabajado != 6 %}bg-success
+                  {% elif current_date == dia.dia_semana|date:'d F Y' %}bg-secondary{% endif %}"{% if dia.trabajado != 6 %}data-toggle="tooltip" data-placement="top" title="Permiso aprobado"{% endif %}>
+                    <th scope="row">{{dia.dia_semana|date:'l d F Y'}}</th>
                     <td>{% if dia.hora_inicio %}
                     {{ dia.hora_inicio }}
                     {% else %}Libre{% endif %}
@@ -110,7 +111,7 @@
   
 <div class="row justify-content-center">
   {% if solicitudes %}
-  <!-- Tareas pendientes del usuario -->
+  <!-- Solicitudes de tareas pendientes -->
   <div class="col-md-4 ">
     <div class="x_panel">
       <div class="x_title">
@@ -149,7 +150,45 @@
     </div>
   </div>
   {% endif %}
-  <!-- /Tareas pendientes del usuario -->
+  <!-- /Solicitudes de tareas pendientes -->
+
+  {% if soli_permisos %}
+  <!-- Sollicitudes de permisos pendientes -->
+  <div class="col-md-4 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Solicitudes Permisos</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <a class="btn btn-primary" href="{% url 'SolicitudPermisosList' %}">Ver</a>  
+        </ul>
+         <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+          <div class="form-group row">
+            {% for solicitud in soli_permisos %}
+            <div class="col-12">
+              <p>
+                <button class="btn btn-block btn-outline-warning" type="button" data-toggle="collapse" data-target="#solipermiso{{solicitud.pk}}" aria-expanded="false" aria-controls="collapseExample">
+                  {{ solicitud.usuario.get_full_name }}
+                </button>
+              </p>
+              <div class="collapse mb-2" id="solipermiso{{solicitud.pk}}">
+                <div class="card card-body">
+                  <p>{{ solicitud.titulo }}</p>
+                  {{ solicitud.comentario|truncatechars:100 }}
+                  
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        <div class="ln_solid"></div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <!-- /solicitudes de permisos pendientes-->
 
   {% if tareas %}
   <!-- Tareas pendientes del usuario -->
@@ -217,7 +256,10 @@
             </p>
             <div class="collapse mb-2" id="permiso{{permiso.pk}}">
               <div class="card card-body">
-                {{ permiso.fecha_inicio|truncatechars:100 }}
+                {{ permiso.fecha_inicio|date:'l d/ F/ Y' }}
+                {% if permiso.dias_permiso > 1 %}
+                <p>Dias permiso: {{ permiso.dias_permiso }}</p>
+                {% endif %}
               </div>
             </div>
             </div>

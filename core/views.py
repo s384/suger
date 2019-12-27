@@ -87,12 +87,25 @@ class ProfileUpdate(UpdateView):
 
 def home(request):
     if request.user.is_authenticated:
-        tareas = Tareas.objects.filter(responsable=request.user)
+        # Tareas del usuario
+        tareas = Tareas.objects.filter(responsable=request.user)[:3]
+        # Solicitudes de tareas para el jefe de area
         solicitudes = SolicitudTarea.objects.filter(
-            area_destino__boss_user=request.user)
+            area_destino__boss_user=request.user)[:3]
+        # Solicitudes de permisos aprobadas del area
         permisos = SolicitudPermisos.objects.filter(
             estado_solicitud = 4 ).filter(usuario__profile__cargo_user__area =
-            request.user.profile.cargo_user.area)
+            request.user.profile.cargo_user.area)[:3]
+        # Solicitudes de tareas para el jefe de area
+        if request.user.profile.type_user ==2:
+            soli_permisos = SolicitudPermisos.objects.filter(
+                usuario__profile__cargo_user__area__boss_user=request.user)
+            soli_permisos = soli_permisos.exclude(estado_solicitud=4)[:3]
+        elif request.user.profile.type_user ==1:
+            soli_permisos = SolicitudPermisos.objects.exclude(estado_solicitud=4)[:3]
+        else:
+            soli_permisos = None
+
         inicio_semana = datetime.today()-timedelta(days=datetime.today().weekday())
         dias_restantes = 7 - datetime.today().isoweekday() 
         fin_semana = datetime.today()+timedelta(days=dias_restantes)
@@ -105,6 +118,7 @@ def home(request):
         'solicitudes':solicitudes,
         'horario':horario,
         'permisos':permisos,
+        'soli_permisos':soli_permisos,
         }
 
         return render(request, 'core/index.html', context)

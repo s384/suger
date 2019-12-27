@@ -11,7 +11,7 @@
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Listado de solicitudes{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col-md-10 mx-auto">
@@ -34,7 +34,9 @@
               <th>fecha creación</th>
               <th>fecha inicio</th>
               <th>dias permiso</th>
+              <!--
               <th>horas permiso</th>
+              -->
               <th>estado solicitud</th>
               <th>detalles del permiso</th>
             </tr>
@@ -62,7 +64,9 @@
               <td>{{ permisos.created }}</td>
               <td>{{ permisos.fecha_inicio }}</td>
               <td>{{ permisos.dias_permiso }}</td>
+              <!--
               <td>{{ permisos.horas_permiso }}</td>
+              -->
               <td>
                 {% if permisos.estado_solicitud == 1 %}
                   No Revisado
@@ -71,7 +75,7 @@
                 {% elif permisos.estado_solicitud == 3 %}
                   Rechazada
                 {% elif permisos.estado_solicitud == 4 %}
-                  Aprovada  
+                  Aprobada  
                 {% endif %}
               </td>
 

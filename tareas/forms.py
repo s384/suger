@@ -14,6 +14,14 @@ class TareasForm(forms.ModelForm):
 			'area_destino' : forms.Select(attrs={'class':'form-control'}),
 		}
 
+class TareasUpdateResponsableForm(forms.ModelForm):
+	class Meta:
+		model = Tareas
+		fields = ('responsable',)
+		widgets = {
+			'responsable' : forms.Select(attrs={'class':'form-control'}),
+		}
+
 class SolicitudTareaForm(forms.ModelForm):
 	class Meta:
 		model = SolicitudTarea

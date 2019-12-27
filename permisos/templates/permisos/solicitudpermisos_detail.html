@@ -18,8 +18,10 @@
         	{% endif %}
 
     			{% if request.user.profile.type_user != 3 %}
-    				{% if request.user != solicitudpermisos.usuario or request.user.profile.type_user == 1 %}
+    				{% if request.user.profile.type_user == 1 or request.user != solicitudpermisos.usuario %}
+              {% if solicitudpermisos.estado_solicitud < 3 %}
     					<a href="{% url 'EstadoSolicitudUpdate' solicitudpermisos.pk %}" class="btn btn-success">Actualizar estado</a>
+              {% endif %}
     				{% endif %}
           {% endif %}
 
@@ -65,7 +67,7 @@
               {% elif solicitudpermisos.estado_solicitud == 3 %}
                 Rechazada
               {% elif solicitudpermisos.estado_solicitud == 4 %}
-                Aprovada
+                Aprobada
               {% endif %}</h4>
             </div>
           </div>
@@ -84,7 +86,11 @@
           <div class="panel-body mb-4">
             <h5>{{ solicitudpermisos.comentario }}.</h5>
             <br>
-
+            <h5>Dia del permiso: {{ solicitudpermisos.fecha_inicio }}</h5>
+            {% if solicitudpermisos.dias_permiso > 1 %}
+            <h5>Duracion en dias: {{ solicitudpermisos.dias_permiso }}.</h5>
+            <small>Estos dias incluyen el dia de inicio, excluyen los dias que no se trabajan, a no ser que sea una licencia, estas son de corrido</small>
+            {% endif %}
             <div class="project_detail">
               {% if solicitudpermisos.img_referencia %}
               <img class="img-thumbnail img-fluid rounded" src="{{ solicitudpermisos.img_referencia.url }}">
