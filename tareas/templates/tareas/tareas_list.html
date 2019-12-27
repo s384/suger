@@ -38,65 +38,14 @@
               <td>{{ tarea.responsable.get_full_name }}</td>
               <td>
                 <div class="my-auto">
-                  {% if request.user.profile.type_user < 3 %}
-                  <a href="{% url 'responsableTarea' tarea.pk %}" class="btn btn-warning registro">Modificar</a>
-                  {% endif %}
+                  
+                  <a href="{% url 'detailTareas' tarea.pk %}" class="btn btn-info registro">Ver</a>
                 </div>
               </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      {% if is_paginated %}
-      
-      <div class="row text-center">
-        <div class="mr-auto">
-          {% if page_obj.number != 1 %}
-          <a href="?page=1">
-            <div class="paginated-icon ">
-              <span class="align-middle glyphicon glyphicon-step-backward"></span>
-            </div>
-          </a>
-          {% endif %}
-        </div>
-
-        <div class="mr-auto ml-auto">
-          {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}">
-            <div class="paginated-icon">
-              <span class="align-middle glyphicon glyphicon-chevron-left"></span>
-            </div>
-          </a>
-          {% endif %}
-        </div>
-
-        {% if page_obj.number > 0 %}
-        <div class="mr-auto ml-auto d-none d-md-block">
-        <button class="btn btn-outline-secondary btn-sm disabled">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</button> 
-        </div>
-        {% endif %}
-
-        <div class="mr-auto ml-auto">
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">
-          <div class="paginated-icon">
-            <span class="align-middle glyphicon glyphicon-chevron-right"></span>
-          </div>
-        </a>
-        {% endif %}
-        </div>
-
-        <div class="ml-auto">
-        {% if page_obj.number < page_obj.paginator.num_pages  %}
-        <a href="?page={{ page_obj.paginator.num_pages }}">
-          <div class="paginated-icon">
-            <span class="align-middle glyphicon glyphicon-step-forward"></span>
-          </div>
-        </a>
-        {% endif %}
-        </div>
-        {% endif %}
       </div>
     </div>
   </div>

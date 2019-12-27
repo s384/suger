@@ -22,6 +22,14 @@ class TareasUpdateResponsableForm(forms.ModelForm):
 			'responsable' : forms.Select(attrs={'class':'form-control'}),
 		}
 
+class TareaCompleteForm(forms.ModelForm):
+	class Meta:
+		model = Tareas
+		fields = ('fecha_termino',)
+		widgets = {
+			'fecha_termino' : forms.TextInput(attrs={'hidden':'true','value':'01/01/2019'}),
+		}
+
 class SolicitudTareaForm(forms.ModelForm):
 	class Meta:
 		model = SolicitudTarea

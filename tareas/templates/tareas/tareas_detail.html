@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Detalle {{ tarea.titulo }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="x_panel">
+      <div class="x_title form-inline">
+        <h3>{{ tareas.titulo }}</h3>
+        {% if tareas.area_destino.boss_user == request.user or request.user == tareas.responsable %}
+          <div class="ml-auto">
+          {% if request.user.profile.type_user < 3 %}
+            <a href="{% url 'responsableTarea' tareas.pk %}" class="btn btn-warning">Cambiar responsable</a>
+          {% endif %}
+          </div>
+          {% if not tareas.fecha_termino %}
+          <div class="">
+            <a href="{% url 'completeTarea' tareas.pk %}" class="btn btn-success">Tarea Completada</a>
+          </div>
+          {% endif %}
+        {% endif %}
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Responsable </h5>
+              <h4 class="value text-success"> {{ tareas.responsable.get_full_name }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Area de destino </h5>
+              <h4 class="value text-success"> {{ tareas.area_destino }} </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Prioridad </h5>
+              <h4 class="value text-success">
+              {% if tareas.prioridad == 1 %}
+                Baja
+              {% elif tareas.prioridad == 2 %}
+                Media
+              {% elif tareas.prioridad == 3 %}
+                Alta
+              {% endif %}
+              </h4>
+            </div>
+            <div class="col-sm-6 col-md-3 border text-center">
+              <h5 class="name"> Estado de solicitud </h5>
+              <h4 class="value text-success"> 
+              {% if not tareas.fecha_termino %}
+                En proceso
+              {% else %}
+                Terminada
+              {% endif %}</h4>
+            </div>
+          </div>
+          <div class="mb-2"></div>
+        </div>
+      </div>
+      <!-- start project-detail sidebar -->
+      <div class="col-auto mx-auto">
+
+        <section class="panel">
+
+          <div class="x_title">
+            <h4>Detalle de la tarea</h4>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-body mb-4">
+            <h5>{{ tareas.descripcion }}.</h5>
+            <br>
+
+            <br>
+            <h5>Fecha de creacion y actualizacion</h5>
+            <div>Fecha de creacion: {{ tareas.created }}</div>
+            <div>Fecha ultima actualizacion: {{ tareas.updated }}</div>
+          </div>
+
+        </section>
+      </div>
+      <!-- end project-detail sidebar -->
+    </div>
+  </div>
+</div>
+{% endblock %}

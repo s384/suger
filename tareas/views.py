@@ -5,11 +5,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.db.models import Count
+from datetime import datetime
 from registration.models import Area
 from notificaciones.models import Notificacion
 from .models import Tareas, SolicitudTarea
 from .forms import (TareasForm, SolicitudTareaForm, SolicitudEnRevisionForm,
-                    TareasUpdateResponsableForm)
+                    TareasUpdateResponsableForm, TareaCompleteForm)
 
 # Create your views here.
 
@@ -102,10 +103,37 @@ class TareasUpdateResponsable(UpdateView):
         context['usuarios'] = usuarios
         return context
 
+class TareasDetail(DetailView):
+    model = Tareas
+
+class TareasComplete(UpdateView):
+    model = Tareas
+    form_class = TareaCompleteForm
+    template_name_suffix = '_update_complete'
+    success_url = reverse_lazy('listTareas')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        tarea_complete = form.save(commit=False)
+        fecha = datetime.now().strftime('%Y-%m-%d')
+        tarea_complete.fecha_termino = fecha
+        tarea_complete.save()
+        return redirect(self.success_url)
+
+
+
 
 def informe_tareas(request):
     cuenta = Tareas.objects.all()
     return render(request, 'tareas/informe_tareas.html', {'cuenta':cuenta})
+
 
 #class SolicitudTarea
 
@@ -187,7 +215,6 @@ class SolicitudTareasDetail(DetailView):
                 noti.save()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-
 
 class SolicitudRechazada(UpdateView):
     model = SolicitudTarea
