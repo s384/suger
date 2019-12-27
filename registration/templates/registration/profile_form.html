@@ -35,7 +35,15 @@
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tipo de usuario <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 ">
-              {{ form.type_user }}
+              <select name="type_user" id="id_type_user" class="form-control">
+                {% if request.user.profile.type_user == 1 %}
+                  <option value="1" selected="">Administrador</option>
+                  <option value="2">Supervisor</option>
+                  <option value="3">Trabajador</option>
+                {% else %}
+                <option value="3">Trabajador</option>
+                {% endif %}
+              </select>
             </div>
           </div>
           <div class="item form-group">
