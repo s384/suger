@@ -16,6 +16,34 @@ from .forms import (TareasForm, SolicitudTareaForm, SolicitudEnRevisionForm,
 
 class TareasList(ListView):
     model = Tareas
+    template_name = 'tareas/tareas_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 2:
+            qs = qs.filter(responsable__profile__cargo_user__area__boss_user  = usuario)
+        elif usuario.profile.type_user == 3:
+            qs = qs.filter(responsable = self.request.user)
+        print(qs)
+        return qs.exclude(fecha_termino__isnull = False)
+
+
+
+
+class TareasListHistorico(ListView):
+    model = Tareas
+    template_name = 'tareas/tareas_list_historico.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        usuario = User.objects.get(username=self.request.user)
+        if usuario.profile.type_user == 2:
+            qs = qs.filter(responsable__profile__cargo_user__area__boss_user  = usuario)
+        elif usuario.profile.type_user == 3:
+            qs = qs.filter(responsable = self.request.user)
+        print(qs)
+        return qs.exclude(fecha_termino__isnull = True)
 
 class TareasCreate(CreateView):
     model = Tareas

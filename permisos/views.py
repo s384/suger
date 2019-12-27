@@ -21,14 +21,11 @@ class SolicitudPermisosList(ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         usuario = User.objects.get(username=self.request.user)
-        if usuario.profile.type_user == 1:
-            return qs
-        elif usuario.profile.type_user == 2:
+        if usuario.profile.type_user == 2:
             qs = qs.filter(usuario__profile__cargo_user__area__boss_user  = usuario)
-            return qs
         elif usuario.profile.type_user == 3:
             qs = qs.filter(usuario = self.request.user)
-        return qs.exclude(estado_solicitud=4)
+        return qs.exclude(estado_solicitud=4).exclude(estado_solicitud=3)
 
 
 class SolicitudPermisosListHistorial(ListView):

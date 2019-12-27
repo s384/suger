@@ -7,13 +7,11 @@
     <div class="x_panel">
       <div class="x_title form-inline">
         <h3>{{ solicitudtarea.titulo }}</h3>
-
+        
         <div class="ml-auto">
           <a href="{% url 'listSolicitudTarea' %}" class="btn btn-success">Volver</a>
-        </div>
-
         {% if solicitudtarea.area_destino.boss_user == request.user or request.user.profile.type_user == 1 %}
-        <div class="ml-auto">
+        
         {% if solicitudtarea.estado_solicitud < 3 %}
           <a href="{% url 'createTareas' solicitudtarea.slug %}" class="btn btn-success">Crear Tarea</a>
         {% endif %}
