@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
-from django.views import View
+from django.views.generic.base import TemplateView
 from .tokens import account_activation_token
 from .forms import EmailForm
 
@@ -74,6 +74,6 @@ def activate(request, uidb64, token):
         return render(request, 'registration/account_activation_invalid.html')
 
 
-class FirstLogin(View):
+class FirstLogin(TemplateView):
     template_name = 'registration/first_login.html'
     success_url = 'home'
