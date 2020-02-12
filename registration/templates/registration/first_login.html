@@ -1,1 +1,67 @@
     
+{% load static %}
+<!-- Bootstrap -->
+<link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+<!-- NProgress -->
+<link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+
+{% block static %}{% endblock %}
+<!-- Custom Theme Style -->
+<link href="{% static 'build/css/custom.css' %}" rel="stylesheet">
+<div class="container">
+  <div class="row align-items-center" style="height: 100%;">
+    <div class="col-10 mx-auto">
+      <div class="x_panel">
+        <div class="x_title text-center">
+          <h2>Ingrese una contraseña</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <br />
+          <form method="POST" id="demo-form2" class="form-horizontal form-label-left" action="{% url 'password_change' %}">
+          {% csrf_token %}
+          <div class="item form-group" hidden="">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Contraseña antigua <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <input type="password" name="old_password" autofocus="" id="id_old_password" class="form-control" value="suger1234">
+            </div>
+          </div>
+          <div class="col-12">
+            {{form.old_password.errors}}
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nueva Contraseña <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <input type="password" name="new_password1" id="id_new_password1" class="form-control" placeholder="Contraseña nueva">
+            </div>
+          </div>
+          <div class="col-12">
+            {{form.new_password1.errors}}
+          </div>
+          <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Reingrese Contraseña <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+              <input type="password" name="new_password2" id="id_new_password2" class="form-control" placeholder="Contraseña nueva (confirmación)">
+            </div>
+          </div>
+          <div class="col-12">
+            {{form.new_password2.errors}}
+          </div>
+          
+          <div class="ln_solid"></div>
+          <div class="item form-group">
+            <div class="mx-auto">
+              <input type="submit" class="btn btn-success" value="Cambiar Contraseña" id="btn_siguiente"/>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

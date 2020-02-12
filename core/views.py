@@ -16,6 +16,13 @@ from tareas.models import Tareas, SolicitudTarea
 from datetime import timedelta, date, time, datetime
 from turnos.models import HorarioUsuario
 from permisos.models import SolicitudPermisos
+# Correo de activcion de cuenta
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import send_mail
+from registration.tokens import account_activation_token
 
 
 @method_decorator(login_required, name='dispatch')
@@ -43,6 +50,7 @@ class UserCreate(CreateView):
         self.object = None
         form = self.get_form()
         if form.is_valid():
+            self.email = request.POST.get('email')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -51,6 +59,24 @@ class UserCreate(CreateView):
         user_creation = form.save(commit=False)
         user_creation.is_active = False
         user_creation.save()
+
+        self.user = User.objects.get(email=self.email)
+        current_site = get_current_site(self.request)
+        subject = "Activacion de cuenta en Suger"
+        message = render_to_string('registration/account_activation_email.html', {
+            'user': self.user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(self.user.pk)),
+            'token': account_activation_token.make_token(self.user),
+        })
+        send_mail(
+            subject,
+            message,
+            'suger@suger.cl',
+            [self.email],
+            fail_silently=False,
+            )
+        
         return HttpResponseRedirect(reverse_lazy('newPerfil', kwargs={'pk': user_creation.pk}))
 
 @method_decorator(login_required, name='dispatch')
@@ -151,10 +177,12 @@ def home(request):
 
 def profile(request):
     if request.user.is_authenticated:
+        # Si el usuario logea, pero no tiene el primer login cambio de contraseña
         if not request.user.profile.first_login:
+            # First login, password change
             return render(request, 'registration/account_activation_form.html')
         else:
-            # Crear index del perfil, para editar datos
+            # Index
             return render(request, 'core/index.html')
     else:
         return render(request, 'registration/login.html')
