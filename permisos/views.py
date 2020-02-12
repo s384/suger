@@ -37,11 +37,8 @@ class SolicitudPermisosListHistorial(ListView):
         usuario = User.objects.get(username=self.request.user)
         if usuario.profile.type_user == 2:
             qs = qs.filter(usuario__profile__cargo_user__area__boss_user  = usuario)
-            print(qs)
         elif usuario.profile.type_user == 3:
             qs = qs.filter(usuario = self.request.user)
-            print(qs)
-        print(qs)    
         return qs.exclude(estado_solicitud=1).exclude(estado_solicitud=2)
 
 
@@ -137,7 +134,6 @@ class EstadoSolicitudUpdate(UpdateView):
                         permiso_dia_ciclo = HorarioUsuario.objects.filter(turno_usuario=turno)
                         permiso_dia_ciclo = permiso_dia_ciclo.get(dia_semana=dia_ciclo)
                         if permiso_dia_ciclo.hora_inicio:
-                            print(permiso_dia_ciclo.dia_semana)
                             permiso_dia_ciclo.trabajado = tipo_permiso
                             permiso_dia_ciclo.save()
                             i += 1
@@ -161,7 +157,6 @@ class EstadoSolicitudUpdate(UpdateView):
                     permiso_dia.trabajado = tipo_permiso
                     permiso_dia.save()
                 
-                print("Permiso modifico los turnos")
 
             noti = Notificacion(
                     asunto = "Permiso aprobado",
@@ -178,7 +173,6 @@ class EstadoSolicitudUpdate(UpdateView):
                     prioridad = 3
                     )
             noti.save()
-        print("Terminando todos los if")
         estado_solicitud.save()
         return redirect(self.success_url)
 

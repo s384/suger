@@ -72,7 +72,7 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'myTimeTable' current_year current_month %}">Mi Horario</a></li>
                       {% if request.user.profile.type_user <= 2%}
-                      <li><a href="{% url 'TurnosList' %}">Ver Turnos</a></li>
+                        <li><a href="{% url 'TurnosList' %}">Ver Turnos</a></li>
                       {% endif %}
                     </ul>
                   </li>

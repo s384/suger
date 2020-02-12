@@ -118,6 +118,7 @@ class MiHorarioMonth(MonthArchiveView):
     queryset = HorarioUsuario.objects.all()
     date_field = "dia_semana"
     allow_future = True
+    allow_empty = True
     template_name = 'turnos/mi_horario.html'
 
     def get_queryset(self):

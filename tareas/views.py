@@ -25,7 +25,6 @@ class TareasList(ListView):
             qs = qs.filter(responsable__profile__cargo_user__area__boss_user  = usuario)
         elif usuario.profile.type_user == 3:
             qs = qs.filter(responsable = self.request.user)
-        print(qs)
         return qs.exclude(fecha_termino__isnull = False)
 
 
@@ -42,7 +41,6 @@ class TareasListHistorico(ListView):
             qs = qs.filter(responsable__profile__cargo_user__area__boss_user  = usuario)
         elif usuario.profile.type_user == 3:
             qs = qs.filter(responsable = self.request.user)
-        print(qs)
         return qs.exclude(fecha_termino__isnull = True)
 
 class TareasCreate(CreateView):
@@ -63,7 +61,6 @@ class TareasCreate(CreateView):
             trabajadores = User.objects.filter(profile__type_user=3)
             responsable_sol = User.objects.filter(profile__cargo_user__area=self.solicitud.area_destino)
             responsable_sol = responsable_sol.filter(profile__type_user=3).exclude(is_active=0)
-            print(responsable_sol)
         context['responsable_sol'] = responsable_sol
         context['trabajadores'] = trabajadores
         context['solicitud'] = self.solicitud
@@ -87,7 +84,6 @@ class TareasCreate(CreateView):
         tareas_creation = form.save(commit=False)
         #tareas_creation.titulo = form.titulo
         tareas_creation.supervisor = self.user
-        print(solicitud.area_destino)
         tareas_creation.area_destino = solicitud.area_destino
         respon = get_object_or_404(User, pk=form['responsable'].value())
         tareas_creation.responsable = respon
@@ -197,7 +193,6 @@ class SolicitudTareasCreate(CreateView):
             self.user = request.user
             return self.form_valid(form)
         else:
-            print(form)
             return self.form_invalid(form)
 
     def form_valid(self, form):

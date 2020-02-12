@@ -65,47 +65,55 @@
   {% now 'm' as current_month %}
   <!-- Horario con los turnos -->
   <div class="col-md-9 ">
-       <div class="x_panel">
-          <div class="x_title">
-            <h2>Horario</h2>
-              <ul class="nav navbar-right panel_toolbox">
-                 <a class="btn btn-primary" href="{% url 'myTimeTable' current_year current_month %}">Ver</a>  
-              </ul>
-             <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <br />
-            <div class="table-responsive" >
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Dia Semana</th>
-                    <th>Hora inicio</th>
-                    <th>Hora de fin</th>
-                  </tr>
-                </thead>
-                <tbody >
-                  {% now 'd F Y' as current_date %}
-                  {% for dia in horario %}
-                  <tr class="{% if dia.trabajado != 6 %}bg-success
-                  {% elif current_date == dia.dia_semana|date:'d F Y' %}bg-secondary{% endif %}"{% if dia.trabajado != 6 %}data-toggle="tooltip" data-placement="top" title="Permiso aprobado"{% endif %}>
-                    <th scope="row">{{dia.dia_semana|date:'l d F Y'}}</th>
-                    <td>{% if dia.hora_inicio %}
-                    {{ dia.hora_inicio }}
-                    {% else %}Libre{% endif %}
-                    </td>
-                    <td>{% if dia.hora_fin %}
-                    {{ dia.hora_fin }}
-                    {% else %}Libre{% endif %}
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
+  {% if horario %}
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Horario</h2>
+          <ul class="nav navbar-right panel_toolbox">
+              <a class="btn btn-primary" href="{% url 'myTimeTable' current_year current_month %}">Ver</a>  
+          </ul>
+          <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        <div class="table-responsive" >
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Dia Semana</th>
+                <th>Hora inicio</th>
+                <th>Hora de fin</th>
+              </tr>
+            </thead>
+            <tbody >
+              {% now 'd F Y' as current_date %}
+              {% for dia in horario %}
+              <tr class="{% if dia.trabajado != 6 %}bg-success
+              {% elif current_date == dia.dia_semana|date:'d F Y' %}bg-secondary{% endif %}"{% if dia.trabajado != 6 %}data-toggle="tooltip" data-placement="top" title="Permiso aprobado"{% endif %}>
+                <th scope="row">{{dia.dia_semana|date:'l d F Y'}}</th>
+                <td>{% if dia.hora_inicio %}
+                {{ dia.hora_inicio }}
+                {% else %}Libre{% endif %}
+                </td>
+                <td>{% if dia.hora_fin %}
+                {{ dia.hora_fin }}
+                {% else %}Libre{% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-  </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Sin turnos asignados</h2>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  {% endif %}
   </div>
   <!-- /Horario con los turnos -->
 </div>
