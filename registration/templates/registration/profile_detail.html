@@ -9,7 +9,11 @@
     <div class="x_panel">
       <div class="x_title form-inline">
         <h2>{{ user.get_full_name }}</h2>
-        {% if request.user == user %}
+        {% if request.user.profile.type_user <= 2%}
+        <div class="ml-auto">
+          <a href="{% url 'updateWorkProfile' request.user.pk %}" class="btn btn-info">Reiniciar clave</a>
+        </div>
+        {% elif request.user == user %}
         <div class="ml-auto">
           <a href="{% url 'updateWorkProfile' request.user.pk %}" class="btn btn-warning">Actualizar datos</a>
         </div>
